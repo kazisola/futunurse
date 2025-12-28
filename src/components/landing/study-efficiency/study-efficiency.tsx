@@ -5,7 +5,7 @@ import React from 'react';
 
 const StudyEfficiency = () => {
     return (
-        <section id="study-smarter" className="py-28">
+        <section id="why-us" className="py-28">
             <div className="lg:px-32 max-sm:p-5 grid grid-cols-2 items-center gap-10 max-md:grid-cols-1">
 
                 {/* Text */}

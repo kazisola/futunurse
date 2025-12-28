@@ -86,7 +86,7 @@ const SignUp = ({ signInInstead, onClose }: SignUpProps) => {
             <form onSubmit={handleSubmit} className='space-y-4'>
                 <div className='space-y-2.5'>
                     <Label htmlFor='name'>Full name</Label>
-                    <Input type='text' placeholder='e,g. Donald Trump' required
+                    <Input type='text' placeholder='John Doe' required
                         value={formData.fullName}
                         onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     />

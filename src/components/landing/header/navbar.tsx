@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 
 interface NavbarProps {
     mobileOpen?: boolean;
-    onMobileOpen?: Dispatch<SetStateAction<object>>
-    onGetStarted?: Dispatch<SetStateAction<object>>
+    onMobileOpen?: Dispatch<SetStateAction<boolean>>
+    onGetStarted?: Dispatch<SetStateAction<boolean>>
 }
 
 const Navbar = ({ mobileOpen, onMobileOpen, onGetStarted }: NavbarProps) => {
@@ -23,19 +23,23 @@ const Navbar = ({ mobileOpen, onMobileOpen, onGetStarted }: NavbarProps) => {
                 max-md:flex-col
                 ${mobileOpen
                     ? "max-md:opacity-100 max-md:translate-y-0 max-md:h-[calc(100vh-8rem)]"
-                    : "max-md:opacity-0 max-md:-translate-y-3 max-md:max-h-0 pointer-events-none"}
+                    : "max-md:opacity-0 max-md:-translate-y-3 max-md:max-h-0"}
             `}
         >
-            <ul className="flex items-center gap-1 max-md:flex-col max-md:w-full max-md:py-4">
+            <ul className="flex items-center max-md:flex-col max-md:w-full max-md:py-4">
                 {[
-                    { label: "Features", href: "#features" },
-                    { label: "Pricing", href: "#pricing" },
                     { label: "About", href: "#about" },
+                    { label: "Features", href: "#features" },
+                    { label: "Why us", href: "#why-us" },
                 ].map((item, index) => (
-                    <li key={index} onClick={onMobileOpen} className="max-md:w-full cursor-pointer">
+                    <li
+                        key={index}
+                        onClick={() => onMobileOpen?.(false)}
+                        className="max-md:w-full cursor-pointer"
+                    >
                         <Link
                             href={item.href}
-                            className=" block px-5 h-11 leading-[44px]
+                            className=" block px-5 h-11 leading-11
                                 text-base font-medium text-gray-700
                                 rounded-full text-center
                                 hover:bg-teal-50 hover:text-teal-700
@@ -47,7 +51,7 @@ const Navbar = ({ mobileOpen, onMobileOpen, onGetStarted }: NavbarProps) => {
                 ))}
             </ul>
             <Button
-                onClick={onGetStarted}
+                onClick={onGetStarted ? () => onGetStarted(true) : undefined}
                 size="lg"
                 className="rounded-full w-[calc(100%-28px)] h-13 text-lg mt-auto mb-7 md:hidden"
             >

@@ -35,7 +35,7 @@ const Header = () => {
         <>
             <header
                 className="
-                    py-2 px-2 flex justify-between items-center
+                    p-2 max-sm:p-3.5 flex justify-between items-center
                     bg-white rounded-full shadow-md fixed z-30
                     top-10 max-sm:top-5 left-0 right-0 mx-auto
                     w-6xl max-xl:w-4xl max-lg:w-3xl
@@ -44,9 +44,9 @@ const Header = () => {
             >
                 <Link href="/" className="flex items-center gap-2 text-teal-600 pl-4">
                     <div className="md:bg-teal-600 md:w-8 md:h-8 rounded-sm flex items-center justify-center">
-                        <Stethoscope size={18} className="text-white max-md:text-teal-600" />
+                        <Stethoscope size={22} className="text-white max-md:text-teal-600" />
                     </div>
-                    <h2 className="font-semibold text-[26px] max-sm:text-xl">Futunurse</h2>
+                    <h2 className="font-semibold text-2xl max-sm:text-3xl">Futunurse</h2>
                 </Link>
 
                 {/* Desktop nav unchanged */}

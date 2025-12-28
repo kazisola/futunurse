@@ -36,7 +36,7 @@ const PerformanceByCategory = () => {
                     <div className='bg-white border border-gray-200/30 rounded-lg p-5'>
                         <h2 className='text-gray-900 font-medium text-lg flex items-center gap-2'><BarChart3 size={20} className='text-green-600/90' /> Performance by Category</h2>
                         {performance_categorized.length > 0 ?
-                            <ul className='space-y-4 mt-5'>
+                            <ul className='space-y-4 mt-5 max-h-96 overflow-auto'>
                                 {
                                     performance_categorized.map((item, index) => (
                                         <li key={index} className='space-y-2'>
@@ -45,7 +45,7 @@ const PerformanceByCategory = () => {
                                                     <h5 className='font-medium text-gray-900 capitalize'>{item.category}</h5>
                                                     <p className='text-gray-600'>{item.totalQuestions} questions completed</p>
                                                 </div>
-                                                <p className={`text-sm font-medium w-16 py-0.5 text-center rounded-full ${item.accuracy >= 70 ? 'bg-green-500/20 text-green-700' : item.accuracy >= 40 ? 'bg-yellow-500/20 text-yellow-700' : 'bg-red-100 text-red-500'}`}>{item.accuracy.toFixed(2)}%</p>
+                                                <p className={`text-sm max-sm:text-xs font-medium w-16 max-sm:w-14 py-0.5 text-center rounded-full ${item.accuracy >= 70 ? 'bg-green-500/20 text-green-700' : item.accuracy >= 40 ? 'bg-yellow-500/20 text-yellow-700' : 'bg-red-100 text-red-500'}`}>{item.accuracy.toFixed(2)}%</p>
                                             </div>
                                             <Progress value={item.accuracy} className='' />
                                         </li>

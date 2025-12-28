@@ -36,7 +36,7 @@ const RecentPracticeSessions = () => {
                         <h2 className='text-gray-900 font-medium text-lg flex items-center gap-2'><Clock size={20} className='text-blue-600/90' /> Recent Practice Sessions</h2>
                         {
                             recentPracticeSessions.length > 0 ?
-                                <ul className="mt-5 divide-y divide-gray-200/40 rounded-xl border border-gray-200/40 bg-white">
+                                <ul className="mt-5 divide-y divide-gray-200/40 rounded-xl border border-gray-200/40 bg-white max-h-96 overflow-auto">
                                     {recentPracticeSessions.map((item, index) => {
                                         const scoreColor =
                                             item.score >= 70
@@ -65,7 +65,7 @@ const RecentPracticeSessions = () => {
                                                 </div>
 
                                                 <div className="text-right space-y-0.5">
-                                                    <p className={`sm:text-lg font-medium ${scoreColor}`}>
+                                                    <p className={`max-sm:text-sm font-medium ${scoreColor}`}>
                                                         {item.score.toFixed(0)}%
                                                     </p>
                                                     <p className="text-sm text-gray-500">

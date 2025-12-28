@@ -1,11 +1,10 @@
+import Profile from '@/components/dashboard/profile/profile';
 import React from 'react';
 
-const Profile = () => {
+const ProfilePage = () => {
     return (
-        <div>
-            Profile
-        </div>
+        <Profile />
     );
 };
 
-export default Profile;
+export default ProfilePage;

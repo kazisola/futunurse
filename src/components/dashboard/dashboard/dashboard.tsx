@@ -29,8 +29,8 @@ export const Dashboard = ({ user }: DashboardProps) => {
         <div className='space-y-5 max-sm:space-y-3'>
             <div className='mb-10 max-sm:mb-8 rounded-md w-full flex max-md:flex-col max-md:gap-3 md:items-center justify-between'>
                 <div>
-                    <h1 className='font-semibold text-2xl max-sm:text-xl text-gray-800 mb-2'>Welcome back, {user?.name}!</h1>
-                    <p className='flex items-center gap-2 text-gray-600 text-sm'><Calendar size={15} /> {today.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })} • track your progress</p>
+                    <h1 className='font-semibold text-3xl text-gray-800 mb-2'>Welcome back, {user?.name}!</h1>
+                    <p className='flex items-center gap-2 text-gray-600'><Calendar size={15} /> {today.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })} • Track your progress</p>
                 </div>
                 {/* <div className='max-md:hidden text-white bg-linear-to-b bg-cyan-500 to-10% flex items-center gap-3 rounded-md text-xs px-3 py-2 font-medium'><Zap size={16} /> Pro Trial - 14 days remaining</div> */}
             </div>
