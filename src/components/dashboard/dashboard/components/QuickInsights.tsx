@@ -29,7 +29,7 @@ type QuickInsights = {
 const QuickInsights = ({ quickInsights }: QuickInsights) => {
 
     const { carePlans, nclexInsights } = quickInsights;
-    console.log(nclexInsights)
+
     const insights: Insight[] = [
         {
             title: "Care Plans Created",

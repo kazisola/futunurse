@@ -13,17 +13,6 @@ interface nclexPerformanceProps {
 }
 
 const NclexPerformance = ({ nclexTrend }: nclexPerformanceProps) => {
-    console.log("nclex trend:", nclexTrend)
-    // const data = [
-    //     { date: "Jan 1", score: 65, questions: 20 },
-    //     { date: "Jan 8", score: 68, questions: 25 },
-    //     { date: "Jan 15", score: 58, questions: 30 },
-    //     { date: "Jan 22", score: 70, questions: 28 },
-    //     { date: "Jan 29", score: 75, questions: 32 },
-    //     { date: "Feb 5", score: 70, questions: 35 },
-    //     { date: "Feb 12", score: 88, questions: 30 },
-    // ]
-    // Ensure the data passed to LineChart is always an array
     const chartData = Array.isArray(nclexTrend) ? nclexTrend : [nclexTrend];
     return (
         <div className='border border-gray-200/30 hover:border-gray-200/50 rounded-lg p-4 bg-white duration-200'>

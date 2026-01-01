@@ -41,7 +41,7 @@ export const useGetDashboard = () => {
             try {
                 setLoading(true);
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/dashboard`);
-                console.log(response.data);
+                // console.log(response.data);
                 setDashboardData(response.data?.dashboard);
             } catch (error) {
                 console.log(error)

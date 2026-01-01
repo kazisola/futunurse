@@ -117,7 +117,7 @@ export async function GET(req: NextRequest) {
         // console.log("suggestions:", suggestions);
 
         return NextResponse.json({
-            success: true, message: "Hello world",
+            success: true,
             dashboard: {
                 carePlans,
                 nclexInsights,

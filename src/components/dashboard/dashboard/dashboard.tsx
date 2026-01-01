@@ -23,7 +23,6 @@ interface DashboardProps {
 export const Dashboard = ({ user }: DashboardProps) => {
     const today = new Date();
     const { dashboardData, loading } = useGetDashboard();
-    console.log(dashboardData);
     if (loading || !dashboardData) return <LoadingDashboard />;
     return (
         <div className='space-y-5 max-sm:space-y-3'>
