@@ -1,111 +1,142 @@
 "use client";
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Sparkles, BookOpen, CheckCircle } from 'lucide-react';
+import { BookOpen, CheckCircle, BrainCircuit } from 'lucide-react';
 
 const Hero = () => {
-    // Animation Variants
-    const fadeInUp = {
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // 1. Setup Motion Values for Mouse Position
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+
+    // 2. Smooth out the movement with Springs
+    const springConfig = { damping: 25, stiffness: 150 };
+    const mouseX = useSpring(x, springConfig);
+    const mouseY = useSpring(y, springConfig);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        
+        // Calculate mouse position relative to center (0,0)
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        x.set(e.clientX - centerX);
+        y.set(e.clientY - centerY);
     };
 
-    const float = {
-        animate: {
-            y: [0, -15, 0],
-            transition: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-        }
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
     };
+
+    // 3. Create different "depth" transforms for different elements
+    const card1X = useTransform(mouseX, (val) => val / 15);
+    const card1Y = useTransform(mouseY, (val) => val / 15);
+    
+    const card2X = useTransform(mouseX, (val) => val / -20);
+    const card2Y = useTransform(mouseY, (val) => val / -20);
+
+    const bgMovement = useTransform(mouseX, (val) => val / 50);
 
     return (
-        <section className='relative w-full h-[90vh] overflow-hidden rounded-4xl bg-slate-900'>
-            {/* Animated Background Image */}
+        <section 
+            ref={containerRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className='relative w-full h-[95vh] overflow-hidden rounded-4xl bg-[#020617] cursor-default'
+        >
+            {/* Parallax Background */}
             <motion.div 
-                initial={{ scale: 1.1 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 10, repeat: Infinity, repeatType: "mirror" }}
-                className='absolute inset-0 z-0'
-                style={{
-                    backgroundImage: `url('/images/hero-image.jpg')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                }}
-            />
+                style={{ x: bgMovement, scale: 1.1 }}
+                className='absolute inset-0 z-0 opacity-60'
+            >
+                <div 
+                    className='absolute inset-0 bg-cover bg-center'
+                    style={{ backgroundImage: `url('/images/hero-image.jpg')` }}
+                />
+            </motion.div>
             
-            {/* Gradient Overlay */}
-            <div className='absolute inset-0 bg-linear-to-b from-black/70 via-black/40 to-black/70 z-0' />
+            <div className='absolute inset-0 bg-linear-to-b from-slate-950/80 via-slate-950/40 to-slate-950 z-0' />
 
-            <div className='relative flex flex-col items-center justify-center text-center w-full h-full z-10 px-4'>
+            <div className='relative flex flex-col items-center justify-center text-center w-full h-full z-10 px-6'>
                 
-                {/* Floating Badge */}
                 <motion.div 
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className='mb-6 flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full text-white text-sm'
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className='mb-8 flex items-center gap-2 bg-blue-500/10 backdrop-blur-xl border border-blue-400/30 px-5 py-2 rounded-full text-blue-200 text-sm font-medium'
                 >
-                    <Sparkles size={16} className="text-yellow-400" />
-                    <span>The Future of Clinical Prep</span>
+                    <BrainCircuit size={18} className="text-blue-400 animate-pulse" />
+                    <span>Next-Gen Nursing Intelligence</span>
                 </motion.div>
 
-                <motion.div 
-                    variants={fadeInUp}
-                    initial="hidden"
-                    animate="visible"
-                    className='md:w-8/12 lg:w-6/12 mb-10'
-                >
-                    <h1 className='text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-[1.1]'>
-                        Master Nursing <br />
-                        <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-emerald-400">
-                            with AI Intelligence
+                <div className='md:w-10/12 lg:w-8/12 mb-12'>
+                    <motion.h1 
+                        initial={{ opacity: 0, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, filter: "blur(0px)" }}
+                        transition={{ duration: 0.8 }}
+                        className='text-6xl md:text-8xl font-bold text-white mb-8 tracking-tighter'
+                    >
+                        Learn Faster. <br />
+                        <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-cyan-300 to-emerald-400">
+                            Nurse Better.
                         </span>
-                    </h1>
-                    <p className='text-lg md:text-xl text-white/80 max-w-2xl mx-auto'>
-                        Transform your education with our intelligent Care Plan Assistant and NCLEX Smart Coach. 
-                        Reduce study time by <span className='text-white font-bold'>70%</span>.
-                    </p>
-                </motion.div>
+                    </motion.h1>
+                    <motion.p 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3 }}
+                        className='text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto leading-relaxed'
+                    >
+                        Your AI-powered bridge from the classroom to the clinic. 
+                        Smart Care Plans, NCLEX prep, and clinical confidence.
+                    </motion.p>
+                </div>
 
                 <motion.div 
-                    variants={fadeInUp}
-                    initial="hidden"
-                    animate="visible"
-                    transition={{ delay: 0.2 }}
-                    className='flex flex-col sm:flex-row gap-4'
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className='flex flex-wrap justify-center gap-5'
                 >
-                    <Button size={'lg'} className='rounded-full px-10 h-14 text-lg bg-blue-600 hover:bg-blue-500 transition-all hover:scale-105 shadow-xl shadow-blue-500/20'>
-                        Get Futunurse Free
+                    <Button size={'lg'} className='rounded-full px-12 h-16 text-xl bg-blue-600 hover:bg-blue-500 hover:scale-105 transition-transform shadow-[0_0_40px_rgba(37,99,235,0.4)]'>
+                        Start Free Trial
                     </Button>
-                    <Button variant="outline" size={'lg'} className='rounded-full px-10 h-14 text-lg bg-white/5 backdrop-blur-sm border-white/20 text-white hover:bg-white/10'>
-                        Watch Demo
+                    <Button variant="outline" size={'lg'} className='rounded-full px-12 h-16 text-xl border-slate-700 hover:text-white hover:bg-white/5 backdrop-blur-md'>
+                        View Features
                     </Button>
                 </motion.div>
 
-                {/* Floating "Live" UI Elements */}
+                {/* Left Card - "Deep" layer */}
                 <motion.div 
-                    variants={float}
-                    animate="animate"
-                    className='hidden lg:flex absolute left-[10%] top-[25%] bg-white/10 backdrop-blur-lg p-4 rounded-2xl border border-white/20 items-center gap-3'
+                    style={{ x: card1X, y: card1Y }}
+                    className='hidden xl:flex absolute left-[8%] top-[20%] bg-white/5 backdrop-blur-2xl p-6 rounded-4xl border border-white/10 shadow-2xl items-center gap-5'
                 >
-                    <div className='bg-emerald-500/20 p-2 rounded-lg'><CheckCircle className='text-emerald-400' /></div>
+                    <div className='bg-emerald-500/20 p-3 rounded-2xl'><CheckCircle className='text-emerald-400' size={28} /></div>
                     <div className='text-left'>
-                        <p className='text-xs text-white/60'>NCLEX Readiness</p>
-                        <p className='text-white font-bold'>98% Optimized</p>
+                        <p className='text-sm text-slate-400 font-medium'>Study Efficiency</p>
+                        <p className='text-white text-2xl font-bold'>+70%</p>
                     </div>
                 </motion.div>
 
+                {/* Right Card - "Shallow" layer */}
                 <motion.div 
-                    variants={float}
-                    animate="animate"
-                    className='hidden lg:flex absolute right-[10%] bottom-[30%] bg-white/10 backdrop-blur-lg p-4 rounded-2xl border border-white/20 items-center gap-3'
+                    style={{ x: card2X, y: card2Y }}
+                    className='hidden xl:flex absolute right-[8%] bottom-[25%] bg-white/5 backdrop-blur-2xl p-6 rounded-4xl border border-white/10 shadow-2xl items-center gap-5'
                 >
-                    <div className='bg-blue-500/20 p-2 rounded-lg'><BookOpen className='text-blue-400' /></div>
+                    <div className='bg-blue-500/20 p-3 rounded-2xl'><BookOpen className='text-blue-400' size={28} /></div>
                     <div className='text-left'>
-                        <p className='text-xs text-white/60'>Care Plans</p>
-                        <p className='text-white font-bold'>Generated in Secs</p>
+                        <p className='text-sm text-slate-400 font-medium'>Smart Coach</p>
+                        <p className='text-white text-xl font-bold'>24/7 Support</p>
                     </div>
                 </motion.div>
             </div>
+
+            {/* Subtle bottom glow */}
+            <div className='absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-blue-500/10 blur-[100px] pointer-events-none' />
         </section>
     );
 };
