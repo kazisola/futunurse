@@ -3,6 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { PerformanceCategorized } from '@/types/NCLEX';
 import axios from 'axios';
 import { BarChart3 } from 'lucide-react';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const PerformanceByCategory = () => {
@@ -68,11 +69,11 @@ const PerformanceByCategory = () => {
                                     Complete practice questions to see your accuracy and progress broken down by NCLEX categories.
                                 </p>
 
-                                <button
+                                <Link href={"/dashboard/nclex/categories"}
                                     className="relative mt-5 inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition"
                                 >
-                                    Start Practicing
-                                </button>
+                                    Start practicing
+                                </Link>
                             </div>
 
                         }

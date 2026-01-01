@@ -45,11 +45,11 @@ const SessionOptions = () => {
                                         category: `mixed personalized`
                                     }
                                 }} className='w-full'>
-                                    <Button size={'lg'} className='w-full'><Play /> Start Adaptive Session</Button>
+                                    <Button size={'lg'} className='w-full'><Play /> Start adaptive session</Button>
                                 </Link>
                                 :
                                 index === 1 ?
-                                    <Button size={'lg'} onClick={() => router.push(`${pathname}/categories`)} className='w-full bg-blue-600/90 hover:bg-blue-600 duration-200'><BookOpen /> Choose Category</Button>
+                                    <Button size={'lg'} onClick={() => router.push(`${pathname}/categories`)} className='w-full bg-blue-600/90 hover:bg-blue-600 duration-200'><BookOpen /> Choose category</Button>
                                     :
                                     null
                             }

@@ -69,9 +69,9 @@ const Navigation = ({ responsiveMenu, setResponsiveMenu }: NavigationProps) => {
             <button onClick={handleClickProfile} className='flex items-center gap-3 cursor-pointer w-full bg-teal-700/30 hover:bg-teal-700/50 duration-200 py-2 max-sm:py-3 px-3 rounded-lg'>
                 <Avatar className='w-8 h-8'>
                     <AvatarImage src={user?.image as string} />
-                    <AvatarFallback>{userNameAbbr}</AvatarFallback>
+                    <AvatarFallback className='font-medium text-sm'>{userNameAbbr}</AvatarFallback>
                 </Avatar>
-                <h3 className='font-medium text-sm'>{user?.name || "Guest"}</h3>
+                <h3 className='font-medium text-sm text-white'>{user?.name || "Guest"}</h3>
             </button>
         </nav>
     );

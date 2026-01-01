@@ -116,7 +116,7 @@ export const Categories = () => {
                                             category: category.name.toLowerCase()
                                         }
                                     }} className='w-full'>
-                                        <Button size={'lg'} className='w-full'><PlayIcon /> Start Session</Button>
+                                        <Button size={'lg'} className='w-full'><PlayIcon /> Start session</Button>
                                     </Link>
                                     <Button size={'lg'} variant={'secondary'} className='w-44 max-sm:w-fit'><BookA /> Study Guide</Button>
                                 </div>

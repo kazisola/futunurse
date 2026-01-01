@@ -47,7 +47,7 @@ const QuickInsights = ({ quickInsights }: QuickInsights) => {
         },
         {
             title: "Overall Score",
-            value: nclexInsights.overall_score.toFixed(1),
+            value: (nclexInsights.overall_score || 0).toFixed(1),
             color: "pink",
             icon: Brain,
         },

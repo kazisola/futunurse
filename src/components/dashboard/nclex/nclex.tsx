@@ -23,7 +23,7 @@ export const NCLEX = () => {
                         category: `mixed personalized`
                     }
                 }} className='max-sm:hidden'>
-                    <Button size={'lg'} className='w-56 h-12 max-md:w-full'><Play size={18} /> Start Session</Button>
+                    <Button size={'lg'} className='w-56 h-12 max-md:w-full'><Play size={18} /> Start session</Button>
                 </Link>
             </div>
             <SessionOptions />

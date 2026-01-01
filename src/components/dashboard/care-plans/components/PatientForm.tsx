@@ -66,7 +66,7 @@ const PatientForm = ({ currentStage, setCurrentStage, patientData, setPatientDat
 
 
     return (
-        <form onSubmit={handleSubmit} className=' border-gray-900/10 bg-white/50 backdrop-blur-lg rounded-md p-6 w-full'>
+        <form onSubmit={handleSubmit} className=' border-gray-900/10 bg-white/80 backdrop-blur-xl rounded-md p-6 w-full'>
             <div className='space-y-3'>
                 <div className='mb-7'>
                     <h3 className='font-semibold text-xl text-gray-800'>Patient Demographics</h3>

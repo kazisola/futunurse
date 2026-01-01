@@ -2,6 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { IRecentSession } from '@/types/NCLEX';
 import axios from 'axios';
 import { Clock } from 'lucide-react';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const RecentPracticeSessions = () => {
@@ -93,11 +94,11 @@ const RecentPracticeSessions = () => {
                                         You haven&apos;t completed any NCLEX practice sessions yet. Start a session to track your progress and performance here.
                                     </p>
 
-                                    <button
+                                    <Link href={"/dashboard/nclex/categories"}
                                         className="relative mt-5 inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition"
                                     >
-                                        Start Practice
-                                    </button>
+                                        Start practicing
+                                    </Link>
                                 </div>
 
                         }
