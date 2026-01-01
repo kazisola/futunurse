@@ -7,12 +7,21 @@ import { Menu, Stethoscope, X } from "lucide-react";
 import AuthPopup from "@/components/authentication/authPopup";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
     const router = useRouter();
     const { data: session } = useSession();
     const [showAuthPopup, setShowAuthPopup] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    // Handle scroll for glass effect
+    useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 20);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const handleGetStarted = () => {
         setMobileMenuOpen(false);
@@ -34,47 +43,65 @@ const Header = () => {
     return (
         <>
             <header
-                className="
-                    p-2 max-sm:p-2.5 flex justify-between items-center
-                    bg-white rounded-full shadow-md fixed z-30
-                    top-10 max-sm:top-5 left-0 right-0 mx-auto
-                    w-6xl max-xl:w-4xl max-lg:w-3xl
-                    max-md:w-xl max-sm:w-[calc(100vw-2.5rem)]
-                "
+                className={`
+                    fixed z-50 max-md:top-6 top-8 left-1/2 -translate-x-1/2
+                    w-[90%] max-w-6xl h-16 md:h-18
+                    flex justify-between items-center px-4 md:px-6
+                    rounded-full border transition-all duration-300
+                    ${scrolled
+                        ? "bg-white/80 backdrop-blur-lg border-slate-200 shadow-lg py-2"
+                        : "bg-white border-transparent py-4"}
+                `}
             >
-                <Link href="/" className="flex items-center gap-2 text-teal-600 pl-4">
-                    <div className="md:bg-teal-600 md:w-8 md:h-8 rounded-sm flex items-center justify-center">
-                        <Stethoscope size={22} className="text-white max-md:text-teal-600" />
+                <Link href="/" className="flex items-center gap-2 text-teal-600 group">
+                    <div className="bg-teal-600 w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center shadow-lg shadow-teal-600/20 group-hover:scale-110 transition-transform">
+                        <Stethoscope size={20} className="text-white" />
                     </div>
-                    <h2 className="font-semibold text-2xl">Futunurse</h2>
+                    <h2 className="font-bold text-xl md:text-2xl tracking-tighter text-slate-900">
+                        Futunurse
+                    </h2>
                 </Link>
 
-                {/* Desktop nav unchanged */}
-                <div className="max-md:hidden">
+                {/* Desktop nav */}
+                <div className="hidden md:block">
                     <Navbar />
                 </div>
 
-                <Button
-                    onClick={handleGetStarted}
-                    size="lg"
-                    className="rounded-full w-42 h-12 text-lg max-md:hidden"
-                >
-                    Get Started
-                </Button>
+                <div className="flex items-center gap-3">
+                    <Button
+                        onClick={handleGetStarted}
+                        className="hidden md:flex rounded-full px-8 bg-slate-900 hover:bg-teal-600 text-white font-bold transition-all shadow-md hover:shadow-teal-600/20"
+                    >
+                        Get Started
+                    </Button>
 
-                {/* Mobile toggle */}
-                <button
-                    onClick={() => setMobileMenuOpen((p) => !p)}
-                    className="md:hidden text-teal-600 pr-2"
-                >
-                    {mobileMenuOpen ? <X /> : <Menu />}
-                </button>
+                    {/* Mobile toggle */}
+                    <button
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-900"
+                    >
+                        {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                    </button>
+                </div>
             </header>
 
-            {/* Mobile dropdown */}
-            <div className="fixed top-22 left-0 right-0 z-20 md:hidden ">
-                <Navbar mobileOpen={mobileMenuOpen} onMobileOpen={() => setMobileMenuOpen(false)} onGetStarted={handleGetStarted} />
-            </div>
+            {/* Mobile Dropdown Overlay */}
+            <AnimatePresence>
+                {mobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="fixed inset-0 z-40 md:hidden bg-white px-6 pt-32 pb-10 flex flex-col"
+                    >
+                        <Navbar
+                            mobileOpen={mobileMenuOpen}
+                            onMobileOpen={() => setMobileMenuOpen(false)}
+                            onGetStarted={handleGetStarted}
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <AuthPopup open={showAuthPopup} onClose={() => setShowAuthPopup(false)} />
         </>

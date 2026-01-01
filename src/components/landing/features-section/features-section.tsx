@@ -54,7 +54,7 @@ const FeaturesSection = () => {
     const x = useSpring(xMovement, { stiffness: 100, damping: 20 });
 
     return (
-        <section ref={sectionRef} className="relative h-[400vh] bg-white">
+        <section id={"features"} ref={sectionRef} className="relative h-[400vh] bg-white">
             <div className="sticky top-0 flex h-screen items-center overflow-hidden">
                 <div className="flex flex-col w-full">
                     

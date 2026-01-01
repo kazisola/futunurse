@@ -2,6 +2,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 interface NavbarProps {
     mobileOpen?: boolean;
@@ -10,53 +11,56 @@ interface NavbarProps {
 }
 
 const Navbar = ({ mobileOpen, onMobileOpen, onGetStarted }: NavbarProps) => {
+    const navLinks = [
+        { label: "About", href: "#about" },
+        { label: "Features", href: "#features" },
+        { label: "Why us", href: "#why-us" },
+        { label: "Pricing", href: "#pricing" },
+    ];
+
     return (
-        <nav
-            className={`
-                flex items-center gap-5 z-20
-                max-md:absolute max-md:top-full max-md:left-1/2 max-md:-translate-x-1/2
-                max-md:w-[calc(100%-2.5rem)]
-                max-md:bg-white
-                max-md:rounded-3xl
-                max-md:overflow-hidden
-                max-md:transition-all max-md:duration-300 max-md:ease-out
-                max-md:flex-col
-                ${mobileOpen
-                    ? "max-md:opacity-100 max-md:translate-y-0 max-md:h-[calc(100vh-8rem)]"
-                    : "max-md:opacity-0 max-md:-translate-y-3 max-md:max-h-0"}
-            `}
-        >
-            <ul className="flex items-center max-md:flex-col max-md:w-full max-md:py-4">
-                {[
-                    { label: "About", href: "#about" },
-                    { label: "Features", href: "#features" },
-                    { label: "Why us", href: "#why-us" },
-                ].map((item, index) => (
-                    <li
+        <nav className={`flex items-center max-md:h-full gap-2 ${mobileOpen ? "flex-col w-full" : ""}`}>
+            <ul className={`flex items-center ${mobileOpen ? "flex-col gap-8 w-full" : "gap-1"}`}>
+                {navLinks.map((item, index) => (
+                    <motion.li
                         key={index}
-                        onClick={() => onMobileOpen?.(false)}
-                        className="max-md:w-full cursor-pointer"
+                        initial={mobileOpen ? { opacity: 0, x: -20 } : {}}
+                        animate={mobileOpen ? { opacity: 1, x: 0 } : {}}
+                        transition={{ delay: index * 0.1 }}
+                        className={mobileOpen ? "w-full text-center" : ""}
                     >
                         <Link
                             href={item.href}
-                            className=" block px-5 h-11 leading-11
-                                text-base font-medium text-gray-700
-                                rounded-full text-center
-                                hover:bg-teal-50 hover:text-teal-700
-                                transition-colors max-md:text-3xl max-md:uppercase max-md:font-mono"
+                            onClick={() => onMobileOpen?.(false)}
+                            className={`
+                                text-sm font-bold transition-all px-5 py-2 rounded-full
+                                ${mobileOpen
+                                    ? "text-3xl! uppercase font-mono tracking-tighter text-slate-900 hover:text-teal-600"
+                                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"}
+                            `}
                         >
                             {item.label}
                         </Link>
-                    </li>
+                    </motion.li>
                 ))}
             </ul>
-            <Button
-                onClick={onGetStarted ? () => onGetStarted(true) : undefined}
-                size="lg"
-                className="rounded-full w-[calc(100%-28px)] h-13 text-lg mt-auto mb-7 md:hidden"
-            >
-                Get Started
-            </Button>
+
+            {mobileOpen && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="mt-auto w-full"
+                >
+                    <Button
+                        onClick={() => onGetStarted?.(true)}
+                        size="lg"
+                        className="w-full rounded-4xl h-16 text-xl font-bold bg-teal-600 hover:bg-teal-700"
+                    >
+                        Get Started
+                    </Button>
+                </motion.div>
+            )}
         </nav>
     );
 };

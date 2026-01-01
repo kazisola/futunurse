@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 const PricingSection = () => {
     return (
-        <section className="relative py-32 bg-white overflow-hidden">
+        <section id={"pricing"} className="relative py-32 bg-white overflow-hidden">
             {/* Soft Ambient Background Blobs */}
             <div className="absolute top-1/4 -left-20 w-150 h-150 bg-teal-50/50 rounded-full blur-[120px] -z-10 animate-pulse" />
             <div className="absolute bottom-1/4 -right-20 w-150 h-150 bg-blue-50/50 rounded-full blur-[120px] -z-10" />
