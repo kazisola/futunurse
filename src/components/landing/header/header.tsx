@@ -44,13 +44,14 @@ const Header = () => {
         <>
             <header
                 className={`
-                    fixed z-50 max-md:top-6 top-8 left-1/2 -translate-x-1/2
-                    w-[90%] max-w-6xl h-16 md:h-18
+                    fixed z-50 max-md:top-5.5 top-8 left-1/2 -translate-x-1/2
+                    w-[90%] max-w-6xl h-15 md:h-18
                     flex justify-between items-center px-4 md:px-6
                     rounded-full border transition-all duration-300
                     ${scrolled
                         ? "bg-white/80 backdrop-blur-lg border-slate-200 shadow-lg py-2"
                         : "bg-white border-transparent py-4"}
+                    ${mobileMenuOpen && 'shadow-xl'}
                 `}
             >
                 <Link href="/" className="flex items-center gap-2 text-teal-600 group">
