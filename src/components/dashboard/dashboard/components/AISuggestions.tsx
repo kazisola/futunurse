@@ -14,18 +14,13 @@ interface SuggestionsProps {
 }
 
 const AISuggestions = ({ ai_suggestions }: SuggestionsProps) => {
-    console.log("ai_sugggestions:", ai_suggestions);
-    const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>({
-        0: true
-    });
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-    const toggleSection = (key: number) => {
-        setOpenSections((prev) => ({
-            ...prev,
-            [key]: !prev[key]
-        }));
+    const [openIndex, setOpenIndex] = useState<number | null>(0);
+    const toggleSection = (index: number) => {
+        setOpenIndex(prev => (prev === index ? null : index));
     };
+
 
     const getTypeStyles = (type: string) => {
         switch (type) {
@@ -51,7 +46,7 @@ const AISuggestions = ({ ai_suggestions }: SuggestionsProps) => {
                 return {
                     gradient: "from-purple-500/10 via-blue-500/10 to-indigo-500/10",
                     border: "border-purple-200/50",
-                    icon: Sparkles,
+                    icon: Brain,
                     iconColor: "text-purple-500",
                     badge: "bg-purple-100 text-purple-700",
                     glow: "shadow-purple-500/20"
@@ -70,7 +65,7 @@ const AISuggestions = ({ ai_suggestions }: SuggestionsProps) => {
 
     return (
         <div className="border border-gray-200/30 hover:border-gray-200/50 rounded-lg p-4 bg-white duration-200">
-            <h4 className='mb-1 flex items-center gap-2.5 text-sm font-semibold text-slate-900'><Brain size={18} className='text-blue-700' /> Personalized Suggestions</h4>
+            <h4 className='mb-1 flex items-center gap-2.5 text-sm font-semibold text-slate-900'><Sparkles size={18} className='text-blue-700' /> Personalized Suggestions</h4>
             <p className='text-sm text-gray-500 mb-5'>AI-powered suggestions to improve your performance</p>
 
             <div className="space-y-4">
@@ -78,7 +73,8 @@ const AISuggestions = ({ ai_suggestions }: SuggestionsProps) => {
                     ai_suggestions.map((item, index) => {
                         const styles = getTypeStyles(item.type);
                         const Icon = styles.icon;
-                        const isOpen = openSections[index];
+                        // const isOpen = openSections[index];
+                        const isOpen = openIndex === index;
                         const isHovered = hoveredIndex === index;
 
                         return (
