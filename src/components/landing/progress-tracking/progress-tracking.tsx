@@ -121,7 +121,7 @@ const ProgressTracking = () => {
                                 </div>
                             </div>
 
-                            <Button className="h-16 px-10 rounded-2xl bg-slate-900 hover:bg-teal-600 transition-all text-lg font-black group">
+                            <Button className="h-16 px-10 rounded-2xl bg-slate-900 hover:bg-teal-600 transition-all font-black group">
                                 View Your Dashboard
                                 <TrendingUp className="ml-3 w-5 h-5 group-hover:translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
                             </Button>
