@@ -1,134 +1,133 @@
-import { Button } from '@/components/ui/button';
+"use client";
 import React from 'react';
-import {
-    Activity,
-    ShieldCheck,
-    ListChecks,
-    TrendingUp
-} from 'lucide-react'
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { TrendingUp, Award, Activity, HeartPulse, BrainCircuit, Target } from 'lucide-react';
 
 const ProgressTracking = () => {
+    const stats = [
+        { label: "Clinical Hours", value: "120/500", progress: 65, icon: <Activity className="text-teal-500" /> },
+        { label: "NCLEX Prep", value: "88% Score", progress: 88, icon: <Target className="text-blue-500" /> },
+        { label: "Care Plans", value: "24 Completed", progress: 45, icon: <BrainCircuit className="text-purple-500" /> },
+    ];
+
     return (
-        <section id="clinical-growth" className="py-28 bg-gray-50">
-            <div className="lg:px-32 max-sm:p-5">
+        <section className="py-32 bg-[#FBFDFF] overflow-hidden">
+            <div className="container mx-auto px-6">
+                <div className="flex flex-col lg:flex-row items-center gap-20 max-w-7xl mx-auto">
+                    
+                    {/* Visual Side: The "Dashboard" Card */}
+                    <div className="lg:w-1/2 relative w-full">
+                        {/* Decorative Background Glow */}
+                        <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-teal-100/40 rounded-full blur-[120px]" />
+                        
+                        <motion.div 
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="bg-white rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.06)] border border-slate-100 p-8 md:p-12 relative overflow-hidden"
+                        >
+                            <div className="flex items-center justify-between mb-10">
+                                <div>
+                                    <h4 className="text-xl font-black text-slate-900 tracking-tight">Clinical Mastery</h4>
+                                    <p className="text-sm text-slate-400 font-medium tracking-wide">Updated 2m ago</p>
+                                </div>
+                                <div className="p-3 bg-teal-50 rounded-2xl">
+                                    <TrendingUp className="text-teal-600" />
+                                </div>
+                            </div>
 
-                {/* Header */}
-                <div className="max-w-2xl mb-16">
-                    <p className="mb-5 font-semibold text-lg text-teal-600 uppercase flex items-center gap-3">
-                        <span className="w-3 h-3 rounded-full bg-teal-600 animate-pulse-dot"></span>
-                        Progress Dashboard
-                    </p>
+                            {/* Growth Bars */}
+                            <div className="space-y-8">
+                                {stats.map((stat, i) => (
+                                    <div key={i}>
+                                        <div className="flex justify-between items-end mb-3">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center">
+                                                    {stat.icon}
+                                                </div>
+                                                <span className="font-bold text-slate-700 text-sm uppercase tracking-wider">{stat.label}</span>
+                                            </div>
+                                            <span className="font-black text-slate-900 text-sm">{stat.value}</span>
+                                        </div>
+                                        <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
+                                            <motion.div 
+                                                initial={{ width: 0 }}
+                                                whileInView={{ width: `${stat.progress}%` }}
+                                                transition={{ duration: 1.5, ease: "easeOut", delay: i * 0.2 }}
+                                                className={`h-full rounded-full bg-linear-to-r from-teal-500 to-blue-400`}
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
 
-                    <h2 className="font-bold text-3xl text-gray-800 mb-4">
-                        Track Your Clinical Growth
-                    </h2>
+                            {/* Floating "Achievement" Badge */}
+                            <motion.div 
+                                animate={{ y: [0, -10, 0] }}
+                                transition={{ duration: 4, repeat: Infinity }}
+                                className="absolute -bottom-4 -right-4 bg-slate-900 text-white p-6 rounded-3xl shadow-2xl flex items-center gap-4 border-4 border-white"
+                            >
+                                <div className="w-12 h-12 bg-yellow-400 rounded-2xl flex items-center justify-center">
+                                    <Award size={24} className="text-slate-900" />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black text-teal-400 uppercase tracking-widest">Unlocked</p>
+                                    <p className="text-sm font-bold">Top 5% of Students</p>
+                                </div>
+                            </motion.div>
+                        </motion.div>
 
-                    <p className="text-base text-gray-700">
-                        Visualize how your nursing judgment evolves over time.
-                        Futunurse turns practice into clear, actionable insight.
-                    </p>
+                        {/* Floating Micro-Element */}
+                        <motion.div 
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            className="absolute -top-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-50 hidden md:flex items-center gap-3"
+                        >
+                            <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center animate-pulse">
+                                <HeartPulse size={20} className="text-red-500" />
+                            </div>
+                            <span className="text-xs font-bold text-slate-800 tracking-tight">Live Feedback Active</span>
+                        </motion.div>
+                    </div>
+
+                    {/* Content Side */}
+                    <div className="lg:w-1/2">
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                        >
+                            <p className="text-teal-600 font-black text-xs tracking-[0.3em] uppercase mb-6 flex items-center gap-3">
+                                <span className="w-10 h-0.5 bg-teal-600" />
+                                Analytics & Insight
+                            </p>
+                            <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-8 leading-[1.1] -tracking-tighter">
+                                Visualize your <br />
+                                <span className="text-teal-600 underline decoration-teal-100 decoration-8 underline-offset-8">Clinical Growth.</span>
+                            </h2>
+                            <p className="text-lg text-slate-500 mb-10 leading-relaxed max-w-xl">
+                                Don&apos;t just study—track your evolution. Our intelligent dashboard identifies your clinical weak points and turns them into strengths before you step into the hospital.
+                            </p>
+                            
+                            <div className="grid grid-cols-2 gap-6 mb-12">
+                                <div className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm">
+                                    <h5 className="font-black text-slate-900 text-sm mb-1 tracking-tight">Real-time Insights</h5>
+                                    <p className="text-xs text-slate-400 font-medium">Get instant feedback on your care plans.</p>
+                                </div>
+                                <div className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm">
+                                    <h5 className="font-black text-slate-900 text-sm mb-1 tracking-tight">Weakness Mapping</h5>
+                                    <p className="text-xs text-slate-400 font-medium">See where you need focus for the NCLEX.</p>
+                                </div>
+                            </div>
+
+                            <Button className="h-16 px-10 rounded-2xl bg-slate-900 hover:bg-teal-600 transition-all text-lg font-black group">
+                                View Your Dashboard
+                                <TrendingUp className="ml-3 w-5 h-5 group-hover:translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                            </Button>
+                        </motion.div>
+                    </div>
                 </div>
-
-                {/* Interactive Cards */}
-                <div className="grid grid-cols-4 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1">
-
-                    {/* Card */}
-                    <div className="group bg-white rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="bg-teal-100 text-teal-600 w-10 h-10 rounded-xl flex items-center justify-center group-hover:bg-teal-600 group-hover:text-white transition">
-                                <Activity size={20} />
-                            </div>
-                            <span className="text-xs font-semibold text-teal-600 bg-teal-50 px-3 py-1 rounded-full">
-                                Improving
-                            </span>
-                        </div>
-
-                        <h3 className="font-semibold text-gray-800 mb-2">
-                            Clinical Judgment
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                            Track how accurately you assess patient situations
-                            and select appropriate nursing actions.
-                        </p>
-                    </div>
-
-                    {/* Card */}
-                    <div className="group bg-white rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="bg-blue-100 text-blue-600 w-10 h-10 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition">
-                                <ShieldCheck size={20} />
-                            </div>
-                            <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
-                                Monitored
-                            </span>
-                        </div>
-
-                        <h3 className="font-semibold text-gray-800 mb-2">
-                            Patient Safety
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                            Identify unsafe patterns and strengthen safety-first
-                            decision-making across scenarios.
-                        </p>
-                    </div>
-
-                    {/* Card */}
-                    <div className="group bg-white rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="bg-purple-100 text-purple-600 w-10 h-10 rounded-xl flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition">
-                                <ListChecks size={20} />
-                            </div>
-                            <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
-                                Strengthening
-                            </span>
-                        </div>
-
-                        <h3 className="font-semibold text-gray-800 mb-2">
-                            Priority & Delegation
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                            See how well you identify urgent needs and delegate
-                            tasks appropriately.
-                        </p>
-                    </div>
-
-                    {/* Card */}
-                    <div className="group bg-white rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="bg-orange-100 text-orange-600 w-10 h-10 rounded-xl flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition">
-                                <TrendingUp size={20} />
-                            </div>
-                            <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-3 py-1 rounded-full">
-                                Trending Up
-                            </span>
-                        </div>
-
-                        <h3 className="font-semibold text-gray-800 mb-2">
-                            Overall Consistency
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                            Monitor how consistently you apply sound clinical
-                            reasoning across topics and systems.
-                        </p>
-                    </div>
-
-                </div>
-
-                {/* Interactive CTA Panel */}
-                <div className="mt-20 bg-gradient-to-r from-blue-500 to-teal-600 max-md:from-teal-600 max-md:to-blue-500 rounded-2xl p-10 flex flex-col md:flex-row items-center justify-between gap-6 text-white">
-                    <p className="text-2xl font-bold max-md:text-xl max-md:font-semibold max-w-xl max-md:text-center">
-                        Every session updates your clinical profile.
-                        Futunurse helps you clearly see what’s improving—and what to focus on next.
-                    </p>
-
-                    <Button
-                        size="lg"
-                        className="rounded-full bg-white text-teal-600 hover:bg-white/90 max-md:w-full"
-                    >
-                        Open My Dashboard
-                    </Button>
-                </div>
-
             </div>
         </section>
     );
