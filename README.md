@@ -1,10 +1,9 @@
-# Futunurse 🩺💻
-
 <div align="center">
+<h1>Futunurse 🩺💻</h1>
 
 ![Futunurse Banner](./public/screenshots/banner.png)
 
-**A modern, high-performance developer portfolio built with Next.js**
+**Fullstack web-application for nursing students built with Next.js and TypeScript**
 
 [View Live Demo](https://futunurse.vercel.app) · [Report Bug](https://github.com/kazisola/futunurse/issues) · [Request Feature](https://github.com/kazisola/futunurse/issues)
 
@@ -20,29 +19,38 @@
 
 ## 📋 Overview
 
-Futunurse is a professionally crafted developer portfolio designed to make a lasting impression on recruiters and hiring managers. Built with modern web technologies, it showcases projects, skills, and professional experience through an intuitive, responsive interface optimized for both desktop and mobile viewing.
+Futunurse is an AI-powered study companion I built for nursing students. It tackles two of the biggest challenges in nursing school – creating care plans and prepping for the NCLEX – with smart, intuitive tools that actually make studying easier.
+This project showcases modern web development practices with a focus on responsive design, performance optimization, and AI integration. Built to work seamlessly across all devices because real students need tools that fit their busy schedules.
 
 ---
 
-## ✨ Key Features
+## ✨ Features
 
-### 🎨 **Modern User Interface**
-- Fully responsive layout that adapts to any screen size
-- Dark/light mode support
-- Smooth page transitions and micro-interactions
-- Accessibility-focused design (WCAG compliant)
+### 🩺 AI-Powered Care Plan Generator
+- **Smart Generation** - Create comprehensive patient care plans with AI assistance
+- **Full Customization** - Critique, modify, and refine AI-generated plans to match your learning style
+- **Bookmark System** - Save and organize your most important care plans for quick reference
+- **Engaging Experience** - Makes care plan creation actually enjoyable (seriously!)
 
-### ⚡ **Performance Optimized**
-- Server-side rendering (SSR) for instant page loads
-- Optimized images with Next.js Image component
-- Lazy loading for improved initial load time
-- Minimal JavaScript bundle size
+### 📝 NCLEX Simulator
+- **Realistic Practice Tests** - Take demo NCLEX exams and track your performance
+- **Adaptive Learning** - Automatically identifies weak areas and suggests targeted questions
+- **Custom Categories** - Select specific nursing topics to focus your study sessions
+- **Detailed Analytics** - Monitor time spent on correct vs incorrect answers
+- **Visual Progress Tracking** - Beautiful charts showing performance trends and radar diagrams for strengths/weaknesses
+- **AI-Powered Insights** - Get personalized recommendations based on your category performance
 
-### 🛠️ **Comprehensive Project Showcase**
-- Detailed project descriptions with live demos
-- Technology stack highlighting
-- GitHub repository links
-- Project screenshots and video demonstrations
+### 🎨 Modern UI/UX
+- **Responsive Design** - Mobile-first layout that works flawlessly on any device
+- **Smooth Animations** - Professional micro-interactions that enhance without overwhelming
+- **Clean Interface** - Hassle-free navigation keeping focus on your studies
+- **Seamless Transitions** - Fluid page changes for a polished experience
+
+### ⚡ Performance
+- **Server-Side Rendering (SSR)** - Instant page loads for better user experience
+- **Optimized Images** - Next.js Image component for fast, efficient loading
+- **Lazy Loading** - Improved initial load times
+- **Minimal Bundle Size** - Lightweight JavaScript for faster performance
 
 ---
 
