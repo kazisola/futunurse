@@ -60,16 +60,20 @@ This project showcases modern web development practices with a focus on responsi
 <summary>Click to view screenshots</summary>
 
 ### Home Page
-![Home Page](./public/screenshots/home.png)
+![Landing Hero Section](./public/screenshots/banner.png)
 *Hero section with compelling introduction and CTA*
 
-### Projects Section
-![Projects](./public/screenshots/projects.png)
-*Interactive project showcase with filtering options*
+### Dashboard Page
+![Dashboard](./public/screenshots/dashboard.png)
+*Dynamic and interactive dashboard with real-time data*
 
-### Contact Form
-![Contact](./public/screenshots/contact.png)
-*Professional contact form with validation*
+### AI-Care Plans Generator
+![Care Plan](./public/screenshots/care-plan.png)
+*AI-Powered patient care plan generator*
+
+### Nursing Test Simulator (NCLEX)
+![NCLEX Test](./public/screenshots/nclex.png)
+*Nursing test simulator*
 
 </details>
 
