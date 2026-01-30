@@ -55,7 +55,7 @@ const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
                 <h5 className='font-bold text-lg text-gray-900 uppercase'>Welcome Back</h5>
                 <p className='text-gray-700 text-sm'>Sign in to your account to continue your nursing journey</p>
             </div>
-            <Button onClick={() => signIn("google", { callbackUrl: "/dashboard" })} size={'lg'} variant={'secondary'} className='w-full my-6 rounded-full'>
+            <Button onClick={() => signIn("google", { callbackUrl: "/dashboard" })} size={'lg'} variant={'secondary'} className='w-full my-6 rounded-full hover:bg-gray-200'>
                 <Image src={GoogleIcon || null} alt={"google-icon"} priority width={30} height={30} />
                 Sign in with Google
             </Button>

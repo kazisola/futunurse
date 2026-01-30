@@ -74,7 +74,7 @@ const SignUp = ({ signInInstead, onClose }: SignUpProps) => {
                 <p className='text-gray-700 text-sm'>Sign up to create your account to continue your nursing journey</p>
             </div>
 
-            <Button onClick={() => signIn("google", { callbackUrl: "/dashboard" })} size={'lg'} variant={'secondary'} className='w-full my-6 rounded-full'>
+            <Button onClick={() => signIn("google", { callbackUrl: "/dashboard" })} size={'lg'} variant={'secondary'} className='w-full my-6 rounded-full hover:bg-gray-200'>
                 <Image src={GoogleIcon || null} alt={"google-icon"} priority width={30} height={30} />
                 Continue with Google
             </Button>
