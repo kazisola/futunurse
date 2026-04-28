@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
         - As evidenced by (for actual diagnoses only)  
 
         2. For each diagnosis include:
-        - **priority**: High / Medium / Low (with reasoning in rationale).  
+        - **priority**: High / Medium / Low.  
         - **goals**: Short-term and long-term, in **SMART format**.  
         - **interventions**: At least **3–4 NIC interventions**, each with an action and rationale tied to the patient’s case.  
         - **evaluationCriteria**: Measurable criteria linked directly to goals.  
