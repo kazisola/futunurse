@@ -3,7 +3,10 @@ import { configDotenv } from "dotenv";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 configDotenv();
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string)
 
 function extractJson(content: string): object {
     try {
@@ -51,12 +54,12 @@ interface IPatientData {
 export async function POST(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
-        if(!session) {
+        if (!session) {
             return NextResponse.json({ success: false, message: "User unauthenticated!" }, { status: 401 })
         }
-        
+
         const patient: IPatientData = await req.json();
-        console.log("patient:", patient);
+        // console.log("patient:", patient);
 
         const PROMPT: string = `
         You are an experienced nursing instructor. Generate a detailed nursing care plan in JSON format based on the following patient case. The care plan must strictly follow NANDA-I diagnoses, NIC (Nursing Interventions Classification), and NOC (Nursing Outcomes Classification). Always use official NANDA wording for diagnoses.
@@ -139,33 +142,26 @@ export async function POST(req: NextRequest) {
         `
 
         console.log("PROMPT:", PROMPT)
-        const response = await fetch("https://api.together.xyz/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                "authorization": `Bearer ${process.env.TOGETHERAI_API_KEY}`,
-                "Content-Type": "application/json"
+        const model = genAI.getGenerativeModel({
+            model: "gemini-flash-latest",
+            generationConfig: {
+                temperature: 0.4,
+                responseMimeType: "application/json",
             },
-            body: JSON.stringify({
-                model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-                messages: [
-                    { role: "system", content: "You are an experience nursing educator, helping students making their patient care plan." },
-                    { role: "user", content: PROMPT }
-                ],
-                temperature: 0.7
-            })
-        });
-        const data = await response.json();
-        const rawContent = data.choices?.[0].message?.content || "";
-        console.log("Raw Care Plan:", rawContent);
+        })
+        const result = await model.generateContent(PROMPT)
+        const raw_content = result.response.text();
+        // console.log("Raw Content:", raw_content)
+
         // Extract JSON
         let care_plan;
         try {
-            care_plan = extractJson(rawContent);
+            care_plan = extractJson(raw_content);
         } catch (err) {
             console.error("Failed to parse care plan JSON:", err);
             return NextResponse.json({ success: false, error: "Invalid JSON from AI" }, { status: 422 });
         }
-        console.log("Care Plan Object:", care_plan);
+        // console.log("Care Plan Object:", care_plan);
         return NextResponse.json({ success: true, care_plan })
     } catch (error) {
         console.log(error);

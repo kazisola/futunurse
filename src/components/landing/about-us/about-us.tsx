@@ -71,7 +71,7 @@ const AboutUsSection = () => {
                                     alt="Futunurse Clinical Tools"
                                     width={600}
                                     height={600}
-                                    className="rounded-[2.5rem] shadow-2xl object-cover aspect-square w-full max-w-[500px] border-8 border-white"
+                                    className="rounded-[2.5rem] shadow-2xl object-cover aspect-square w-full max-w-125 border-8 border-white"
                                 />
                             </motion.div>
                             
