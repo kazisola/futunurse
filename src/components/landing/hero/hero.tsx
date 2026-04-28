@@ -92,7 +92,7 @@ const Hero = () => {
                         className='text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto leading-relaxed'
                     >
                         Your AI-powered bridge from the classroom to the clinic. 
-                        Smart Care Plans, NCLEX prep, and clinical confidence.
+                        Smart Care Plans, NCLEX prep, and clinical confidence
                     </motion.p>
                 </div>
 
@@ -105,7 +105,12 @@ const Hero = () => {
                     <Button size={'lg'} className='rounded-full px-12 h-16 text-xl bg-blue-600 hover:bg-blue-500 hover:scale-105 transition-transform shadow-[0_0_40px_rgba(37,99,235,0.4)]'>
                         Start Free Trial
                     </Button>
-                    <Button variant="outline" size={'lg'} className='rounded-full px-12 h-16 text-xl border-slate-700 hover:text-white hover:bg-white/5 backdrop-blur-md'>
+                    <Button
+                    onClick={() => {
+                        const el = document.getElementById("features");
+                        el?.scrollIntoView({ behavior: "smooth" })
+                    }}
+                    variant="outline" size={'lg'} className='rounded-full px-12 h-16 text-xl border-slate-700 hover:text-white hover:bg-white/5 backdrop-blur-md'>
                         View Features
                     </Button>
                 </motion.div>

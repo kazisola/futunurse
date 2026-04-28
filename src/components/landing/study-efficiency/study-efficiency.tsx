@@ -34,22 +34,15 @@ const StudyEfficiency = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                         >
-                            <p className="mb-6 font-black text-xs tracking-[0.3em] text-blue-600 uppercase flex items-center gap-3">
-                                <span className="flex h-3 w-3 relative">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-600"></span>
-                                </span>
-                                Focus on High Yield
-                            </p>
 
                             <h2 className="font-bold text-4xl md:text-6xl text-slate-900 mb-8 leading-[1.1] -tracking-tighter">
                                 Study Smarter, <br />
-                                <span className="text-blue-600 italic">Not Longer.</span>
+                                <span className="text-blue-600 italic">Not Longer</span>
                             </h2>
 
                             <p className="text-lg text-slate-600 mb-10 leading-relaxed max-w-xl">
                                 Nursing school isn&apos;t about memorizing more—it&apos;s about <span className="text-slate-900 font-bold underline decoration-blue-200 decoration-4">thinking clinically</span>. 
-                                Futunurse filters the noise so you can master patient safety and real-world decision-making.
+                                Futunurse filters the noise so you can master patient safety and real-world decision-making
                             </p>
                         </motion.div>
 
@@ -61,9 +54,9 @@ const StudyEfficiency = () => {
                             className="space-y-6"
                         >
                             {[
-                                { title: "Eliminate low-yield content", desc: "Focus only on concepts that actually appear on exams.", icon: <Zap size={18} /> },
-                                { title: "Prioritize & Delegate", desc: "Learn to recognize unsafe answers instantly.", icon: <Brain size={18} /> },
-                                { title: "Reduce Academic Burnout", desc: "Study with structure, intent, and clarity.", icon: <Timer size={18} /> }
+                                { title: "Eliminate low-yield content", desc: "Focus only on concepts that actually appear on exams", icon: <Zap size={18} /> },
+                                { title: "Prioritize & Delegate", desc: "Learn to recognize unsafe answers instantly", icon: <Brain size={18} /> },
+                                { title: "Reduce Academic Burnout", desc: "Study with structure, intent, and clarity", icon: <Timer size={18} /> }
                             ].map((item, idx) => (
                                 <motion.li key={idx} variants={itemVariants} className="flex gap-4 group">
                                     <div className="shrink-0 w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">

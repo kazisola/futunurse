@@ -24,10 +24,10 @@ const PricingSection = () => {
                             Academic Excellence
                         </motion.div>
                         <h2 className="text-5xl font-bold text-slate-900 mb-6 leading-[1.1] -tracking-tighter">
-                            A plan for every <span className="text-teal-600">Nursing Journey.</span>
+                            A plan for every <span className="text-teal-600">Nursing Journey</span>
                         </h2>
                         <p className="text-slate-500 text-lg mb-8 leading-relaxed">
-                            Start with the basics or unlock clinical mastery. Join thousands of students who have traded stress for smart study tools.
+                            Start with the basics or unlock clinical mastery. Join thousands of students who have traded stress for smart study tools
                         </p>
                         
                         <div className="space-y-4">

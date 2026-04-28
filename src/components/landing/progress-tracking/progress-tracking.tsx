@@ -98,26 +98,22 @@ const ProgressTracking = () => {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                         >
-                            <p className="text-teal-600 font-black text-xs tracking-[0.3em] uppercase mb-6 flex items-center gap-3">
-                                <span className="w-10 h-0.5 bg-teal-600" />
-                                Analytics & Insight
-                            </p>
                             <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-8 leading-[1.1] -tracking-tighter">
                                 Visualize your <br />
-                                <span className="text-teal-600 underline decoration-teal-100 decoration-8 underline-offset-8">Clinical Growth.</span>
+                                <span className="text-teal-600 underline decoration-teal-100 decoration-8 underline-offset-8">Clinical Growth</span>
                             </h2>
                             <p className="text-lg text-slate-500 mb-10 leading-relaxed max-w-xl">
-                                Don&apos;t just study—track your evolution. Our intelligent dashboard identifies your clinical weak points and turns them into strengths before you step into the hospital.
+                                Don&apos;t just study—track your evolution. Our intelligent dashboard identifies your clinical weak points and turns them into strengths before you step into the hospital
                             </p>
                             
                             <div className="grid grid-cols-2 gap-6 mb-12">
                                 <div className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm">
                                     <h5 className="font-black text-slate-900 text-sm mb-1 tracking-tight">Real-time Insights</h5>
-                                    <p className="text-xs text-slate-400 font-medium">Get instant feedback on your care plans.</p>
+                                    <p className="text-xs text-slate-400 font-medium">Get instant feedback on your care plans</p>
                                 </div>
                                 <div className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm">
                                     <h5 className="font-black text-slate-900 text-sm mb-1 tracking-tight">Weakness Mapping</h5>
-                                    <p className="text-xs text-slate-400 font-medium">See where you need focus for the NCLEX.</p>
+                                    <p className="text-xs text-slate-400 font-medium">See where you need focus for the NCLEX</p>
                                 </div>
                             </div>
 

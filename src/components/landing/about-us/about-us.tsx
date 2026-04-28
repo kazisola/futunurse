@@ -99,10 +99,6 @@ const AboutUsSection = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                         >
-                            <p className="mb-4 font-bold text-sm tracking-[0.2em] text-teal-600 uppercase flex items-center gap-2">
-                                <span className="w-8 h-[2px] bg-teal-600"></span>
-                                Discover Futunurse
-                            </p>
 
                             <h2 className="font-bold text-4xl md:text-5xl text-slate-900 mb-6 leading-tight">
                                 Learn Smarter, <span className="text-teal-600">Practice Better</span>, and Pass with Confidence

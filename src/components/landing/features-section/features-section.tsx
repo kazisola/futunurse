@@ -66,16 +66,9 @@ const FeaturesSection = () => {
                     
                     {/* Header */}
                     <div className="px-8 md:px-32 mb-12 md:mb-16">
-                        <motion.p 
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            className="text-teal-600 font-bold tracking-widest uppercase text-xs mb-4"
-                        >
-                            Powerful AI Suite
-                        </motion.p>
                         <h2 className="text-4xl md:text-6xl font-bold text-slate-900 leading-tight">
                             The Tools You Need <br className="hidden md:block" />
-                            <span className="text-slate-400">to Become a Great Nurse.</span>
+                            <span className="text-slate-400">to Become a Great Nurse</span>
                         </h2>
                     </div>
 
