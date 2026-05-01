@@ -9,12 +9,11 @@ import { toast } from 'react-toastify';
 
 interface CarePlanProps {
     carePlan: ICarePlan;
-    starred: boolean;
 }
 
-const CarePlan = ({ carePlan, starred }: CarePlanProps) => {
+const CarePlan = ({ carePlan }: CarePlanProps) => {
     const pathname = usePathname();
-    const { _id, patient, createdAt, updatedAt } = carePlan || {};
+    const { _id, patient, createdAt, updatedAt, bookmarked } = carePlan || {};
 
     const handleStartCarePlan = async (id: string) => {
         try {
@@ -69,7 +68,7 @@ const CarePlan = ({ carePlan, starred }: CarePlanProps) => {
                 </Link>
                 <Button variant={'outline'} className='max-sm:hidden rounded-md'><PencilLine size={18} /> Edit Plan</Button>
                 <Button onClick={() => typeof _id === 'string' && handleStartCarePlan(_id)} className='bg-transparent max-md:border border-yellow-500/30 text-gray-700 hover:text-yellow-500 hover:bg-yellow-500/20 rounded-md'>
-                    {starred ?
+                    {bookmarked ?
                         <StarOff size={18} className='text-yellow-500' />
                         :
                         <Star size={18} className='text-yellow-500/80' />

@@ -48,6 +48,7 @@ export type Diagnosis = {
 export interface ICarePlan extends Document {
     patient: IPatient;
     diagnoses: Diagnosis[];
+    bookmarked?: boolean;
     createdAt: Date;
     updatedAt: Date
 }

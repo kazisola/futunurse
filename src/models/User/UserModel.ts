@@ -4,7 +4,6 @@ interface IUser extends Document {
     fullName: string;
     email: string;
     password?: string;
-    starredPlans: mongoose.Types.ObjectId[]
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -20,11 +19,6 @@ const userSchema = new mongoose.Schema<IUser>({
     password: {
         type: String,
         required: false
-    },
-    starredPlans: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: "CarePlan",
-        default: []
     }
 }, { timestamps: true })
 
