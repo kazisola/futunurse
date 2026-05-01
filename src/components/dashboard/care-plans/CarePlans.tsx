@@ -19,6 +19,7 @@ export const CarePlans = () => {
                     "Content-Type": "application/json"
                 }
             });
+            console.log("response:", response)
             setPlansLoading(false);
             if (response.status === 200) {
                 setCarePlans(response.data?.carePlans);
@@ -26,16 +27,7 @@ export const CarePlans = () => {
         };
         handleGetCarePlans();
     }, []);
-    const [starred_plans, set_starred_plans] = useState<ICarePlan[]>([])
-    useEffect(() => {
-        const handleGetStarredCarePlans = async () => {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plan/star-care-plan`);
-            if (response.status === 200) {
-                set_starred_plans(response.data?.starred_plans)
-            }
-        };
-        handleGetStarredCarePlans();
-    }, []);
+    const bookmarked_plans: ICarePlan[] = carePlans.filter(item => item.bookmarked);
     return (
         <div className='space-y-8'>
 
@@ -74,7 +66,7 @@ export const CarePlans = () => {
                             <p className='text-gray-700 mb-3'>AI-powered nursing care plans with evidence-based practice and NANDA/NIC/NOC integration</p>
                             <div className='flex items-center gap-4'>
                                 <p className='flex items-center gap-1 text-gray-500 text-sm'><Stethoscope size={16} /> {carePlans.length} total plans</p>
-                                <p className='flex items-center gap-1 text-gray-500 text-sm'><Star size={16} />{starred_plans.length} starred</p>
+                                <p className='flex items-center gap-1 text-gray-500 text-sm'><Star size={16} />{bookmarked_plans.length} starred</p>
                             </div>
                         </div>
                         <div className='flex max-md:items-center gap-2'>
@@ -84,7 +76,7 @@ export const CarePlans = () => {
                     </div>
                     <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6">
                         {carePlans.map((plan, index) => (
-                            <CarePlan key={index} carePlan={plan} starred={starred_plans.some(starred => starred._id === plan._id)} />
+                            <CarePlan key={index} carePlan={plan} />
                         ))}
                     </div>
                 </>
@@ -96,7 +88,7 @@ export const CarePlans = () => {
                             <p className='text-gray-700 mb-3'>AI-powered nursing care plans with evidence-based practice and NANDA/NIC/NOC integration</p>
                             <div className='flex items-center gap-4'>
                                 <p className='flex items-center gap-1 text-gray-500 text-sm'><Stethoscope size={16} /> {carePlans.length} total plans</p>
-                                <p className='flex items-center gap-1 text-gray-500 text-sm'><Star size={16} />{starred_plans.length} starred</p>
+                                <p className='flex items-center gap-1 text-gray-500 text-sm'><Star size={16} />{bookmarked_plans.length} starred</p>
                             </div>
                         </div>
                         <div className='flex max-md:items-center gap-2'>

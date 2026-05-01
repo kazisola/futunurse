@@ -5,7 +5,8 @@ import IUser from "../User/UserModel";
 export interface ICarePlan extends Document {
     user: Types.ObjectId | typeof IUser;
     patient: IPatient;
-    diagnoses: Diagnosis[]
+    diagnoses: Diagnosis[];
+    bookmarked?: boolean;
 }
 
 const PatientCarePlanSchema = new mongoose.Schema<ICarePlan>({
@@ -131,7 +132,11 @@ const PatientCarePlanSchema = new mongoose.Schema<ICarePlan>({
                 default: []
             }
         }
-    ]
+    ],
+    bookmarked: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true })
 
 export const CarePlan = mongoose.models.CarePlan || mongoose.model<ICarePlan>("CarePlan", PatientCarePlanSchema);
