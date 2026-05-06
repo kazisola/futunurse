@@ -19,6 +19,7 @@ type FormData = {
 }
 
 const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
+    const [error, setError] = useState<string | null>(null);
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
     const [formData, setFormData] = useState<FormData>({
@@ -29,24 +30,31 @@ const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        const signInRes = await signIn("credentials", {
-            redirect: false,
-            email: formData.email,
-            password: formData.password
-        });
-        console.log(signInRes)
-        if (signInRes?.ok === false) {
-            console.log(signInRes.error);
-            setLoading(false);
-        } else {
-            alert("Sign in successful!");
-            console.log("User authenticated!");
-            router.push("/dashboard");
-            setFormData({
-                email: '',
-                password: ''
+        try {
+            const signInRes = await signIn("credentials", {
+                redirect: false,
+                email: formData.email,
+                password: formData.password
             });
-            onClose();
+            if (signInRes?.ok === false) {
+                console.log(signInRes.error);
+                setError("Invalid username or password")
+                setLoading(false);
+                setTimeout(() => {
+                    setError(null)
+                }, 2000)
+            } else {
+                alert("Sign in successful!");
+                console.log("User authenticated!");
+                router.push("/dashboard");
+                setFormData({
+                    email: '',
+                    password: ''
+                });
+                onClose();
+            }
+        } catch (error) {
+            console.error(error)
         }
     }
     return (
@@ -64,7 +72,7 @@ const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
                 <span className="mx-2 text-gray-500 font-medium text-sm">OR</span>
                 <hr className="flex-grow border-t border-gray-300" />
             </div>
-            <form onSubmit={handleSubmit} className=' space-y-4'>
+            <form onSubmit={handleSubmit} className='text-center space-y-4'>
                 <div className='space-y-2.5'>
                     <Label htmlFor='email'>Email</Label>
                     <Input type='email' placeholder='student@nursing.edu' required
@@ -82,6 +90,9 @@ const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
                         {showPasswor ? <Eye /> : <LucideEyeOff />}
                     </Button>
                 </div>
+                {error &&
+                    <strong className='text-red-400 text-xs '>{error}</strong>
+                }
                 <Button type='submit' size={'lg'} className='w-full mt-4 rounded-full'>{loading ? 'Loading...' : 'Sign In'}</Button>
             </form>
             <p className='text-gray-700 text-center text-sm mt-3'>Don&apos; have an account? <Button variant={'link'} onClick={signUpInstead}>Sign Up</Button></p>
