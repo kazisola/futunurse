@@ -2,8 +2,8 @@ import { handleApiError } from "@/lib/apiError";
 import { configDotenv } from "dotenv";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/route";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { authOptions } from "../../auth/[...nextauth]/route";
 configDotenv();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string)
