@@ -17,7 +17,7 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
 
     const handleStartCarePlan = async (id: string) => {
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plan/star-care-plan/${id}`);
+            const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plans/${id}`);
             console.log("response:", response);
         } catch (error) {
             console.log(error)
@@ -26,7 +26,7 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
 
     const handleDeletePlan = async () => {
         try {
-            const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plan/delete-care-plan/${_id}`);
+            const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plans/${_id}`);
             console.log(response);
             if (response.status === 200) {
                 toast.success("Care plan deleted succesfully!", { autoClose: 1000 });

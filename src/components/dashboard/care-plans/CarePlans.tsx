@@ -14,7 +14,7 @@ export const CarePlans = () => {
     useEffect(() => {
         const handleGetCarePlans = async () => {
             setPlansLoading(true);
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plan/get-care-plans`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plans`, {
                 headers: {
                     "Content-Type": "application/json"
                 }

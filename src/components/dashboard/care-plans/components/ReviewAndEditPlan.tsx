@@ -22,7 +22,7 @@ const ReviewAndEditPlan = ({ patientData, setPatientData, diagnoses, setCurrentS
     const handleSavePlan = async () => {
         try {
             setSaveLoading(true);
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plan/save-care-plan`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plans`, {
                 body: { diagnoses, patientData }
             });
             setSaveLoading(false);
