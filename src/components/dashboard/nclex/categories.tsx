@@ -37,7 +37,7 @@ export const Categories = () => {
         const handleGetCategorizedPerformance = async () => {
             try {
                 setLoading(true);
-                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/nclex/category-performance`);
+                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/nclex/performance`);
                 if (res.status === 200) {
                     set_performance_categorized(res.data?.performance_categorized);
                 }

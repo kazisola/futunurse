@@ -24,7 +24,7 @@ const PatientForm = ({ currentStage, setCurrentStage, patientData, setPatientDat
 
         try {
             const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_BASE}/api/care-plan/create-care-plan`,
+                `${process.env.NEXT_PUBLIC_API_BASE}/api/care-plans/generate`,
                 patientData
             );
 

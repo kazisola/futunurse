@@ -26,7 +26,7 @@ const SessionResultModal = ({ result, onResetSession }: SessionResultModalProps)
         const handleSaveSession = async () => {
             try {
                 const res = await axios.post(
-                    `${process.env.NEXT_PUBLIC_API_BASE}/api/nclex/save-session`,
+                    `${process.env.NEXT_PUBLIC_API_BASE}/api/nclex/sessions`,
                     { ...result, category: result.category }
                 );
                 console.log("Saved session:", res);
