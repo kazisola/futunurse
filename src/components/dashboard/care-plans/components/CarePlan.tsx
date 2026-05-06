@@ -17,7 +17,7 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
 
     const handleStartCarePlan = async (id: string) => {
         try {
-            const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plans/${id}`);
+            const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plans/${id}/bookmark`);
             console.log("response:", response);
         } catch (error) {
             console.log(error)
