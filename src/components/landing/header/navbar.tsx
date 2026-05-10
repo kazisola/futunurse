@@ -17,6 +17,11 @@ const Navbar = ({ mobileOpen, onMobileOpen, onGetStarted }: NavbarProps) => {
         { label: "Why us", href: "#why-us" },
         { label: "Pricing", href: "#pricing" },
     ];
+    const handleScroll = (e: React.MouseEvent, id: string) => {
+        e.preventDefault()
+        const el = document.querySelector(id)
+        el?.scrollIntoView({ behavior: "smooth" })
+    }
 
     return (
         <nav className={`flex items-center max-md:h-full gap-2 ${mobileOpen ? "flex-col w-full" : ""}`}>
@@ -31,7 +36,8 @@ const Navbar = ({ mobileOpen, onMobileOpen, onGetStarted }: NavbarProps) => {
                     >
                         <Link
                             href={item.href}
-                            onClick={() => onMobileOpen?.(false)}
+                            scroll={true}
+                            onClick={(e) => {{handleScroll(e, item.href); onMobileOpen?.(false)}}}
                             className={`
                                 text-sm font-bold transition-all px-5 py-2 rounded-full
                                 ${mobileOpen
