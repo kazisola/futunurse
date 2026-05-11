@@ -1,7 +1,7 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Book, Home, LogOut, Stethoscope, User, X } from 'lucide-react';
+import { Book, Home, LogOut, Stars, Stethoscope, User, X } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname, redirect } from 'next/navigation';
@@ -17,7 +17,7 @@ const Navigation = ({ responsiveMenu, setResponsiveMenu }: NavigationProps) => {
         { name: 'Dashboard', href: '/dashboard', icon: <Home size={20} /> },
         { name: 'Care Plans', href: '/dashboard/care-plans', icon: <Stethoscope size={20} /> },
         { name: 'NCLEX Coach', href: '/dashboard/nclex', icon: <Book size={20} /> },
-        // { name: 'Profile', href: '/dashboard/profile', icon: <User size={20} /> },
+        { name: 'Companion AI', href: '/dashboard/companion', icon: <Stars size={20} /> },
     ]
     useEffect(() => {
         if (responsiveMenu) {
