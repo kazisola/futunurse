@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import SubmitForm from "./SubmitForm";
 import { CompanionType } from "@/types/companion";
+import Suggestions from "./Suggestions";
+import { Separator } from "@/components/ui/separator";
 
 const FeaturePanel = () => {
     const [query, setQuery] = useState<string>("");
@@ -14,6 +16,8 @@ const FeaturePanel = () => {
                 <p className='text-sm font-medium text-slate-800'>Instant nursing references</p>
             </header>
             <SubmitForm query={query} setQuery={setQuery} type={type} setType={setType} />
+            <Separator />
+            <Suggestions />
         </aside>
     )
 }
