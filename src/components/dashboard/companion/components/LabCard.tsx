@@ -5,7 +5,7 @@ const LabCard = ({ card }: { card: LabCard }) => {
     console.log("card:", card)
     return (
         <div>
-
+            <h2>{card.name} | {card.type}</h2>
         </div>
     )
 }

@@ -25,7 +25,7 @@ const FeaturePanel = ({ setCard, responseLoading, setResponseLoading }: FeatureP
             <Separator />
             <Suggestions />
             <Separator />
-            <SavedCards />
+            <SavedCards setCard={setCard} />
         </aside>
     )
 }

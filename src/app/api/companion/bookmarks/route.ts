@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ success: false, message: "User unauthenticated!" }, { status: 401 });
         }
         const userId = (session.user as { id: string }).id;
-        const saved_cards = await CompanionSaved.find({ user: userId }).sort({ createdAt: -1 }).select("-__v").lean();
+        const saved_cards = await CompanionSaved.find({ user: userId }).sort({ createdAt: -1 }).select("query type").lean();
 
         return NextResponse.json({ success: true, saved_cards }, { status: 200 })
     } catch (error) {
