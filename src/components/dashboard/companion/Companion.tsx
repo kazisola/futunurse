@@ -20,9 +20,9 @@ export const Companion = () => {
     };
     const ActiveCard = card?.type ? componentsMap[card.type] : null;
     return (
-        <div className='grid grid-cols-4 gap-3'>
+        <div className='lg:grid grid-cols-10 gap-3 max-lg:space-y-6'>
             <FeaturePanel setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
-            <section className='col-span-3 bg-white rounded-md p-3'>
+            <section className='col-span-7 bg-white rounded-md p-3'>
                 {
                     responseLoading ? (
                         <div>

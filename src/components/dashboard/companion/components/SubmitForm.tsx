@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CompanionCard, CompanionType } from '@/types/companion';
 import axios from 'axios';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Search } from 'lucide-react';
 import React, { Dispatch, SetStateAction } from 'react';
 
 interface SubmitFormProps {
@@ -34,7 +34,7 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, 
                     "Content-Type": "application/json"
                 }
             })
-            if(response.status === 200) {
+            if (response.status === 200) {
                 setQuery("")
                 setType(null)
                 setCard(response.data?.card)
@@ -47,29 +47,34 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, 
     }
     return (
         <form onSubmit={handleSubmit} className='space-y-3'>
-            <Input type='text' placeholder='search drug, lab, diagnostic'
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                required
-            />
-            <ul className="flex justify-between gap-2">
+            <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                    type="text"
+                    placeholder="Search drug, lab, diagnostic..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    required
+                    className="h-12 border-muted pl-10 text-sm shadow-xs focus-visible:ring-2"
+                />
+            </div>
+            <ul className="flex justify-between gap-2 bg-gray-50 p-2 rounded-md">
                 {type_tabs.map((item, index) => (
                     <li key={index} className="flex-1">
                         <Button
                             type='button'
-                            variant={type === item.type ? 'default' : 'outline'}
-                            className="w-full rounded-lg"
+                            className={`w-full rounded-md text-sm bg-transparent hover:bg-gray-200 text-gray-950 border ${type === item.type ? 'bg-gray-900 hover:bg-gray-900 border-none text-white' : ''}`}
                             onClick={() => setType(item.type)}>
                             {item.label}
                         </Button>
                     </li>
                 ))}
             </ul>
-            <Button type="submit" className='w-full rounded-md' disabled={responseLoading}>
+            <Button type="submit" size={'lg'} className='w-full rounded-md' disabled={responseLoading}>
                 {responseLoading ?
-                ( 'Thinking...' )
-                :
-                ( <>Search <ArrowRight /></> )
+                    ('Thinking...')
+                    :
+                    (<>Search <ArrowRight /></>)
                 }
             </Button>
         </form>

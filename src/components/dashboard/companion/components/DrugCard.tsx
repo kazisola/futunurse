@@ -13,8 +13,11 @@ const DrugCard = ({ card }: { card: DrugCard }) => {
                         <Pill className="w-6 text-blue-600" />
                     </div>
                     <div>
-                        <h3 className="font-semibold text-lg capitalize mb-0">{card.name}</h3>
-                        <p className="text-gray-700">{card.brandNames.join(" • ")}</p>
+                        <h3 className="font-semibold text-gray-950 text-lg capitalize mb-0">{card.name}</h3>
+                        <div className="flex items-center gap-2">
+                            <span className="rounded-full px-3 bg-blue-100 text-blue-600 capitalize font-medium text-sm">{card.type}</span>
+                            <p className="text-gray-600">{card.brandNames.join(" • ")}</p>
+                        </div>
                     </div>
                 </div>
                 <BookmarkAction card={card} />

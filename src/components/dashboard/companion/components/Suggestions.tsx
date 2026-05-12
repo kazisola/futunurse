@@ -24,7 +24,7 @@ const Suggestions = () => {
   ${suggestion.type === "drug"
                             ? "bg-blue-100 text-blue-700"
                             : suggestion.type === "lab"
-                                ? "bg-emerald-100 text-emerald-700"
+                                ? "bg-rose-100 text-rose-700"
                                 : "bg-violet-100 text-violet-700"
                         }
 `} size={'sm'}>
