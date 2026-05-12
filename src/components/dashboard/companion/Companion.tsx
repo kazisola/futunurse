@@ -25,7 +25,7 @@ export const Companion = () => {
             <section className='col-span-7 bg-white rounded-md p-4'>
                 {
                     responseLoading ? (
-                        <div>
+                        <div className='h-[calc(100vh-5rem)]'>
                             Thinking...
                         </div>
                     )

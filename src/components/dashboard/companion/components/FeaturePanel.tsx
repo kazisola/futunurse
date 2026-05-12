@@ -23,7 +23,7 @@ const FeaturePanel = ({ setCard, responseLoading, setResponseLoading }: FeatureP
             </header>
             <SubmitForm query={query} setQuery={setQuery} type={type} setType={setType} setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
             <Separator />
-            <Suggestions />
+            <Suggestions setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
             <Separator />
             <SavedCards setCard={setCard} />
         </aside>

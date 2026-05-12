@@ -63,7 +63,8 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, 
                     <li key={index} className="flex-1">
                         <Button
                             type='button'
-                            className={`w-full rounded-md text-sm bg-transparent hover:bg-gray-200 text-gray-950 border ${type === item.type ? 'bg-gray-900 hover:bg-gray-900 border-none text-white' : ''}`}
+                            size={'sm'}
+                            className={`w-full rounded-md text-[13px] font-medium bg-transparent hover:bg-gray-200 text-gray-950 border ${type === item.type ? 'bg-gray-900 hover:bg-gray-900 border-none text-white' : ''}`}
                             onClick={() => setType(item.type)}>
                             {item.label}
                         </Button>

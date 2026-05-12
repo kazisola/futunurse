@@ -1,6 +1,6 @@
 import { CompanionCard, CompanionType } from "@/types/companion";
 import axios from "axios";
-import { FlaskConical, Pill, Stethoscope } from 'lucide-react';
+import { FlaskConical, FolderSearch, Pill, Stethoscope } from 'lucide-react';
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const SavedCards = ({ setCard }: { setCard: Dispatch<SetStateAction<CompanionCard | null>> }) => {
@@ -63,7 +63,15 @@ const SavedCards = ({ setCard }: { setCard: Dispatch<SetStateAction<CompanionCar
                     </li>)}
                 </ul>
                 :
-                <div className="text-center">No Saved Cards</div>
+                <div className="flex flex-col items-center justify-center h-full text-center">
+                    <div className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center mb-5">
+                        <FolderSearch className="w-6 h-6 text-slate-400" />
+                    </div>
+                    <h3 className="text-base font-semibold text-slate-700 mb-1.5">No saved card</h3>
+                    <p className="text-sm text-slate-400 max-w-xs leading-relaxed mb-8">
+                        You do not have any drug, lab, or diagnostic card saved
+                    </p>
+                </div>
             }
         </section>
     )
