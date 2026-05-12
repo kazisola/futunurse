@@ -22,7 +22,7 @@ export const Companion = () => {
     return (
         <div className='lg:grid grid-cols-10 gap-3 max-lg:space-y-6'>
             <FeaturePanel setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
-            <section className='col-span-7 bg-white rounded-md p-3'>
+            <section className='col-span-7 bg-white rounded-md p-4'>
                 {
                     responseLoading ? (
                         <div>

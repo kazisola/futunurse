@@ -16,7 +16,7 @@ const FeaturePanel = ({ setCard, responseLoading, setResponseLoading }: FeatureP
     const [query, setQuery] = useState<string>("");
     const [type, setType] = useState<CompanionType | null>(null);
     return (
-        <aside className='col-span-3 bg-white rounded-md p-3 space-y-4'>
+        <aside className='col-span-3 bg-white rounded-md p-4 space-y-4'>
             <header>
                 <h4 className='text-lg font-semibold text-slate-950'>Drug & Lab Companion</h4>
                 <p className='text-sm font-medium text-slate-800'>Instant nursing references</p>
