@@ -43,7 +43,7 @@ const SavedCards = ({ setCard }: { setCard: Dispatch<SetStateAction<CompanionCar
             {cards.length > 0 ?
                 <ul className="flex flex-col gap-1">
                     {cards.map((card, index) => <li key={index} onClick={() => handleGetSavedCard(card._id)} className="flex justify-between items-center hover:bg-gray-200 py-1 px-1 rounded-md cursor-pointer">
-                        <p className="text-sm capitalize">{card.query}</p>
+                        <p className="text-sm capitalize">{card.query.length > 25 ? `${card.query.slice(0, 25)}...` : card.query}</p>
                         {card.type === 'drug' ?
                             <Pill className="w-4 h-4 text-slate-800" />
                             :
