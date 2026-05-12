@@ -7,10 +7,12 @@ import { Separator } from "@/components/ui/separator";
 import SavedCards from "./SavedCards";
 
 interface FeaturePanelProps {
-    setCard: Dispatch<SetStateAction<CompanionCard | null>>
+    setCard: Dispatch<SetStateAction<CompanionCard | null>>;
+    responseLoading: boolean;
+    setResponseLoading: Dispatch<SetStateAction<boolean>>
 }
 
-const FeaturePanel = ({ setCard }: FeaturePanelProps) => {
+const FeaturePanel = ({ setCard, responseLoading, setResponseLoading }: FeaturePanelProps) => {
     const [query, setQuery] = useState<string>("");
     const [type, setType] = useState<CompanionType | null>(null);
     return (
@@ -19,7 +21,7 @@ const FeaturePanel = ({ setCard }: FeaturePanelProps) => {
                 <h4 className='text-lg font-semibold text-slate-950'>Drug & Lab Companion</h4>
                 <p className='text-sm font-medium text-slate-800'>Instant nursing references</p>
             </header>
-            <SubmitForm query={query} setQuery={setQuery} type={type} setType={setType} setCard={setCard} />
+            <SubmitForm query={query} setQuery={setQuery} type={type} setType={setType} setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
             <Separator />
             <Suggestions />
             <Separator />

@@ -10,10 +10,12 @@ interface SubmitFormProps {
     setQuery: Dispatch<SetStateAction<string>>;
     type: CompanionType | null;
     setType: Dispatch<SetStateAction<CompanionType | null>>;
-    setCard: Dispatch<SetStateAction<CompanionCard | null>>
+    setCard: Dispatch<SetStateAction<CompanionCard | null>>;
+    responseLoading: boolean;
+    setResponseLoading: Dispatch<SetStateAction<boolean>>
 }
 
-const SubmitForm = ({ query, setQuery, type, setType, setCard }: SubmitFormProps) => {
+const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, setResponseLoading }: SubmitFormProps) => {
     const type_tabs: { label: string, type: CompanionType }[] = [
         { label: "Drug", type: "drug" },
         { label: "Lab", type: "lab" },
@@ -22,6 +24,7 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard }: SubmitFormProps
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
+            setResponseLoading(true);
             const response = await axios.get(`http://localhost:3000/api/companion/search`, {
                 params: {
                     query: query,
@@ -35,8 +38,10 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard }: SubmitFormProps
                 setQuery("")
                 setType(null)
                 setCard(response.data?.card)
+                setResponseLoading(false)
             }
         } catch (error) {
+            setResponseLoading(false)
             console.error(error)
         }
     }
@@ -60,7 +65,13 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard }: SubmitFormProps
                     </li>
                 ))}
             </ul>
-            <Button type="submit" className='w-full rounded-md'>Search <ArrowRight /></Button>
+            <Button type="submit" className='w-full rounded-md' disabled={responseLoading}>
+                {responseLoading ?
+                ( 'Thinking...' )
+                :
+                ( <>Search <ArrowRight /></> )
+                }
+            </Button>
         </form>
     )
 }

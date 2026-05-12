@@ -9,7 +9,7 @@ import EmptyState from './components/EmptyState';
 
 export const Companion = () => {
     const [card, setCard] = useState<CompanionCard | null>(null);
-    
+    const [responseLoading, setResponseLoading] = useState<boolean>(false);
     const componentsMap: Record<
         CompanionCard["type"],
         React.ComponentType<{ card: CompanionCard }>
@@ -21,15 +21,23 @@ export const Companion = () => {
     const ActiveCard = card?.type ? componentsMap[card.type] : null;
     return (
         <div className='grid grid-cols-4 gap-3'>
-            <FeaturePanel setCard={setCard} />
+            <FeaturePanel setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
             <section className='col-span-3 bg-white rounded-md p-3'>
                 {
-                    ActiveCard && card ? (
-                        <ActiveCard card={card} />
+                    responseLoading ? (
+                        <div>
+                            Thinking...
+                        </div>
                     )
                         :
                         (
-                            <EmptyState />
+                            ActiveCard && card ? (
+                                <ActiveCard card={card} />
+                            )
+                                :
+                                (
+                                    <EmptyState />
+                                )
                         )
                 }
             </section>
