@@ -1,5 +1,5 @@
 "use client";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import SubmitForm from "./SubmitForm";
 import { CompanionCard, CompanionType } from "@/types/companion";
 import Suggestions from "./Suggestions";
@@ -7,14 +7,16 @@ import { Separator } from "@/components/ui/separator";
 import SavedCards from "./SavedCards";
 
 interface FeaturePanelProps {
+    query: string;
+    setQuery: Dispatch<SetStateAction<string>>;
+    type: CompanionType | null;
+    setType: Dispatch<SetStateAction<CompanionType | null>>;
     setCard: Dispatch<SetStateAction<CompanionCard | null>>;
     responseLoading: boolean;
     setResponseLoading: Dispatch<SetStateAction<boolean>>
 }
 
-const FeaturePanel = ({ setCard, responseLoading, setResponseLoading }: FeaturePanelProps) => {
-    const [query, setQuery] = useState<string>("");
-    const [type, setType] = useState<CompanionType | null>(null);
+const FeaturePanel = ({ query, setQuery, type, setType, setCard, responseLoading, setResponseLoading }: FeaturePanelProps) => {
     return (
         <aside className='col-span-3 bg-white rounded-md p-4 space-y-4'>
             <header>
@@ -23,7 +25,7 @@ const FeaturePanel = ({ setCard, responseLoading, setResponseLoading }: FeatureP
             </header>
             <SubmitForm query={query} setQuery={setQuery} type={type} setType={setType} setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
             <Separator />
-            <Suggestions setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
+            <Suggestions setQuery={setQuery} setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
             <Separator />
             <SavedCards setCard={setCard} />
         </aside>

@@ -5,12 +5,13 @@ import { FlaskConical, Pill, Stethoscope } from 'lucide-react';
 import React, { Dispatch, SetStateAction } from 'react';
 
 interface SuggestionsProps {
+    setQuery: Dispatch<SetStateAction<string>>;
     setCard: Dispatch<SetStateAction<CompanionCard | null>>;
     responseLoading: boolean;
     setResponseLoading: Dispatch<SetStateAction<boolean>>
 }
 
-const Suggestions = ({ setCard, responseLoading, setResponseLoading }: SuggestionsProps) => {
+const Suggestions = ({ setQuery, setCard, responseLoading, setResponseLoading }: SuggestionsProps) => {
     const suggestions: { query: string; type: CompanionType }[] = [
         { query: "Metformin", type: "drug" as const },
         { query: "Warfarin", type: "drug" as const },
@@ -23,6 +24,7 @@ const Suggestions = ({ setCard, responseLoading, setResponseLoading }: Suggestio
     ]
     const handleClickSuggestion = async (query: string, type: CompanionType) => {
         try {
+            setQuery(query);
             setResponseLoading(true);
             const response = await axios.get(`http://localhost:3000/api/companion/search`, {
                 params: {
