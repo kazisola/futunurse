@@ -25,7 +25,7 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, 
         e.preventDefault();
         try {
             setResponseLoading(true);
-            const response = await axios.get(`http://localhost:3000/api/companion/search`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/companion/search`, {
                 params: {
                     query: query,
                     type: type
