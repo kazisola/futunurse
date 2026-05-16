@@ -1,12 +1,11 @@
+import { IUser } from "@/types/User";
 import mongoose, { Document } from "mongoose";
 
-interface IUser extends Document {
-    fullName: string;
-    email: string;
+interface IUserDocument extends IUser, Document {
     password?: string;
 }
 
-const userSchema = new mongoose.Schema<IUser>({
+const userSchema = new mongoose.Schema<IUserDocument>({
     fullName: {
         type: String,
         required: true
@@ -19,7 +18,18 @@ const userSchema = new mongoose.Schema<IUser>({
     password: {
         type: String,
         required: false
+    },
+    program_type: {
+        type: String,
+        enum: ["ADN", "BSN", "LPN", "ABSN"]
+    },
+    expected_graduation: {
+        type: String
+    },
+    school: {
+        type: String
     }
+
 }, { timestamps: true })
 
-export default mongoose.models.User || mongoose.model<IUser>("User", userSchema);
+export default mongoose.models.User || mongoose.model<IUserDocument>("User", userSchema);
