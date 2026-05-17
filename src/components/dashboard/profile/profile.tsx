@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import UserDetails from './components/UserDetails';
+import UserForm from './components/UserForm';
 
 const Profile = () => {
     return (
@@ -13,6 +14,7 @@ const Profile = () => {
                 <p className='text-gray-700 mb-3'>Manage your personal and academic information</p>
             </div>
             <UserDetails />
+            <UserForm />
             <Button onClick={() => signOut({ callbackUrl: '/' })} className='w-full flex items-center justify-center bg-red-500/80 hover:bg-red-500/90 duration-150 ease-in-out h-12 rounded-lg'><LogOut className='' /> Sign Out</Button>
         </div>
     );
