@@ -11,6 +11,7 @@ import { IUser } from '@/types/User';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import FormField from './FormField';
+import { toast } from 'react-toastify';
 
 interface UserDetailsProps {
     user: IUser | null,
@@ -50,9 +51,11 @@ const UserForm = ({ user }: UserDetailsProps) => {
             console.log("response:", response);
             if(response.status === 200) {
                 setIsEditMode(false);
+                toast.success("Updated profile successfully!")
             }
         } catch (error) {
             console.error(error)
+            toast.error("Failed to update profile!")
         }
     }
 
@@ -76,7 +79,7 @@ const UserForm = ({ user }: UserDetailsProps) => {
         onChange: (value: string) => void
     }) => {
         return (
-            <div className={`flex items-center gap-3 border-b border-b-gray-100 px-6 py-4 ${className}`}>
+            <div className={`flex sm:items-center gap-3 max-sm:flex-col border-b border-b-gray-100 px-6 py-4 ${className}`}>
                 <Label htmlFor={id} className='min-w-3/12 text-gray-600'>
                     {label}
                 </Label>
@@ -112,7 +115,7 @@ const UserForm = ({ user }: UserDetailsProps) => {
                 </div>
                 {isEditMode ? (
                     <div className='flex items-center gap-2'>
-                        <Button type='reset' onClick={() => setIsEditMode(false)} variant={'destructive'} className='bg-red-500'>Cancel</Button>
+                        <Button type='reset' onClick={() => setIsEditMode(false)} variant={'outline'}>Cancel</Button>
                         <Button type='submit' onClick={handleUpdateUser}>Save profile</Button>
                     </div>
                 )

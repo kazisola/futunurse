@@ -25,7 +25,7 @@ const FormField = ({
     disabled
 }: FormFieldProps) => {
     return (
-        <div className={`flex items-center gap-3 border-b border-b-gray-100 px-6 py-4 ${className}`}>
+        <div className={`flex sm:items-center gap-3 max-sm:flex-col border-b border-b-gray-100 last:border-0 px-6 py-4 ${className}`}>
             <Label htmlFor={id} className='min-w-3/12 text-gray-600'>
                 {label}
             </Label>

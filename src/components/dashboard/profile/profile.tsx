@@ -8,6 +8,7 @@ import UserForm from './components/UserForm';
 import { IUser } from '@/types/User';
 import axios from 'axios';
 import LoadingState from './components/LoadingState';
+import { ToastContainer } from 'react-toastify';
 
 const Profile = () => {
     const [user, setUser] = useState<IUser | null>(null);
@@ -44,6 +45,7 @@ const Profile = () => {
             <UserDetails user={user} />
             <UserForm user={user} />
             <Button onClick={() => signOut({ callbackUrl: '/' })} className='w-full flex items-center justify-center bg-red-500/80 hover:bg-red-500/90 duration-150 ease-in-out h-12 rounded-lg'><LogOut className='' /> Sign Out</Button>
+            <ToastContainer />
         </div>
     );
 };
