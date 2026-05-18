@@ -3,10 +3,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { IUser } from '@/types/User';
 
 interface UserDetailsProps {
-    user: IUser | null
+    user: IUser | undefined,
 }
 
-const UserDetails = ({ user}: UserDetailsProps) => {
+const UserDetails = ({ user }: UserDetailsProps) => {
     const tags: { type: string, value: string | undefined }[] = [
         { type: 'program_type', value: user?.program_type },
         { type: 'school', value: user?.school },
