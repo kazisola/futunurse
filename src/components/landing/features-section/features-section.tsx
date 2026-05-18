@@ -6,8 +6,8 @@ import { Brain, ClipboardPlus, GraduationCap, Stethoscope, CheckCircle, Shield, 
 const features = [
     { icon: <Brain size={30} />, title: "AI Care Plan Generator", description: "Create accurate NANDA care plans in seconds using intelligent automation.", availability: true, color: "bg-teal-600" },
     { icon: <GraduationCap size={30} />, title: "NCLEX Smart Coach", description: "Adaptive quizzes and personalized study routes built around your weak areas.", availability: true, color: "bg-blue-600" },
+    { icon: <ClipboardPlus size={30} />, title: "Drug & Lab Companion", description: "Instant explanations of drugs, labs, diagnostics, and safe nursing considerations.", availability: true, color: "bg-indigo-600" },
     { icon: <Stethoscope size={30} />, title: "Clinical Skills Practice", description: "Hands-on scenarios that simulate real patient interactions and skill checks.", availability: false, color: "bg-emerald-600" },
-    { icon: <ClipboardPlus size={30} />, title: "Drug & Lab Companion", description: "Instant explanations of drugs, labs, diagnostics, and safe nursing considerations.", availability: false, color: "bg-indigo-600" },
     { icon: <CheckCircle size={30} />, title: "Daily Study Planner", description: "Organize your study schedule with reminders and progress tracking.", availability: false, color: "bg-cyan-600" },
     { icon: <Shield size={30} />, title: "Evidence‑Based Content", description: "All materials follow ANA, NANDA, and NCLEX standards for accuracy.", availability: true, color: "bg-slate-700" }
 ];
@@ -17,7 +17,7 @@ const MagneticButton = ({ children }: { children: React.ReactNode }) => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if(!ref.current) return;
+        if (!ref.current) return;
         const { clientX, clientY } = e;
         const { width, height, left, top } = ref.current.getBoundingClientRect();
         const middleX = clientX - (left + width / 2);
@@ -63,7 +63,7 @@ const FeaturesSection = () => {
         <section id="features" ref={sectionRef} className="relative h-[400vh] bg-white">
             <div className="sticky top-0 flex h-screen items-center overflow-hidden">
                 <div className="flex flex-col w-full">
-                    
+
                     {/* Header */}
                     <div className="px-8 md:px-32 mb-12 md:mb-16">
                         <h2 className="text-4xl md:text-6xl font-bold text-slate-900 leading-tight">
@@ -73,9 +73,9 @@ const FeaturesSection = () => {
                     </div>
 
                     {/* Sliding Track */}
-                    <motion.div 
+                    <motion.div
                         ref={ghostRef}
-                        style={{ x }} 
+                        style={{ x }}
                         className="flex gap-6 md:gap-8 px-8 md:px-32 will-change-transform"
                     >
                         {features.map((f, i) => (

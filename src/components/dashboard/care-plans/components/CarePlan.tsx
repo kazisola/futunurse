@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, PencilLine, Star, StarOff, Stethoscope, Trash } from 'lucide-react';
+import { Bookmark, BookmarkCheck, Calendar, Clock, Stethoscope, Trash } from 'lucide-react';
 import { ICarePlan } from '@/types/PatientCarePlan';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -64,14 +64,13 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
                         specialty: patient.specialty?.toLowerCase()
                     }
                 }} className='max-sm:flex-1'>
-                    <Button className='w-full rounded-md'><Stethoscope size={18} /> View Details</Button>
+                    <Button className='w-40'><Stethoscope size={18} /> View Details</Button>
                 </Link>
-                <Button variant={'outline'} className='max-sm:hidden rounded-md'><PencilLine size={18} /> Edit Plan</Button>
-                <Button onClick={() => typeof _id === 'string' && handleStartCarePlan(_id)} className='bg-transparent max-md:border border-yellow-500/30 text-gray-700 hover:text-yellow-500 hover:bg-yellow-500/20 rounded-md'>
+                <Button onClick={() => typeof _id === 'string' && handleStartCarePlan(_id)} className='bg-transparent max-md:border border-teal-500/30 text-gray-700 hover:text-teal-500 hover:bg-teal-500/20'>
                     {bookmarked ?
-                        <StarOff size={18} className='text-yellow-500' />
+                        <BookmarkCheck size={18} className='text-teal-500' />
                         :
-                        <Star size={18} className='text-yellow-500/80' />
+                        <Bookmark size={18} className='text-teal-500/80' />
                     }
                 </Button>
                 <Button onClick={handleDeletePlan} className='rounded-md bg-transparent max-md:border border-red-500/30 text-red-500/80 hover:text-red-500 hover:bg-red-500/20'><Trash size={18} /></Button>

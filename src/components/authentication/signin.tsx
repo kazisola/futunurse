@@ -7,6 +7,7 @@ import GoogleIcon from "../../../public/icons/google.png";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Eye, LucideEyeOff } from 'lucide-react';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface SignInProps {
     signUpInstead: () => void;
@@ -44,8 +45,7 @@ const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
                     setError(null)
                 }, 2000)
             } else {
-                alert("Sign in successful!");
-                console.log("User authenticated!");
+                toast.success("Sign in successful!")
                 router.push("/dashboard");
                 setFormData({
                     email: '',
@@ -96,6 +96,7 @@ const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
                 <Button type='submit' size={'lg'} className='w-full mt-4 rounded-full'>{loading ? 'Loading...' : 'Sign In'}</Button>
             </form>
             <p className='text-gray-700 text-center text-sm mt-3'>Don&apos; have an account? <Button variant={'link'} onClick={signUpInstead}>Sign Up</Button></p>
+            <ToastContainer />
         </div>
     );
 };

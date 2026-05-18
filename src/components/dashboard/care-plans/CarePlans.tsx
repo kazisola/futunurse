@@ -1,7 +1,7 @@
 "use client";
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
-import { Download, Plus, Star, Stethoscope } from 'lucide-react';
+import { BookmarkCheck, Download, Plus, Stethoscope } from 'lucide-react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import CarePlan from './components/CarePlan';
@@ -41,7 +41,7 @@ export const CarePlans = () => {
                             <p className='text-gray-700 mb-3'>AI-powered nursing care plans with evidence-based practice and NANDA/NIC/NOC integration</p>
                             <div className='flex items-center gap-4'>
                                 <p className='flex items-center gap-1 text-gray-500 text-sm'><Stethoscope size={16} /> {carePlans.length} total plans</p>
-                                <p className='flex items-center gap-1 text-gray-500 text-sm'><Star size={16} />{bookmarked_plans.length} starred</p>
+                                <p className='flex items-center gap-1 text-gray-500 text-sm'><BookmarkCheck size={16} />{bookmarked_plans.length} bookmarked</p>
                             </div>
                         </div>
                         <div className='flex max-md:items-center gap-2'>
@@ -63,7 +63,7 @@ export const CarePlans = () => {
                             <p className='text-gray-700 mb-3'>AI-powered nursing care plans with evidence-based practice and NANDA/NIC/NOC integration</p>
                             <div className='flex items-center gap-4'>
                                 <p className='flex items-center gap-1 text-gray-500 text-sm'><Stethoscope size={16} /> {carePlans.length} total plans</p>
-                                <p className='flex items-center gap-1 text-gray-500 text-sm'><Star size={16} />{bookmarked_plans.length} starred</p>
+                                <p className='flex items-center gap-1 text-gray-500 text-sm'><BookmarkCheck size={16} />{bookmarked_plans.length} bookmarked</p>
                             </div>
                         </div>
                         <div className='flex max-md:items-center gap-2'>

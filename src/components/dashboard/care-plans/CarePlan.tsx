@@ -6,7 +6,6 @@ import Diagnoses from './components/Diagnoses';
 import PatientInformation from './components/PatientInformation';
 import { Download, PencilLine } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import CarePlanDetailSkeleton from './components/CarePlanDetailSkeleton';
 
 interface CarePlanProps {

@@ -23,7 +23,7 @@ const UserForm = ({ user }: UserDetailsProps) => {
     const [userData, setUserData] = useState<IUser>({
         email: '',
         fullName: '',
-        program_type: '' as IUser['program_type'],
+        program_type: undefined,
         expected_graduation: '',
         school: ''
     })
@@ -33,7 +33,7 @@ const UserForm = ({ user }: UserDetailsProps) => {
             setUserData({
                 email: user?.email || '',
                 fullName: user?.fullName || '',
-                program_type: user?.program_type || 'ADN',
+                program_type: user?.program_type || undefined,
                 expected_graduation: user?.expected_graduation || '',
                 school: user?.school || ''
             })
@@ -84,7 +84,7 @@ const UserForm = ({ user }: UserDetailsProps) => {
                     {label}
                 </Label>
 
-                <Select disabled={!isEditMode} defaultValue={value} onValueChange={onChange}>
+                <Select disabled={!isEditMode} value={value} onValueChange={onChange}>
                     <SelectTrigger
                         id={id}
                         className='bg-gray-50 focus:bg-white w-full'

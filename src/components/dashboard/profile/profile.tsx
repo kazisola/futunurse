@@ -44,7 +44,7 @@ const Profile = () => {
             </div>
             <UserDetails user={user} />
             <UserForm user={user} />
-            <Button onClick={() => signOut({ callbackUrl: '/' })} className='w-full flex items-center justify-center bg-red-500/80 hover:bg-red-500/90 duration-150 ease-in-out h-12 rounded-lg'><LogOut className='' /> Sign Out</Button>
+            <Button onClick={() => signOut({ callbackUrl: '/' })} className='w-full flex items-center justify-center bg-red-500/90 hover:bg-red-500 duration-150 ease-in-out h-12 rounded-lg'><LogOut className='' /> Sign Out</Button>
             <ToastContainer />
         </div>
     );
