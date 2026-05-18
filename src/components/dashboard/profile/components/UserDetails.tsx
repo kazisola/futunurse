@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { IUser } from '@/types/User';
 import axios from 'axios';
 
-const UserDetails = () => {
-    const [user, setUser] = useState<IUser | null>(null);
+interface UserDetailsProps {
+    user: IUser | null,
+    setUser: Dispatch<SetStateAction<IUser | null>>
+}
+
+const UserDetails = ({ user, setUser }: UserDetailsProps ) => {
     useEffect(() => {
         const handleGetUser = async () => {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/user`, {

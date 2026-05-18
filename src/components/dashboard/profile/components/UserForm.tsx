@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -8,39 +7,58 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import React, { useState } from 'react';
+import { IUser } from '@/types/User';
+import axios from 'axios';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import FormField from './FormField';
 
-const UserForm = () => {
+interface UserDetailsProps {
+    user: IUser | null,
+    setUser: Dispatch<SetStateAction<IUser | null>>
+}
+
+const UserForm = ({ user, setUser }: UserDetailsProps) => {
+    console.log("user:", user)
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
-    const FormField = ({
-        id,
-        label,
-        type = 'text',
-        placeholder,
-        className = '',
-    }: {
-        id: string,
-        label: string,
-        type?: string,
-        placeholder?: string,
-        className?: string
-    }) => {
-        return (
-            <div className={`flex items-center gap-3 border-b border-b-gray-100 px-6 py-4 ${className}`}>
-                <Label htmlFor={id} className='min-w-3/12 text-gray-600'>
-                    {label}
-                </Label>
 
-                <Input
-                    id={id}
-                    type={type}
-                    placeholder={placeholder}
-                    className='bg-gray-50 focus:bg-white'
-                    disabled={!isEditMode}
-                />
-            </div>
-        );
-    };
+    const [userData, setUserData] = useState<IUser>({
+        email: '',
+        fullName: '',
+        program_type: '' as IUser['program_type'],
+        expected_graduation: '',
+        school: ''
+    })
+
+    useEffect(() => {
+        if (user) {
+            setUserData({
+                email: user?.email || '',
+                fullName: user?.fullName || '',
+                program_type: user?.program_type || 'ADN',
+                expected_graduation: user?.expected_graduation || '',
+                school: user?.school || ''
+            })
+        }
+    }, [user])
+
+    const handleUpdateUser = async () => {
+        console.log("user Data:", userData)
+        try {
+            const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE}/api/user`, { ...userData }, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            console.log("response:", response);
+            if(response.status === 200) {
+                setIsEditMode(false);
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+
 
     const SelectField = ({
         id,
@@ -48,12 +66,16 @@ const UserForm = () => {
         placeholder,
         options,
         className = '',
+        value,
+        onChange
     }: {
         id: string,
         label: string,
         placeholder?: string,
         options: string[],
-        className?: string
+        className?: string,
+        value?: string,
+        onChange: (value: string) => void
     }) => {
         return (
             <div className={`flex items-center gap-3 border-b border-b-gray-100 px-6 py-4 ${className}`}>
@@ -61,7 +83,7 @@ const UserForm = () => {
                     {label}
                 </Label>
 
-                <Select disabled={!isEditMode}>
+                <Select disabled={!isEditMode} defaultValue={value} onValueChange={onChange}>
                     <SelectTrigger
                         id={id}
                         className='bg-gray-50 focus:bg-white w-full'
@@ -90,8 +112,16 @@ const UserForm = () => {
                         Update your name, email, and academic details
                     </p>
                 </div>
+                {isEditMode ? (
+                    <div className='flex items-center gap-2'>
+                        <Button type='reset' onClick={() => setIsEditMode(false)} variant={'destructive'} className='bg-red-500'>Cancel</Button>
+                        <Button type='submit' onClick={handleUpdateUser}>Save profile</Button>
+                    </div>
+                )
+                    :
+                    <Button type='button' onClick={() => setIsEditMode(true)}>Edit profile</Button>
+                }
 
-                <Button onClick={() => setIsEditMode(!isEditMode)}>{isEditMode ? 'Save profile' : 'Edit profile'}</Button>
             </div>
 
             <form>
@@ -99,6 +129,9 @@ const UserForm = () => {
                     id="full_name"
                     label="Full name"
                     placeholder="Your full name"
+                    value={userData.fullName}
+                    onChange={(e) => setUserData({ ...userData, fullName: e.target.value })}
+                    disabled={!isEditMode}
                 />
 
                 <FormField
@@ -106,12 +139,17 @@ const UserForm = () => {
                     type='email'
                     label="Email address"
                     placeholder="Your email address"
+                    defaultValue={userData.email}
+                    disabled={true}
                 />
 
                 <FormField
                     id="school"
                     label="School"
                     placeholder="Name of the institution"
+                    value={userData.school}
+                    onChange={(e) => setUserData({ ...userData, school: e.target.value })}
+                    disabled={!isEditMode}
                 />
 
                 <SelectField
@@ -119,12 +157,17 @@ const UserForm = () => {
                     label="Program type"
                     placeholder="Select program type"
                     options={['ADN', 'BSN', 'LPN', 'ABSN']}
+                    value={userData.program_type}
+                    onChange={(value) => setUserData({... userData, program_type: value as IUser['program_type']})}
                 />
 
                 <FormField
                     id="expected_graduation"
                     label="Expected graduation"
                     placeholder="e.g, Summer 2026"
+                    value={userData.expected_graduation}
+                    onChange={(e) => setUserData({ ...userData, expected_graduation: e.target.value })}
+                    disabled={!isEditMode}
                 />
             </form>
         </div>
