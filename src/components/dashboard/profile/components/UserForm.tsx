@@ -9,16 +9,14 @@ import {
 } from '@/components/ui/select';
 import { IUser } from '@/types/User';
 import axios from 'axios';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormField from './FormField';
 
 interface UserDetailsProps {
     user: IUser | null,
-    setUser: Dispatch<SetStateAction<IUser | null>>
 }
 
-const UserForm = ({ user, setUser }: UserDetailsProps) => {
-    console.log("user:", user)
+const UserForm = ({ user }: UserDetailsProps) => {
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
     const [userData, setUserData] = useState<IUser>({

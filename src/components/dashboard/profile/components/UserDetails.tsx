@@ -1,27 +1,12 @@
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { IUser } from '@/types/User';
-import axios from 'axios';
 
 interface UserDetailsProps {
-    user: IUser | null,
-    setUser: Dispatch<SetStateAction<IUser | null>>
+    user: IUser | null
 }
 
-const UserDetails = ({ user, setUser }: UserDetailsProps ) => {
-    useEffect(() => {
-        const handleGetUser = async () => {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/user`, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            if (response.status === 200) {
-                setUser(response.data?.user)
-            }
-        }
-        handleGetUser();
-    }, []);
+const UserDetails = ({ user}: UserDetailsProps) => {
     const tags: { type: string, value: string | undefined }[] = [
         { type: 'program_type', value: user?.program_type },
         { type: 'school', value: user?.school },
@@ -50,23 +35,6 @@ const UserDetails = ({ user, setUser }: UserDetailsProps ) => {
                         ))
                         }
                     </ul>
-                </div>
-            </section>
-            <section className='grid grid-cols-3 max-md:grid-cols-2 gap-4'>
-                <div className='bg-white border border-gray-200/30 rounded-xl p-5'>
-                    <span className='uppercase text-gray-500 text-sm'>Program</span>
-                    <h4 className='my-1 font-bold text-xl'>{user?.program_type}</h4>
-                    <p className='text-gray-700 text-sm'>Degree track</p>
-                </div>
-                <div className='bg-white border border-gray-200/30 rounded-xl p-5'>
-                    <span className='uppercase text-gray-500 text-sm'>Graduating</span>
-                    <h4 className='my-1 font-bold text-xl'>{user?.expected_graduation || "N/A"}</h4>
-                    <p className='text-gray-700 text-sm'>Expected graduation</p>
-                </div>
-                <div className='bg-white border border-gray-200/30 rounded-xl p-5'>
-                    <span className='uppercase text-gray-500 text-sm'>Months left</span>
-                    <h4 className='my-1 font-bold text-xl'>N/A</h4>
-                    <p className='text-gray-700 text-sm'>Until graduation</p>
                 </div>
             </section>
         </div>
