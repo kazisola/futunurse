@@ -34,7 +34,12 @@ export async function PATCH(req: NextRequest) {
         const userId = (session?.user as { id: string }).id;
         await connectDB();
         const body = await req.json();
-        const updated_user = await User.findByIdAndUpdate(userId, body,
+        const updated_user = await User.findByIdAndUpdate(userId, {
+            fullName: body.fullName,
+            program_type: body.program_type,
+            expected_graduation: body.expected_graduation,
+            school: body.school 
+        },
             { new: true, runValidators: true }).select("-password -__v");
         if (!updated_user) {
             return NextResponse.json({ success: false, message: "Could not update the user!" }, { status: 500 })
