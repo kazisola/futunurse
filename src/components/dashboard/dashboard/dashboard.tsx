@@ -9,7 +9,7 @@ import AISuggestions from './components/AISuggestions';
 import StrengthsRadar from './components/StrengthsRadar';
 import AvgTimeChart from './components/AvgTimeChart';
 import { useGetDashboard } from '@/hooks/useGetDashboard';
-import LoadingDashboard from './components/loadingDashboard';
+import DashboardSkeleton from './components/DashboardSkeleton';
 
 interface DashboardProps {
     user?: {
@@ -23,7 +23,7 @@ interface DashboardProps {
 export const Dashboard = ({ user }: DashboardProps) => {
     const today = new Date();
     const { dashboardData, loading } = useGetDashboard();
-    if (loading || !dashboardData) return <LoadingDashboard />;
+    if (loading || !dashboardData) return <DashboardSkeleton />;
     return (
         <div className='space-y-5 max-sm:space-y-3'>
             <div className='mb-10 max-sm:mb-8 rounded-md w-full flex max-md:flex-col max-md:gap-3 md:items-center justify-between'>
