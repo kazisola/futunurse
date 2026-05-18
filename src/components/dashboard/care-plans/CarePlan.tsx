@@ -7,6 +7,7 @@ import PatientInformation from './components/PatientInformation';
 import { Download, PencilLine } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import CarePlanDetailSkeleton from './components/CarePlanDetailSkeleton';
 
 interface CarePlanProps {
     slug: string;
@@ -34,17 +35,7 @@ export const CarePlan = ({ slug }: CarePlanProps) => {
         <>
             {planLoading ?
                 (
-                    <div className='space-y-5'>
-                        <div className='md:flex items-start justify-between gap-10 max-md:space-y-3'>
-                            <Skeleton className='bg-slate-200 h-10 max-md:h-20 w-full rounded-md' />
-                            <div className='flex items-center gap-2'>
-                                <Skeleton className='bg-slate-200 h-10 w-32 max-md:w-full rounded-md' />
-                                <Skeleton className='bg-slate-200 h-10 w-32 max-md:w-full rounded-md' />
-                            </div>
-                        </div>
-                        <Skeleton className='bg-slate-200 h-96 w-full rounded-md' />
-                        <Skeleton className='bg-slate-200 h-[30rem] w-full rounded-md' />
-                    </div>
+                    <CarePlanDetailSkeleton />
                 )
                 :
                 (

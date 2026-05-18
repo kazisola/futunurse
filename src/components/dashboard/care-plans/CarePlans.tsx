@@ -6,7 +6,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import CarePlan from './components/CarePlan';
 import { ICarePlan } from '@/types/PatientCarePlan';
-import CarePlansSkeleton from './components/CareplansSkeleton';
+import CarePlansSkeleton from './components/CarePlansSkeleton';
 
 export const CarePlans = () => {
     const [carePlans, setCarePlans] = useState<ICarePlan[]>([]);
