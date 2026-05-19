@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useGetSavedCardsQuery } from "@/redux/services/companionApi";
+import { useGetSavedCardsQuery, useLazyGetSavedCardQuery } from "@/redux/services/companionApi";
 import { CompanionCard } from "@/types/companion";
 import axios from "axios";
 import { FlaskConical, FolderSearch, MoreVertical, Pill, Stethoscope } from 'lucide-react';
@@ -7,21 +7,15 @@ import React, { Dispatch, SetStateAction } from "react";
 
 const SavedCards = ({ setCard }: { setCard: Dispatch<SetStateAction<CompanionCard | null>> }) => {
     const { data, isLoading: cardsLoading } = useGetSavedCardsQuery();
+    const [getSavedCard, { data: savedCard, isLoading }] = useLazyGetSavedCardQuery();
     console.log("data:", data)
     if (cardsLoading || !data?.saved_cards) return <div>Loading...</div>
 
     const saved_cards = data?.saved_cards;
-
     const handleGetSavedCard = async (cardId: string) => {
         try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/companion/bookmarks/${cardId}`, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            if (response.status === 200) {
-                setCard(response.data?.card?.card)
-            }
+            const response = await getSavedCard({ id: cardId }).unwrap();
+            setCard(response?.card?.card)
         } catch (error) {
             console.error(error)
         }
