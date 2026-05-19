@@ -7,9 +7,13 @@ import RecentPracticeSessions from './components/RecentPracticeSessions';
 import PerformanceByCategory from './components/PerformanceByCategory';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { useGetPerformanceByCategoryQuery } from '@/redux/services/nclexApi';
 
 export const NCLEX = () => {
     const pathname = usePathname();
+    const { data, isLoading: performanceLoading } = useGetPerformanceByCategoryQuery();
+    const performance_categorized = data?.performance_categorized;
+    if(performanceLoading || !performance_categorized) return <div>Loading...</div>
     return (
         <div className='space-y-6'>
             <div className='flex md:justify-between max-md:flex-col max-md:gap-2'>
@@ -27,7 +31,7 @@ export const NCLEX = () => {
                 </Link>
             </div>
             <SessionOptions />
-            <PerformanceByCategory />
+            <PerformanceByCategory performance_categorized={performance_categorized} />
             <RecentPracticeSessions />
         </div>
     );
