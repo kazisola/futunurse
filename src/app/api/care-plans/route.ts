@@ -31,15 +31,13 @@ export async function POST(req: NextRequest) {
         if (!session) {
             return NextResponse.json({ success: false, message: "User not authenticated!" }, { status: 401 })
         }
-        const { body } = await req.json();
-        console.log("body:", body)
-        const newCarePlan = await CarePlan.create({
+        const { patientData, diagnoses } = await req.json();
+        await CarePlan.create({
             user: (session.user as { id: string }).id,
-            patient: body.patientData,
-            diagnoses: body.diagnoses
+            patient: patientData,
+            diagnoses: diagnoses
         });
-        console.log("New care plan:", newCarePlan)
-        return NextResponse.json({ success: true, message: "New care plan added", newCarePlan }, { status: 201 });
+        return NextResponse.json({ success: true, message: "Care plan saved" }, { status: 201 });
     } catch (error) {
         console.log(error);
         return handleApiError(error);

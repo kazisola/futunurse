@@ -11,6 +11,14 @@ export const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ['CarePlan']
         }),
+        saveCarePlan: builder.mutation<void, { patientData: IPatient, diagnoses: Diagnosis[] }>({
+            query: ({ patientData, diagnoses }) => ({
+                url: '/care-plans',
+                method: 'POST',
+                body: { patientData, diagnoses }
+            }),
+            invalidatesTags: ['CarePlan']
+        }),
         getCarePlans: builder.query<{ carePlans: ICarePlan[] }, void>({
             query: () => '/care-plans',
             providesTags: ['CarePlan']
@@ -36,4 +44,4 @@ export const userApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGenerateCarePlanMutation, useGetCarePlansQuery, useGetCarePlanQuery, useBookmarkCarePlanMutation, useDeleteCarePlanMutation } = userApi;
+export const { useGenerateCarePlanMutation, useSaveCarePlanMutation, useGetCarePlansQuery, useGetCarePlanQuery, useBookmarkCarePlanMutation, useDeleteCarePlanMutation } = userApi;
