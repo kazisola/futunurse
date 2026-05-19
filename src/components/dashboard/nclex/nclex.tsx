@@ -8,13 +8,14 @@ import PerformanceByCategory from './components/PerformanceByCategory';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useGetPerformanceByCategoryQuery, useGetRecentPracticeSessionsQuery } from '@/redux/services/nclexApi';
+import NclexSkeleton from './components/NclexSkeleton';
 
 export const NCLEX = () => {
     const pathname = usePathname();
     const { data: performanceData, isLoading: performanceLoading } = useGetPerformanceByCategoryQuery();
     const { data: sessionsData, isLoading: sessionsLoading } = useGetRecentPracticeSessionsQuery();
     if (performanceLoading || !performanceData || sessionsLoading || !sessionsData) {
-        return <div>Loading...</div>
+        return <NclexSkeleton />
     }
     const performance_categorized = performanceData?.performance_categorized ?? [];
     const recent_sessions = sessionsData?.recentSessions ?? [];
