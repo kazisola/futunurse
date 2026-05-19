@@ -4,9 +4,8 @@ import { Bookmark, BookmarkCheck, Calendar, Clock, Stethoscope, Trash } from 'lu
 import { ICarePlan } from '@/types/PatientCarePlan';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useBookmarkCarePlanMutation } from '@/redux/services/carePlanApi';
+import { useBookmarkCarePlanMutation, useDeleteCarePlanMutation } from '@/redux/services/carePlanApi';
 
 interface CarePlanProps {
     carePlan: ICarePlan;
@@ -25,13 +24,11 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
         }
     }
 
-    const handleDeletePlan = async () => {
+    const [deleteCarePlan, { isLoading: deleteLoading }] = useDeleteCarePlanMutation();
+    const handleDeletePlan = async (_id: string) => {
         try {
-            const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plans/${_id}`);
-            console.log(response);
-            if (response.status === 200) {
-                toast.success("Care plan deleted succesfully!", { autoClose: 1000 });
-            }
+            await deleteCarePlan({ id: _id }).unwrap();
+            toast.success("Care plan deleted successfully!", { autoClose: 1000 });
         } catch (error) {
             console.log(error);
             toast.error("Failed to delete care plan!", { autoClose: 1000 });
@@ -67,14 +64,16 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
                 }} className='max-sm:flex-1'>
                     <Button className='w-40'><Stethoscope size={18} /> View Details</Button>
                 </Link>
-                <Button onClick={() => typeof _id === 'string' && handleBookmarkCarePlan(_id)} className='bg-transparent max-md:border border-teal-500/30 text-gray-700 hover:text-teal-500 hover:bg-teal-500/20'>
+                <Button onClick={() => typeof _id === 'string' && handleBookmarkCarePlan(_id)}
+                disabled={bookmarkLoading}
+                className='bg-transparent max-md:border border-teal-500/30 text-gray-700 hover:text-teal-500 hover:bg-teal-500/20'>
                     {bookmarked ?
                         <BookmarkCheck size={18} className='text-teal-500' />
                         :
                         <Bookmark size={18} className='text-teal-500/80' />
                     }
                 </Button>
-                <Button onClick={handleDeletePlan} className='rounded-md bg-transparent max-md:border border-red-500/30 text-red-500/80 hover:text-red-500 hover:bg-red-500/20'><Trash size={18} /></Button>
+                <Button onClick={() => handleDeletePlan(_id as string)} disabled={deleteLoading} className='rounded-md bg-transparent max-md:border border-red-500/30 text-red-500/80 hover:text-red-500 hover:bg-red-500/20'><Trash size={18} /></Button>
             </div>
         </div>
     );

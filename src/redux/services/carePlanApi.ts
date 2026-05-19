@@ -17,8 +17,15 @@ export const userApi = baseApi.injectEndpoints({
                 method: 'PATCH'
             }),
             invalidatesTags: ['CarePlan']
+        }),
+        deleteCarePlan: builder.mutation<void, { id: string }>({
+            query: ({ id }) => ({
+                url: `care-plans/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['CarePlan']
         })
     })
 })
 
-export const { useGetCarePlansQuery, useGetCarePlanQuery, useBookmarkCarePlanMutation } = userApi;
+export const { useGetCarePlansQuery, useGetCarePlanQuery, useBookmarkCarePlanMutation, useDeleteCarePlanMutation } = userApi;
