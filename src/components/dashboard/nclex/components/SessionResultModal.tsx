@@ -1,11 +1,11 @@
+import React, { useEffect, useRef } from 'react';
 import { ISessionResult } from '@/types/NCLEX';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import { Download, Goal } from 'lucide-react';
 import { redirect } from 'next/navigation';
-import React, { useEffect, useRef } from 'react';
-import axios from 'axios';
+import { useSavePracticeSessionMutation } from '@/redux/services/nclexApi';
 
 interface SessionResultModalProps {
     result: ISessionResult | null;
@@ -17,6 +17,7 @@ const SessionResultModal = ({ result, onResetSession }: SessionResultModalProps)
     const hasSaved = useRef(false);
     const isOpen = Boolean(result);
 
+    const [savePracticeSessions, { isLoading }] = useSavePracticeSessionMutation();
     useEffect(() => {
         if (!result) return;
         if (hasSaved.current) return;
@@ -25,19 +26,15 @@ const SessionResultModal = ({ result, onResetSession }: SessionResultModalProps)
 
         const handleSaveSession = async () => {
             try {
-                const res = await axios.post(
-                    `${process.env.NEXT_PUBLIC_API_BASE}/api/nclex/sessions`,
-                    { ...result, category: result.category }
-                );
-                console.log("Saved session:", res);
+                await savePracticeSessions({ result }).unwrap();
             } catch (err) {
                 console.error("Error saving session:", err);
             }
         };
 
         handleSaveSession();
-    }, [result]);
-    
+    });
+
     return (
         <Dialog open={isOpen}>
             <DialogContent showCloseButton={false}>

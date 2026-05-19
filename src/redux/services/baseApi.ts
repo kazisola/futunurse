@@ -6,6 +6,6 @@ export const baseApi = createApi({
         baseUrl: `${process.env.NEXT_PUBLIC_API_BASE}/api`,
         credentials: 'include'
     }),
-    tagTypes: ["User", "CarePlan", "Companion"],
+    tagTypes: ["User", "CarePlan", "Nclex", "Companion"],
     endpoints: () => ({}),
 })
