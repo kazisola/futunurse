@@ -8,13 +8,13 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { IUser } from '@/types/User';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import FormField from './FormField';
 import { toast } from 'react-toastify';
+import { useUpdateUserMutation } from '@/redux/services/userApi';
 
 interface UserDetailsProps {
-    user: IUser | null,
+    user: IUser | undefined,
 }
 
 const UserForm = ({ user }: UserDetailsProps) => {
@@ -40,26 +40,17 @@ const UserForm = ({ user }: UserDetailsProps) => {
         }
     }, [user])
 
+    const [updateUser, { isLoading: userUpdateLoading }] = useUpdateUserMutation();
     const handleUpdateUser = async () => {
-        console.log("user Data:", userData)
         try {
-            const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE}/api/user`, { ...userData }, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            console.log("response:", response);
-            if(response.status === 200) {
-                setIsEditMode(false);
-                toast.success("Updated profile successfully!")
-            }
+            await updateUser({ data: userData }).unwrap();
+            setIsEditMode(false);
+            toast.success("Updated profile successfully!")
         } catch (error) {
             console.error(error)
             toast.error("Failed to update profile!")
         }
     }
-
-
 
     const SelectField = ({
         id,
@@ -116,7 +107,7 @@ const UserForm = ({ user }: UserDetailsProps) => {
                 {isEditMode ? (
                     <div className='flex items-center gap-2'>
                         <Button type='reset' onClick={() => setIsEditMode(false)} variant={'outline'}>Cancel</Button>
-                        <Button type='submit' onClick={handleUpdateUser}>Save profile</Button>
+                        <Button type='submit' onClick={handleUpdateUser}>{userUpdateLoading ? 'Saving...' : 'Save profile'}</Button>
                     </div>
                 )
                     :
@@ -159,7 +150,7 @@ const UserForm = ({ user }: UserDetailsProps) => {
                     placeholder="Select program type"
                     options={['ADN', 'BSN', 'LPN', 'ABSN']}
                     value={userData.program_type}
-                    onChange={(value) => setUserData({... userData, program_type: value as IUser['program_type']})}
+                    onChange={(value) => setUserData({ ...userData, program_type: value as IUser['program_type'] })}
                 />
 
                 <FormField

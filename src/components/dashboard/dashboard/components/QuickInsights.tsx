@@ -12,23 +12,19 @@ type Insight = {
     icon: LucideIcon;
 };
 
-type QuickInsights = {
-    quickInsights: {
-        carePlans: {
-            number_of_care_plans: number;
-            number_of_week_care_plans: number;
-        },
-        nclexInsights: {
-            total_completed_questions: number;
-            week_completed_questions: number;
-            overall_score: number;
-        }
+interface QuickInsightsProps {
+    carePlans: {
+        number_of_care_plans: number;
+        number_of_week_care_plans: number;
+    },
+    nclexInsights: {
+        total_completed_questions: number;
+        week_completed_questions: number;
+        overall_score: number;
     }
 };
 
-const QuickInsights = ({ quickInsights }: QuickInsights) => {
-
-    const { carePlans, nclexInsights } = quickInsights;
+const QuickInsights = ({ carePlans, nclexInsights }: QuickInsightsProps) => {
 
     const insights: Insight[] = [
         {

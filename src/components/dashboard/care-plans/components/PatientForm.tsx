@@ -1,66 +1,51 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import axios from "axios";
 import { toast } from 'react-toastify';
-import { IPatient } from '@/types/PatientCarePlan';
+import { Diagnosis, IPatient } from '@/types/PatientCarePlan';
+import { useGenerateCarePlanMutation } from '@/redux/services/carePlanApi';
 
 interface PatientFormProps {
-    currentStage: number;
     setCurrentStage: Dispatch<SetStateAction<number>>;
     patientData: IPatient;
     setPatientData: Dispatch<SetStateAction<IPatient>>;
-    setDiagnoses: Dispatch<SetStateAction<[]>>
+    setDiagnoses: Dispatch<SetStateAction<Diagnosis[]>>
 }
 
-const PatientForm = ({ currentStage, setCurrentStage, patientData, setPatientData, setDiagnoses }: PatientFormProps) => {
+const PatientForm = ({ setCurrentStage, patientData, setPatientData, setDiagnoses }: PatientFormProps) => {
+    const [generateCarePlan, { isLoading: generatingLoading }] = useGenerateCarePlanMutation();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setCurrentStage(2);
-
         try {
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_BASE}/api/care-plans/generate`,
-                patientData
-            );
+            setCurrentStage(2);
 
-            if (response.status === 200) {
-                setDiagnoses(response.data?.care_plan?.diagnoses || []);
-                setCurrentStage(3);
-            } else {
-                // unexpected success status
-                console.warn("Unexpected response status:", response.status);
-                toast.error("Something went wrong! Please try again.");
-                setCurrentStage(1);
-            }
+            const response = await generateCarePlan({
+                data: patientData
+            }).unwrap();
+
+            console.log("RTK Response:", response);
+
+            setDiagnoses(response?.care_plan?.diagnoses || []);
+            setCurrentStage(3);
         } catch (err) {
-            if (axios.isAxiosError(err) && err.response) {
-                // Server responded
-                if (err.response.status === 422) {
-                    // Soft warning toast, no stage reset
-                    toast("Care plan generation failed. Give it another try!");
-                    setCurrentStage(1);
-                } else {
-                    // Other server errors
-                    console.error("Server Error:", err.response.data);
-                    toast.error("Server error occurred. Please try again later.");
-                    setCurrentStage(1);
-                }
-            } else if (axios.isAxiosError(err) && err.request) {
-                // Network error
-                console.error("No response received:", err.request);
-                toast.error("Network error. Please check your connection and try again.");
-                setCurrentStage(1);
+            const error = err as { status?: number | string };
+            console.error("Generate Care Plan Error:", error);
+
+            if (error?.status === 422) {
+                toast.warning("Care plan generation failed. Try again.");
+            } else if (error?.status === 401) {
+                toast.error("You must be logged in.");
+            } else if (error?.status === "FETCH_ERROR") {
+                toast.error("Network error. Please check your connection.");
             } else {
-                // Other unexpected errors
-                console.error("Unexpected error:", err);
-                toast.error("Failed to generate care plan. Please try again.");
-                setCurrentStage(1);
+                toast.error("Failed to generate care plan.");
             }
+
+            setCurrentStage(1);
         }
     };
 
@@ -113,7 +98,7 @@ const PatientForm = ({ currentStage, setCurrentStage, patientData, setPatientDat
                             <SelectContent>
                                 <SelectItem value="medical surgical">Medical-Surgical</SelectItem>
                                 <SelectItem value="pediatrics">Pediatrics</SelectItem>
-                                <SelectItem value="obgyn">OB/GYN</SelectItem>
+                                <SelectItem value="OB/GYN">OB/GYN</SelectItem>
                                 <SelectItem value="phsychiatric">Phsychiatric</SelectItem>
                                 <SelectItem value="critical care">Critical Care</SelectItem>
                                 <SelectItem value="community health">Community Health</SelectItem>
@@ -206,7 +191,7 @@ const PatientForm = ({ currentStage, setCurrentStage, patientData, setPatientDat
                     />
                 </div>
             </div>
-            <Button type="submit" className='w-full h-12 text-base mt-7 rounded-full'>Generate Care Plan</Button>
+            <Button disabled={generatingLoading} type="submit" className='w-full h-12 text-base mt-7 rounded-full'>Generate Care Plan</Button>
         </form>
     );
 };

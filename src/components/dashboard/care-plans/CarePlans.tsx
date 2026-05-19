@@ -1,39 +1,24 @@
 "use client";
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import axios from 'axios';
 import { BookmarkCheck, Download, Plus, Stethoscope } from 'lucide-react';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
 import CarePlan from './components/CarePlan';
 import { ICarePlan } from '@/types/PatientCarePlan';
 import CarePlansSkeleton from './components/CarePlansSkeleton';
+import { useGetCarePlansQuery } from '@/redux/services/carePlanApi';
 
 export const CarePlans = () => {
-    const [carePlans, setCarePlans] = useState<ICarePlan[]>([]);
-    const [plansLoading, setPlansLoading] = useState<boolean>(true);
-    useEffect(() => {
-        const handleGetCarePlans = async () => {
-            setPlansLoading(true);
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plans`, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-            console.log("response:", response)
-            setPlansLoading(false);
-            if (response.status === 200) {
-                setCarePlans(response.data?.carePlans);
-            }
-        };
-        handleGetCarePlans();
-    }, []);
+    const { data, isLoading: carePlansLoading } = useGetCarePlansQuery();
+    const carePlans = data?.carePlans;
+    
+    if(carePlansLoading || !carePlans) {
+        return <CarePlansSkeleton />
+    }
     const bookmarked_plans: ICarePlan[] = carePlans.filter(item => item.bookmarked);
     return (
         <div className='space-y-8'>
-
-            {plansLoading ? (
-                <CarePlansSkeleton />
-            ) : carePlans.length > 0 ? (
+            {carePlans.length > 0 ? (
                 <>
                     <div className='flex md:justify-between max-md:flex-col max-md:gap-8'>
                         <div>

@@ -6,7 +6,7 @@ import PatientForm from './components/PatientForm';
 import GeneratingPlanAnimation from './components/GeneratingPlanAnimation';
 import ReviewAndEditPlan from './components/ReviewAndEditPlan';
 import { ToastContainer } from "react-toastify";
-import { IPatient } from '@/types/PatientCarePlan';
+import { Diagnosis, IPatient } from '@/types/PatientCarePlan';
 
 export const NewCarePlan = () => {
     const [currentStage, setCurrentStage] = useState<number>(1);
@@ -33,7 +33,7 @@ export const NewCarePlan = () => {
         currentMedications: null,
         allergies: null
     })
-    const [diagnoses, setDiagnoses] = useState<[]>([]);
+    const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([]);
     return (
         <div>
             <NewPlanStage currentStage={currentStage} />
@@ -49,7 +49,7 @@ export const NewCarePlan = () => {
                     //     </TabsContent>
                     //     <TabsContent value={"template"}>Template content</TabsContent>
                     // </Tabs>
-                    <PatientForm currentStage={currentStage} setCurrentStage={setCurrentStage} patientData={patientData} setPatientData={setPatientData} setDiagnoses={setDiagnoses} />
+                    <PatientForm setCurrentStage={setCurrentStage} patientData={patientData} setPatientData={setPatientData} setDiagnoses={setDiagnoses} />
                 )
                 :
                 currentStage === 2 ?
