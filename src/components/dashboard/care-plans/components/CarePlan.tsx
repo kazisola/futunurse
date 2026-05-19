@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useBookmarkCarePlanMutation } from '@/redux/services/carePlanApi';
 
 interface CarePlanProps {
     carePlan: ICarePlan;
@@ -15,10 +16,10 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
     const pathname = usePathname();
     const { _id, patient, createdAt, updatedAt, bookmarked } = carePlan || {};
 
-    const handleStartCarePlan = async (id: string) => {
+    const [bookmarkCarePlan, { isLoading: bookmarkLoading }] = useBookmarkCarePlanMutation();
+    const handleBookmarkCarePlan = async (id: string) => {
         try {
-            const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BASE}/api/care-plans/${id}/bookmark`);
-            console.log("response:", response);
+            await bookmarkCarePlan({ id }).unwrap();
         } catch (error) {
             console.log(error)
         }
@@ -66,7 +67,7 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
                 }} className='max-sm:flex-1'>
                     <Button className='w-40'><Stethoscope size={18} /> View Details</Button>
                 </Link>
-                <Button onClick={() => typeof _id === 'string' && handleStartCarePlan(_id)} className='bg-transparent max-md:border border-teal-500/30 text-gray-700 hover:text-teal-500 hover:bg-teal-500/20'>
+                <Button onClick={() => typeof _id === 'string' && handleBookmarkCarePlan(_id)} className='bg-transparent max-md:border border-teal-500/30 text-gray-700 hover:text-teal-500 hover:bg-teal-500/20'>
                     {bookmarked ?
                         <BookmarkCheck size={18} className='text-teal-500' />
                         :

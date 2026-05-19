@@ -11,7 +11,7 @@ import { useGetCarePlansQuery } from '@/redux/services/carePlanApi';
 export const CarePlans = () => {
     const { data, isLoading: carePlansLoading } = useGetCarePlansQuery();
     const carePlans = data?.carePlans;
-    console.log("data:", data)
+    
     if(carePlansLoading || !carePlans) {
         return <CarePlansSkeleton />
     }
