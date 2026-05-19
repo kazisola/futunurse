@@ -1,4 +1,4 @@
-import { IRecentSession, PerformanceCategorized } from "@/types/NCLEX";
+import { IRecentSession, ISessionResult, PerformanceCategorized } from "@/types/NCLEX";
 import { baseApi } from "./baseApi";
 
 const nclexApi = baseApi.injectEndpoints({
@@ -10,8 +10,16 @@ const nclexApi = baseApi.injectEndpoints({
         getRecentPracticeSessions: builder.query<{ recentSessions: IRecentSession[] }, void>({
             query: () => '/nclex/sessions',
             providesTags: ['Nclex']
+        }),
+        savePracticeSession: builder.mutation<void, { result: ISessionResult }>({
+            query: ({ result }) => ({
+                url: '/nclex/sessions',
+                method: 'POST',
+                body: result
+            }),
+            invalidatesTags: ['Nclex']
         })
     })
 })
 
-export const { useGetPerformanceByCategoryQuery, useGetRecentPracticeSessionsQuery } = nclexApi;
+export const { useGetPerformanceByCategoryQuery, useGetRecentPracticeSessionsQuery, useSavePracticeSessionMutation } = nclexApi;
