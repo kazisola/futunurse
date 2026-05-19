@@ -8,9 +8,9 @@ interface CarePlanProps {
 }
 
 const CarePlanPage = async ({ params }: CarePlanProps) => {
-    const { slug } = await params;
+    const { slug } = params;
     return (
-        <CarePlan slug={slug} />
+        <CarePlan id={slug} />
     );
 };
 
