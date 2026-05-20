@@ -19,9 +19,9 @@ interface FeaturePanelProps {
 const FeaturePanel = ({ query, setQuery, type, setType, setCard, responseLoading, setResponseLoading }: FeaturePanelProps) => {
     return (
         <aside className='col-span-3 bg-white rounded-md p-4 space-y-4'>
-            <header>
+            <header className="max-md:hidden">
                 <h4 className='text-lg font-semibold text-slate-950'>Drug & Lab Companion</h4>
-                <p className='text-sm font-medium text-slate-800'>Instant nursing references</p>
+                <p className='text-sm text-gray-600'>Instant nursing references</p>
             </header>
             <SubmitForm query={query} setQuery={setQuery} type={type} setType={setType} setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
             <Separator />

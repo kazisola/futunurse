@@ -8,7 +8,7 @@ function LeftPanelSkeleton() {
     <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col gap-5 h-[calc(100vh-3rem)]">
 
       {/* Title */}
-      <div className="space-y-1.5">
+      <div className="space-y-1.5 max-md:hidden">
         <Skeleton className="h-6 w-48 rounded-md" />
         <Skeleton className="h-4 w-36 rounded" />
       </div>

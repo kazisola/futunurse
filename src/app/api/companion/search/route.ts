@@ -94,13 +94,24 @@ export async function GET(req: NextRequest) {
                             ? error.message
                             : "Unknown error";
 
-                    const is503 =
-                        message.includes("503") ||
-                        message.includes("high demand") ||
-                        message.includes("Service Unavailable");
+                    // const is503 =
+                    //     message.includes("503") ||
+                    //     message.includes("high demand") ||
+                    //     message.includes("Service Unavailable");
 
-                    // Non-retryable error
-                    if (!is503) {
+                    // // Non-retryable error
+                    // if (!is503) {
+                    //     throw error;
+                    // }
+                    const isAIError =
+                        message.includes("503") ||
+                        message.includes("429") ||
+                        message.includes("high demand") ||
+                        message.includes("Service Unavailable") ||
+                        message.includes("Too Many Requests") ||
+                        message.includes("quota");
+
+                    if (!isAIError) {
                         throw error;
                     }
 
