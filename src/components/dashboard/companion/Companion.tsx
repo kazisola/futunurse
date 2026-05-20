@@ -8,6 +8,7 @@ import DiagnosticCard from './components/DiagnosticCard';
 import EmptyState from './components/EmptyState';
 import AiLoadingAnimation from './components/AiLoadingAnimation';
 import { useGetSavedCardsQuery } from '@/redux/services/companionApi';
+import CompanionSkeleton from './components/CompanionSkeleton';
 
 export const Companion = () => {
     const [query, setQuery] = useState<string>("");
@@ -19,7 +20,7 @@ export const Companion = () => {
 
     const { data: { saved_cards } = {}, isLoading: cardsLoading } = useGetSavedCardsQuery();
 
-    if(cardsLoading || !saved_cards) return <div>Loading...</div>
+    if(cardsLoading || !saved_cards) return <CompanionSkeleton />
 
     const isSaved = saved_cards.some(s_card => s_card.type == card?.type && s_card.query == card?.name)
 
