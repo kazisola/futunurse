@@ -23,7 +23,7 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, 
         { label: "Diagnostic", type: "diagnostic" }
     ]
 
-    const [generateAiResponse, { data, isLoading }] = useLazyGenerateAiResponseQuery();
+    const [generateAiResponse] = useLazyGenerateAiResponseQuery();
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -34,9 +34,41 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, 
             setType(null)
             setCard(response.card)
 
-        } catch (error: any) {
-            console.error(error)
-            toast.error(error?.response.data.message, { autoClose: 1000 })
+        } catch (error: unknown) {
+            console.error(error);
+
+            const getErrorMessage = (value: unknown): string => {
+
+                // RTK Query / Axios-style error
+                if (
+                    typeof value === 'object' &&
+                    value !== null &&
+                    'data' in value
+                ) {
+                    const data = (value as { data?: unknown }).data;
+
+                    if (
+                        typeof data === 'object' &&
+                        data !== null &&
+                        'message' in data &&
+                        typeof (data as { message?: unknown }).message === 'string'
+                    ) {
+                        return (data as { message: string }).message;
+                    }
+                }
+
+                // Native Error
+                if (
+                    value instanceof Error &&
+                    typeof value.message === 'string'
+                ) {
+                    return value.message;
+                }
+
+                return 'Something went wrong. Please try again.';
+            };
+
+            toast.error(getErrorMessage(error));
         } finally {
             setResponseLoading(false)
         }

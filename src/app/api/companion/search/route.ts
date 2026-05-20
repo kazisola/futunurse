@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { DIAGNOSTIC_SYSTEM_PROMPT, DRUG_SYSTEM_PROMPT, LAB_SYSTEM_PROMPT } from "@/lib/companion/prompts";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GenerateContentResult, GoogleGenerativeAI } from "@google/generative-ai";
 import { configDotenv } from "dotenv";
 import { extractJson } from "@/lib/extractJson";
 import { handleApiError } from "@/lib/apiError";
@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
         })
             .select("card -_id")
             .lean<{ card: CompanionCard }>();
-            
+
         if (existing) {
             return NextResponse.json({ success: true, card: existing.card })
         }
@@ -59,8 +59,9 @@ export async function GET(req: NextRequest) {
             drug: DRUG_SYSTEM_PROMPT,
             lab: LAB_SYSTEM_PROMPT,
             diagnostic: DIAGNOSTIC_SYSTEM_PROMPT
-        }
-        const system_prompt = system_prompt_map[type]
+        };
+
+        const system_prompt = system_prompt_map[type];
 
         const model = genAI.getGenerativeModel({
             model: "gemini-flash-latest",
@@ -68,21 +69,95 @@ export async function GET(req: NextRequest) {
                 temperature: 0.4,
                 responseMimeType: "application/json"
             }
-        })
+        });
 
         const prompt = `
         ${system_prompt}
 
         User query:
         ${query}
-        `
+        `;
 
-        const result = await model.generateContent(prompt);
-        const raw_content = result.response.text();
+        const generateWithRetry = async (
+            prompt: string,
+            retries = 3
+        ): Promise<GenerateContentResult> => {
 
-        const card = extractJson(raw_content)
-        console.log("card from ai:", card)
-        return NextResponse.json({ success: true, card })
+            for (let attempt = 0; attempt < retries; attempt++) {
+                try {
+                    return await model.generateContent(prompt);
+
+                } catch (error: unknown) {
+
+                    const message =
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error";
+
+                    const is503 =
+                        message.includes("503") ||
+                        message.includes("high demand") ||
+                        message.includes("Service Unavailable");
+
+                    // Non-retryable error
+                    if (!is503) {
+                        throw error;
+                    }
+
+                    // Last retry
+                    if (attempt === retries - 1) {
+                        throw new Error(
+                            "Futunurse AI is currently busy. Please try again later"
+                        );
+                    }
+
+                    // Exponential backoff
+                    await new Promise(resolve =>
+                        setTimeout(resolve, 1000 * (attempt + 1))
+                    );
+                }
+            }
+
+            // Satisfy TypeScript
+            throw new Error("Failed to generate content.");
+        };
+
+        try {
+            const result = await generateWithRetry(prompt);
+
+            const raw_content = result.response.text();
+
+            const card = extractJson(raw_content);
+
+            console.log("card from ai:", card);
+
+            return NextResponse.json({
+                success: true,
+                card
+            });
+
+        } catch (error: unknown) {
+
+            console.error("Gemini API Error:", error);
+
+            const message =
+                error instanceof Error
+                    ? error.message
+                    : "Something went wrong";
+
+            const status =
+                message.includes("AI service is currently busy")
+                    ? 503
+                    : 500;
+
+            return NextResponse.json(
+                {
+                    success: false,
+                    message
+                },
+                { status }
+            );
+        }
     } catch (error) {
         console.log(error);
         return handleApiError(error)
