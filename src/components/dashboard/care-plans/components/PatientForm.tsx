@@ -31,19 +31,34 @@ const PatientForm = ({ setCurrentStage, patientData, setPatientData, setDiagnose
 
             setDiagnoses(response?.care_plan?.diagnoses || []);
             setCurrentStage(3);
-        } catch (err) {
-            const error = err as { status?: number | string };
-            console.error("Generate Care Plan Error:", error);
+        } catch (error: unknown) {
+            console.error(error);
 
-            if (error?.status === 422) {
-                toast.warning("Care plan generation failed. Try again.");
-            } else if (error?.status === 401) {
-                toast.error("You must be logged in.");
-            } else if (error?.status === "FETCH_ERROR") {
-                toast.error("Network error. Please check your connection.");
-            } else {
-                toast.error("Failed to generate care plan.");
+            let message = "AI service is currently unavailable.";
+
+            // RTK Query / Axios style
+            if (
+                typeof error === "object" &&
+                error !== null &&
+                "data" in error
+            ) {
+                const data = (error as {
+                    data?: {
+                        message?: string;
+                    };
+                }).data;
+
+                if (data?.message) {
+                    message = data.message;
+                }
             }
+
+            // Native Error fallback
+            else if (error instanceof Error) {
+                message = error.message;
+            }
+
+            toast.error(message);
 
             setCurrentStage(1);
         }
