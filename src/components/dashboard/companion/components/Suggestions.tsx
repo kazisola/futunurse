@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
+import { useLazyGenerateAiResponseQuery } from '@/redux/services/companionApi';
 import { CompanionCard, CompanionType } from '@/types/companion';
-import axios from 'axios';
 import { FlaskConical, Pill, Stethoscope } from 'lucide-react';
 import React, { Dispatch, SetStateAction } from 'react';
+import { toast } from 'react-toastify';
 
 interface SuggestionsProps {
     setQuery: Dispatch<SetStateAction<string>>;
@@ -12,6 +13,7 @@ interface SuggestionsProps {
 }
 
 const Suggestions = ({ setQuery, setCard, responseLoading, setResponseLoading }: SuggestionsProps) => {
+    const [generateAiResponse] = useLazyGenerateAiResponseQuery();
     const suggestions: { query: string; type: CompanionType }[] = [
         { query: "Metformin", type: "drug" as const },
         { query: "Warfarin", type: "drug" as const },
@@ -26,22 +28,48 @@ const Suggestions = ({ setQuery, setCard, responseLoading, setResponseLoading }:
         try {
             setQuery(query);
             setResponseLoading(true);
-            const response = await axios.get(`http://localhost:3000/api/companion/search`, {
-                params: {
-                    query: query,
-                    type: type
-                },
-                headers: {
-                    "Content-Type": "application/json"
+            const response = await generateAiResponse({ query, type }).unwrap();
+            console.log("response:", response)
+            setQuery("")
+            setCard(response.card)
+
+        } catch (error: unknown) {
+            console.error(error);
+
+            const getErrorMessage = (value: unknown): string => {
+
+                // RTK Query / Axios-style error
+                if (
+                    typeof value === 'object' &&
+                    value !== null &&
+                    'data' in value
+                ) {
+                    const data = (value as { data?: unknown }).data;
+
+                    if (
+                        typeof data === 'object' &&
+                        data !== null &&
+                        'message' in data &&
+                        typeof (data as { message?: unknown }).message === 'string'
+                    ) {
+                        return (data as { message: string }).message;
+                    }
                 }
-            })
-            if (response.status === 200) {
-                setCard(response.data?.card)
-                setResponseLoading(false)
-            }
-        } catch (error) {
+
+                // Native Error
+                if (
+                    value instanceof Error &&
+                    typeof value.message === 'string'
+                ) {
+                    return value.message;
+                }
+
+                return 'Something went wrong. Please try again.';
+            };
+
+            toast.error(getErrorMessage(error));
+        } finally {
             setResponseLoading(false)
-            console.error(error)
         }
     }
     return (
