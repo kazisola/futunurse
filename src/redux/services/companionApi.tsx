@@ -18,8 +18,15 @@ const companionApi = baseApi.injectEndpoints({
                 body: { query, type, card }
             }),
             invalidatesTags: ['Companion']
+        }),
+        generateAiResponse: builder.query<{card: CompanionCard }, { query: string, type: CompanionType | null }>({
+            query: ({ query, type }) => ({
+                url: '/companion/search',
+                params: { query, type }
+            }),
+            providesTags: ['Companion']
         })
     })
 })
 
-export const { useGetSavedCardsQuery, useGetSavedCardQuery, useLazyGetSavedCardQuery, useSaveCardMutation } = companionApi;
+export const { useGetSavedCardsQuery, useGetSavedCardQuery, useLazyGetSavedCardQuery, useSaveCardMutation, useGenerateAiResponseQuery, useLazyGenerateAiResponseQuery } = companionApi;

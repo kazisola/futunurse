@@ -9,6 +9,7 @@ import EmptyState from './components/EmptyState';
 import AiLoadingAnimation from './components/AiLoadingAnimation';
 import { useGetSavedCardsQuery } from '@/redux/services/companionApi';
 import CompanionSkeleton from './components/CompanionSkeleton';
+import { ToastContainer } from 'react-toastify';
 
 export const Companion = () => {
     const [query, setQuery] = useState<string>("");
@@ -20,7 +21,7 @@ export const Companion = () => {
 
     const { data: { saved_cards } = {}, isLoading: cardsLoading } = useGetSavedCardsQuery();
 
-    if(cardsLoading || !saved_cards) return <CompanionSkeleton />
+    if (cardsLoading || !saved_cards) return <CompanionSkeleton />
 
     const isSaved = saved_cards.some(s_card => s_card.type == card?.type && s_card.query == card?.name)
 
@@ -34,25 +35,28 @@ export const Companion = () => {
     };
     const ActiveCard = card?.type ? componentsMap[card.type] : null;
     return (
-        <div className='lg:grid grid-cols-10 gap-3 max-lg:space-y-6'>
-            <FeaturePanel query={query} setQuery={setQuery} type={type} setType={setType} setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
-            <section className='col-span-7 bg-white rounded-md p-4'>
-                {
-                    responseLoading ? (
-                        <AiLoadingAnimation isVisible={true} title={`Generating ${query || "companion"} card`} />
-                    )
-                        :
-                        (
-                            ActiveCard && card ? (
-                                <ActiveCard card={card} isSaved={isSaved} />
-                            )
-                                :
-                                (
-                                    <EmptyState />
-                                )
+        <>
+            <div className='lg:grid grid-cols-10 gap-3 max-lg:space-y-6'>
+                <FeaturePanel query={query} setQuery={setQuery} type={type} setType={setType} setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
+                <section className='col-span-7 bg-white rounded-md p-4'>
+                    {
+                        responseLoading ? (
+                            <AiLoadingAnimation isVisible={true} title={`Generating ${query || "companion"} card`} />
                         )
-                }
-            </section>
-        </div>
+                            :
+                            (
+                                ActiveCard && card ? (
+                                    <ActiveCard card={card} isSaved={isSaved} />
+                                )
+                                    :
+                                    (
+                                        <EmptyState />
+                                    )
+                            )
+                    }
+                </section>
+            </div>
+            <ToastContainer />
+        </>
     )
 }
