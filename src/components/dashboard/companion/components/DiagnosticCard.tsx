@@ -8,7 +8,7 @@ import PillList from "./PillList";
 import { Separator } from "@/components/ui/separator";
 import BulletList from "./BulletList";
 
-const DiagnosticCard = ({ card }: { card: DiagnosticCard }) => {
+const DiagnosticCard = ({ card, isSaved }: { card: DiagnosticCard, isSaved: boolean }) => {
     return (
         <>
             <header className="flex items-center justify-between border-b pb-3 mb-4">
@@ -24,7 +24,9 @@ const DiagnosticCard = ({ card }: { card: DiagnosticCard }) => {
                         </div>
                     </div>
                 </div>
-                <BookmarkAction card={card} />
+                {!isSaved &&
+                    <BookmarkAction card={card} />
+                }
             </header>
 
             <main className="space-y-4 max-h-[calc(100vh-10.1rem)] overflow-y-auto">

@@ -1,17 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { useGetSavedCardsQuery, useLazyGetSavedCardQuery } from "@/redux/services/companionApi";
 import { CompanionCard } from "@/types/companion";
-import axios from "axios";
 import { FlaskConical, FolderSearch, MoreVertical, Pill, Stethoscope } from 'lucide-react';
 import React, { Dispatch, SetStateAction } from "react";
 
 const SavedCards = ({ setCard }: { setCard: Dispatch<SetStateAction<CompanionCard | null>> }) => {
-    const { data, isLoading: cardsLoading } = useGetSavedCardsQuery();
-    const [getSavedCard, { data: savedCard, isLoading }] = useLazyGetSavedCardQuery();
-    console.log("data:", data)
-    if (cardsLoading || !data?.saved_cards) return <div>Loading...</div>
+    const { data: { saved_cards } = {}, isLoading: cardsLoading } = useGetSavedCardsQuery();
 
-    const saved_cards = data?.saved_cards;
+    const [getSavedCard, { data: savedCard, isLoading }] = useLazyGetSavedCardQuery();
+
+    if (cardsLoading || !saved_cards) return <div>Loading...</div>
+
     const handleGetSavedCard = async (cardId: string) => {
         try {
             const response = await getSavedCard({ id: cardId }).unwrap();

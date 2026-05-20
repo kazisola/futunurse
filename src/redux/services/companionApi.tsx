@@ -10,8 +10,16 @@ const companionApi = baseApi.injectEndpoints({
         getSavedCard: builder.query<{ card: { card: CompanionCard } }, { id: string }>({
             query: ({ id }) => `/companion/bookmarks/${id}`,
             providesTags: ['Companion']
+        }),
+        saveCard: builder.mutation<void, { query: string, type: CompanionType, card: CompanionCard }>({
+            query: ({ query, type, card }) => ({
+                url: '/companion/bookmarks',
+                method: 'POST',
+                body: { query, type, card }
+            }),
+            invalidatesTags: ['Companion']
         })
     })
 })
 
-export const { useGetSavedCardsQuery, useGetSavedCardQuery, useLazyGetSavedCardQuery } = companionApi;
+export const { useGetSavedCardsQuery, useGetSavedCardQuery, useLazyGetSavedCardQuery, useSaveCardMutation } = companionApi;

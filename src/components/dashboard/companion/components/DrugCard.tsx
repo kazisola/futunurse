@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import BulletList from "./BulletList";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const DrugCard = ({ card }: { card: DrugCard }) => {
+const DrugCard = ({ card, isSaved }: { card: DrugCard, isSaved: boolean }) => {
     return (
         <>
             <header className="flex items-center justify-between border-b pb-3 mb-4">
@@ -25,7 +25,9 @@ const DrugCard = ({ card }: { card: DrugCard }) => {
                         </div>
                     </div>
                 </div>
-                <BookmarkAction card={card} />
+                {!isSaved &&
+                    <BookmarkAction card={card} />
+                }
             </header>
 
             <main className="space-y-4 max-h-[calc(100vh-10.1rem)] overflow-y-auto">
