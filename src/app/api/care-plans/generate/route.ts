@@ -1,31 +1,12 @@
-import { handleApiError } from "@/lib/apiError";
 import { configDotenv } from "dotenv";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GenerateContentResult, GoogleGenerativeAI } from "@google/generative-ai";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { extractJson } from "@/lib/extractJson";
 configDotenv();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string)
-
-function extractJson(content: string): object {
-    try {
-        // First, try direct parse
-        return JSON.parse(content);
-    } catch {
-        // If direct parse fails, try to extract {...} with regex
-        const match = content.match(/\{[\s\S]*\}/);
-        if (match) {
-            try {
-                return JSON.parse(match[0]); // parse the first valid JSON block
-            } catch (err) {
-                console.error("Extracted JSON still invalid:", err);
-            }
-        }
-        throw new Error("No valid JSON found in AI response");
-    }
-}
-
 
 interface IVitals {
     temperature: number,
@@ -51,6 +32,69 @@ interface IPatientData {
     allergies?: string
 }
 
+const model = genAI.getGenerativeModel({
+    model: "gemini-flash-latest",
+    generationConfig: {
+        temperature: 0.4,
+        responseMimeType: "application/json"
+    }
+});
+
+const generateWithRetry = async (
+    prompt: string,
+    retries = 3
+): Promise<GenerateContentResult> => {
+
+    for (let attempt = 0; attempt < retries; attempt++) {
+
+        try {
+            return await model.generateContent(prompt);
+
+        } catch (error: unknown) {
+
+            const message =
+                error instanceof Error
+                    ? error.message
+                    : "Unknown error";
+
+            // Unavailable or high demand only
+            // const is503 =
+            //     message.includes("503") ||
+            //     message.includes("high demand") ||
+            //     message.includes("Service Unavailable");
+
+            // if (!is503) {
+            //     throw error;
+            // }
+            // Includes exceeding quota error too
+            const isAIError =
+                message.includes("503") ||
+                message.includes("429") ||
+                message.includes("high demand") ||
+                message.includes("Service Unavailable") ||
+                message.includes("Too Many Requests") ||
+                message.includes("quota");
+
+            if (!isAIError) {
+                throw error;
+            }
+
+            if (attempt === retries - 1) {
+                throw new Error(
+                    "Care Plan AI service is currently busy or unavailable. Try again later"
+                );
+            }
+
+            // Exponential backoff
+            await new Promise(resolve =>
+                setTimeout(resolve, 1000 * (attempt + 1))
+            );
+        }
+    }
+
+    throw new Error("Failed to generate content.");
+};
+
 export async function POST(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
@@ -61,7 +105,7 @@ export async function POST(req: NextRequest) {
         const patient: IPatientData = await req.json();
         // console.log("patient:", patient);
 
-        const PROMPT: string = `
+        const CARE_PLAN_SYSTEM_PROMPT: string = `
         You are an experienced nursing instructor. Generate a detailed nursing care plan in JSON format based on the following patient case. The care plan must strictly follow NANDA-I diagnoses, NIC (Nursing Interventions Classification), and NOC (Nursing Outcomes Classification). Always use official NANDA wording for diagnoses.
 
         ### Patient data input in JSON:
@@ -141,30 +185,62 @@ export async function POST(req: NextRequest) {
         Produce only the JSON. The care plan must be detailed, comprehensive, and realistic for a nursing student’s graded assignment. Avoid pathophysiology mismatches and follow NANDA conventions strictly.
         `
 
-        console.log("PROMPT:", PROMPT)
-        const model = genAI.getGenerativeModel({
-            model: "gemini-flash-latest",
-            generationConfig: {
-                temperature: 0.4,
-                responseMimeType: "application/json",
-            },
-        })
-        const result = await model.generateContent(PROMPT)
-        const raw_content = result.response.text();
-        // console.log("Raw Content:", raw_content)
+        const result = await generateWithRetry(
+            CARE_PLAN_SYSTEM_PROMPT
+        );
 
-        // Extract JSON
+        const raw_content = result.response.text();
+
         let care_plan;
+
         try {
+
             care_plan = extractJson(raw_content);
-        } catch (err) {
-            console.error("Failed to parse care plan JSON:", err);
-            return NextResponse.json({ success: false, error: "Invalid JSON from AI" }, { status: 422 });
+
+        } catch (parseError) {
+
+            console.error(
+                "Failed to parse AI JSON:",
+                parseError
+            );
+
+            return NextResponse.json(
+                {
+                    success: false,
+                    message:
+                        "AI returned invalid response format."
+                },
+                { status: 422 }
+            );
         }
-        // console.log("Care Plan Object:", care_plan);
-        return NextResponse.json({ success: true, care_plan })
-    } catch (error) {
-        console.log(error);
-        return handleApiError(error);
+
+        return NextResponse.json({
+            success: true,
+            care_plan
+        });
+
+    } catch (error: unknown) {
+
+        console.error("Care Plan API Error:", error);
+
+        const message =
+            error instanceof Error
+                ? error.message
+                : "Internal Server Error";
+
+        const status =
+            message.includes(
+                "AI service is currently busy"
+            )
+                ? 503
+                : 500;
+
+        return NextResponse.json(
+            {
+                success: false,
+                message
+            },
+            { status }
+        );
     }
 }
