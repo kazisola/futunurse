@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useLazyGenerateAiResponseQuery } from '@/redux/services/companionApi';
 import { CompanionCard, CompanionType } from '@/types/companion';
-import axios from 'axios';
 import { ArrowRight, Search } from 'lucide-react';
 import React, { Dispatch, SetStateAction } from 'react';
+import { toast } from 'react-toastify';
 
 interface SubmitFormProps {
     query: string;
@@ -21,28 +22,23 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, 
         { label: "Lab", type: "lab" },
         { label: "Diagnostic", type: "diagnostic" }
     ]
+
+    const [generateAiResponse, { data, isLoading }] = useLazyGenerateAiResponseQuery();
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             setResponseLoading(true);
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/companion/search`, {
-                params: {
-                    query: query,
-                    type: type
-                },
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            if (response.status === 200) {
-                setQuery("")
-                setType(null)
-                setCard(response.data?.card)
-                setResponseLoading(false)
-            }
-        } catch (error) {
-            setResponseLoading(false)
+            const response = await generateAiResponse({ query, type }).unwrap();
+            console.log("response:", response)
+            setQuery("")
+            setType(null)
+            setCard(response.card)
+
+        } catch (error: any) {
             console.error(error)
+            toast.error(error?.response.data.message, { autoClose: 1000 })
+        } finally {
+            setResponseLoading(false)
         }
     }
     return (
@@ -71,7 +67,7 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, 
                     </li>
                 ))}
             </ul>
-            <Button type="submit" size={'lg'} className='w-full rounded-md' disabled={responseLoading}>
+            <Button type="submit" size={'lg'} className='w-full rounded-md' disabled={responseLoading || !type}>
                 {responseLoading ?
                     ('Thinking...')
                     :
