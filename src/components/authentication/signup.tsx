@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import Image from 'next/image';
 import GoogleIcon from "../../../public/icons/google.png";
 import { useSignUpUserMutation } from '@/redux/services/userApi';
+import { useRouter } from 'next/navigation';
 
 interface SignUpProps {
     signInInstead: () => void;
@@ -20,6 +21,7 @@ type FormData = {
 }
 
 const SignUp = ({ signInInstead, onClose }: SignUpProps) => {
+    const router = useRouter();
     const [formData, setFormData] = useState<FormData>({
         fullName: '',
         email: '',
@@ -33,7 +35,7 @@ const SignUp = ({ signInInstead, onClose }: SignUpProps) => {
             await signUpUser({ data: formData }).unwrap();
 
             const signInRes = await signIn("credentials", {
-                callbackUrl: "/dashboard",
+                redirect: false,
                 email: formData.email,
                 password: formData.password
             });
@@ -42,6 +44,7 @@ const SignUp = ({ signInInstead, onClose }: SignUpProps) => {
                 console.log(signInRes.error);
             } else {
                 console.log("User authenticated!");
+                router.push("/dashboard");
                 onClose();
             }
         } catch (error) {

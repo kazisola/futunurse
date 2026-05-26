@@ -5,6 +5,7 @@ import { Button } from '../ui/button';
 import { signIn } from 'next-auth/react';
 import GoogleIcon from "../../../public/icons/google.png";
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Eye, LucideEyeOff } from 'lucide-react';
 import { toast, ToastContainer } from 'react-toastify';
 
@@ -20,6 +21,7 @@ type FormData = {
 
 const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
     const [formData, setFormData] = useState<FormData>({
         email: '',
@@ -31,7 +33,7 @@ const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
         setLoading(true);
         try {
             const signInRes = await signIn("credentials", {
-                callbackUrl: "/dashboard",
+                redirect: false,
                 email: formData.email,
                 password: formData.password
             });
@@ -44,6 +46,7 @@ const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
                 }, 2000)
             } else {
                 toast.success("Sign in successful!")
+                router.push("/dashboard");
                 onClose();
             }
         } catch (error) {
