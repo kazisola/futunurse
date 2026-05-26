@@ -31,8 +31,22 @@ type Dashboard = {
     suggestions: AISuggestion[]
 };
 
+type FormData = {
+    fullName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
+
 export const userApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
+        signUpUser: builder.mutation<void, {data: FormData}>({
+            query: ({ data }) => ({
+                url: '/auth/signup',
+                method: 'POST',
+                body: data
+            })
+        }),
         getDashboard: builder.query<{ dashboard: Dashboard}, void>({
             query: () => '/dashboard',
             providesTags: ['User']
@@ -52,4 +66,4 @@ export const userApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetDashboardQuery, useGetUserQuery, useUpdateUserMutation } = userApi;
+export const { useSignUpUserMutation, useGetDashboardQuery, useGetUserQuery, useUpdateUserMutation } = userApi;
