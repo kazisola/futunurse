@@ -3,9 +3,9 @@ import { signIn } from 'next-auth/react';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import GoogleIcon from "../../../public/icons/google.png";
+import { useSignUpUserMutation } from '@/redux/services/userApi';
 
 interface SignUpProps {
     signInInstead: () => void;
@@ -20,51 +20,32 @@ type FormData = {
 }
 
 const SignUp = ({ signInInstead, onClose }: SignUpProps) => {
-    const router = useRouter();
-    const [loading, setLoading] = useState<boolean>(false);
     const [formData, setFormData] = useState<FormData>({
         fullName: '',
         email: '',
         password: '',
         confirmPassword: ''
     });
+    const [signUpUser, { isLoading: signUpLoading }] = useSignUpUserMutation();
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
-        // User sign up logic:
-        const res = fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/auth/signup`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        });
-        const data = await res.then(res => res.json());
-        if (!data?.success) {
-            setLoading(false);
-            return;
-        };
+        try {
+            await signUpUser({ data: formData }).unwrap();
 
-        setFormData({
-            fullName: '',
-            email: '',
-            password: '',
-            confirmPassword: ''
-        })
+            const signInRes = await signIn("credentials", {
+                callbackUrl: "/dashboard",
+                email: formData.email,
+                password: formData.password
+            });
 
-        const signInRes = await signIn("credentials", {
-            redirect: false,
-            email: formData.email,
-            password: formData.password
-        });
-        console.log(signInRes)
-
-        if (signInRes?.ok === false) {
-            console.log(signInRes.error);
-        } else {
-            router.push("/dashboard");
-            console.log("User authenticated!");
-            onClose();
+            if (signInRes?.ok === false) {
+                console.log(signInRes.error);
+            } else {
+                console.log("User authenticated!");
+                onClose();
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
     return (
@@ -112,7 +93,7 @@ const SignUp = ({ signInInstead, onClose }: SignUpProps) => {
                         onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                     />
                 </div>
-                <Button size={'lg'} className='w-full mt-4 rounded-full'>{loading ? 'Loading...' : 'Sign Up'}</Button>
+                <Button size={'lg'} className='w-full mt-4 rounded-full' disabled={signUpLoading}>{signUpLoading ? 'Loading...' : 'Sign Up'}</Button>
             </form>
             <p className='text-gray-700 text-center text-sm mt-3'>Already have an account? <Button variant={'link'} onClick={signInInstead}>Sign In</Button></p>
         </div>
