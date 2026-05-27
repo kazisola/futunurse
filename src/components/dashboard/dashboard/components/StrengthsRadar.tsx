@@ -123,18 +123,18 @@ const StrengthsRadar = ({ strength }: StrengthProps) => {
                     <div className="flex gap-4">
                         <div className="text-right">
                             <p className="text-xs text-gray-400">Avg</p>
-                            <p className="text-base font-bold text-slate-800">{avg}%</p>
+                            <p className="text-sm font-semibold text-slate-800">{avg}%</p>
                         </div>
                         {strongest && (
                             <div className="text-right">
                                 <p className="text-xs text-gray-400">Best</p>
-                                <p className="text-base font-bold text-emerald-500">{strongest.averageScore.toFixed(1)}%</p>
+                                <p className="text-sm font-semibold text-emerald-500">{strongest.averageScore.toFixed(1)}%</p>
                             </div>
                         )}
                         {weakest && (
                             <div className="text-right">
                                 <p className="text-xs text-gray-400">Weakest</p>
-                                <p className="text-base font-bold text-rose-400">{weakest.averageScore.toFixed(1)}%</p>
+                                <p className="text-sm font-semibold text-rose-400">{weakest.averageScore.toFixed(1)}%</p>
                             </div>
                         )}
                     </div>

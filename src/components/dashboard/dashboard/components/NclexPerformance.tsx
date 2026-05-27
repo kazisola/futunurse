@@ -142,13 +142,13 @@ const NclexPerformance = ({ nclexTrend }: NclexPerformanceProps) => {
                         ].map(({ label, value }) => (
                             <div key={label} className="text-right">
                                 <p className="text-xs text-gray-400">{label}</p>
-                                <p className="text-base font-bold text-slate-800">{value}</p>
+                                <p className="text-sm font-semibold text-slate-800">{value}</p>
                             </div>
                         ))}
                         {trend !== null && TrendIcon && (
                             <div className="text-right">
                                 <p className="text-xs text-gray-400">Change</p>
-                                <p className={`text-base font-bold flex items-center justify-end gap-0.5 ${trendColor}`}>
+                                <p className={`text-sm font-semibold flex items-center justify-end gap-0.5 ${trendColor}`}>
                                     <TrendIcon size={14} />
                                     {Math.abs(trend)}%
                                 </p>

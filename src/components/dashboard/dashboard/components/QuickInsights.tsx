@@ -95,7 +95,7 @@ const QuickInsights = ({ carePlans, nclexInsights }: QuickInsightsProps) => {
                 return (
                     <div
                         key={index}
-                        className={`${colors.bg} text-white p-5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex flex-col`}
+                        className={`${colors.bg} text-white p-5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 flex flex-col`}
                     >
 
                         <div className="flex items-center gap-4">
@@ -105,7 +105,7 @@ const QuickInsights = ({ carePlans, nclexInsights }: QuickInsightsProps) => {
                                 <Icon className="text-white w-5 h-5" />
                             </div>
                             <div>
-                                <h2 className="font-semibold text-sm opacity-90">
+                                <h2 className="font-semibold text-sm opacity-95">
                                     {insight.title}
                                 </h2>
                                 <h1 className="font-bold text-2xl">{insight.value}{insight.title == "Overall Score" && '%'}</h1>
