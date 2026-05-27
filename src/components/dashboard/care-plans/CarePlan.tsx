@@ -2,7 +2,7 @@
 import React from 'react';
 import Diagnoses from './components/Diagnoses';
 import PatientInformation from './components/PatientInformation';
-import { Download, PencilLine } from 'lucide-react';
+import { PencilLine } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CarePlanDetailSkeleton from './components/CarePlanDetailSkeleton';
 import { useGetCarePlanQuery } from '@/redux/services/carePlanApi';
@@ -19,12 +19,12 @@ export const CarePlan = ({ id }: CarePlanProps) => {
         <div>
             <div className='flex items-start justify-between max-md:flex-col gap-3'>
                 <div>
-                    <h3 className='mb-1 font-bold text-3xl text-gray-800 flex items-center gap-3'>{carePlan?.patient.name}
+                    <h3 className='mb-1 font-bold text-3xl text-gray-800 flex items-center gap-3 uppercase'>{carePlan?.patient.name}
                     </h3>
-                    <p className='text-gray-600'>{carePlan?.patient.primaryDiagnoses} with the physical findings of {carePlan?.patient.physicalFindings?.slice(0, 25) || 'N/A'}...</p>
+                    <p className='text-gray-600'>{carePlan?.patient.primaryDiagnoses} with the physical findings of {carePlan?.patient.physicalFindings?.slice(0, 20) || 'N/A'}...</p>
                 </div>
-                <div className='space-x-2 max-sm:w-full max-sm:grid max-sm:grid-cols-2 max-sm:gap-2'>
-                    <Button size={'lg'} variant={'outline'} className='max-sm:w-full border-teal-600 text-teal-600 hover:bg-transparent hover:text-teal-600'><Download size={18} /> Export Now</Button>
+                <div className='max-sm:w-full'>
+                    {/* <Button size={'lg'} variant={'outline'} className='max-sm:w-full border-teal-600 text-teal-600 hover:bg-transparent hover:text-teal-600'><Download size={18} /> Export Now</Button> */}
                     <Button size={'lg'} className='max-sm:w-full sm:!w-40'><PencilLine size={20} /> Edit Care Plan</Button>
                 </div>
             </div>

@@ -7,13 +7,100 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'react-toastify';
 import { Diagnosis, IPatient } from '@/types/PatientCarePlan';
 import { useGenerateCarePlanMutation } from '@/redux/services/carePlanApi';
+import { Activity, Pill, Sparkles, Stethoscope, User } from 'lucide-react';
 
 interface PatientFormProps {
     setCurrentStage: Dispatch<SetStateAction<number>>;
     patientData: IPatient;
     setPatientData: Dispatch<SetStateAction<IPatient>>;
-    setDiagnoses: Dispatch<SetStateAction<Diagnosis[]>>
+    setDiagnoses: Dispatch<SetStateAction<Diagnosis[]>>;
 }
+
+const SectionHeader = ({
+    icon: Icon,
+    label,
+    description,
+    step,
+}: {
+    icon: React.ElementType;
+    label: string;
+    description: string;
+    step: number;
+}) => (
+    <div className="flex items-start gap-4 mb-6">
+        <div className="relative shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-sm shadow-blue-200">
+                <Icon size={16} className="text-white" />
+            </div>
+            <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-white border border-gray-200 text-[9px] font-bold text-gray-500 flex items-center justify-center">
+                {step}
+            </span>
+        </div>
+        <div className="pt-0.5">
+            <h3 className="font-semibold text-slate-800 text-sm">{label}</h3>
+            <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">{description}</p>
+        </div>
+    </div>
+);
+
+const FieldWrapper = ({
+    label,
+    htmlFor,
+    optional,
+    children,
+}: {
+    label: string;
+    htmlFor?: string;
+    optional?: boolean;
+    children: React.ReactNode;
+}) => (
+    <div className="space-y-1.5">
+        <div className="flex items-center justify-between">
+            <Label
+                htmlFor={htmlFor}
+                className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest"
+            >
+                {label}
+            </Label>
+            {optional && (
+                <span className="text-[10px] text-gray-300 font-medium uppercase tracking-wide">
+                    Optional
+                </span>
+            )}
+        </div>
+        {children}
+    </div>
+);
+
+const VitalTile = ({
+    label,
+    unit,
+    field,
+    type = "text",
+    patientData,
+    updateVital,
+}: {
+    label: string;
+    unit: string;
+    field: string;
+    type?: string;
+    patientData: IPatient;
+    updateVital: (field: string, value: unknown) => void;
+}) => (
+    <div className="group relative bg-white border border-gray-100 hover:border-blue-200 rounded-xl p-3.5 transition-colors duration-150">
+        <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{label}</span>
+            <span className="text-[10px] text-gray-300 font-medium">{unit}</span>
+        </div>
+        <Input
+            type={type}
+            placeholder="—"
+            className="border-0 border-b border-dashed border-gray-200 rounded-none px-0 h-7 text-sm font-semibold text-slate-700 placeholder:text-gray-300 focus-visible:ring-0 focus-visible:border-blue-400 bg-transparent"
+            value={(patientData.vitals as Record<string, unknown>)[field] as string || ''}
+            onChange={e => updateVital(field, type === "number" ? Number(e.target.value) : e.target.value)}
+        />
+    </div>
+);
 
 const PatientForm = ({ setCurrentStage, patientData, setPatientData, setDiagnoses }: PatientFormProps) => {
     const [generateCarePlan, { isLoading: generatingLoading }] = useGenerateCarePlanMutation();
@@ -22,191 +109,196 @@ const PatientForm = ({ setCurrentStage, patientData, setPatientData, setDiagnose
         e.preventDefault();
         try {
             setCurrentStage(2);
-
-            const response = await generateCarePlan({
-                data: patientData
-            }).unwrap();
-
-            console.log("RTK Response:", response);
-
+            const response = await generateCarePlan({ data: patientData }).unwrap();
             setDiagnoses(response?.care_plan?.diagnoses || []);
             setCurrentStage(3);
         } catch (error: unknown) {
-            console.error(error);
-
             let message = "AI service is currently unavailable.";
-
-            // RTK Query / Axios style
-            if (
-                typeof error === "object" &&
-                error !== null &&
-                "data" in error
-            ) {
-                const data = (error as {
-                    data?: {
-                        message?: string;
-                    };
-                }).data;
-
-                if (data?.message) {
-                    message = data.message;
-                }
-            }
-
-            // Native Error fallback
-            else if (error instanceof Error) {
+            if (typeof error === "object" && error !== null && "data" in error) {
+                const data = (error as { data?: { message?: string } }).data;
+                if (data?.message) message = data.message;
+            } else if (error instanceof Error) {
                 message = error.message;
             }
-
             toast.error(message);
-
             setCurrentStage(1);
         }
     };
 
+    const update = (field: keyof IPatient, value: unknown) =>
+        setPatientData(prev => ({ ...prev, [field]: value }));
+
+    const updateVital = (field: string, value: unknown) =>
+        setPatientData(prev => ({ ...prev, vitals: { ...prev.vitals, [field]: value } }));
 
     return (
-        <form onSubmit={handleSubmit} className=' border-gray-900/10 bg-white/80 backdrop-blur-xl rounded-md p-6 w-full'>
-            <div className='space-y-3'>
-                <div className='mb-7'>
-                    <h3 className='font-semibold text-xl text-gray-800'>Patient Demographics</h3>
-                    <p className='text-sm text-gray-600'>Enter as many possible fields to get the most efficient care plan</p>
-                </div>
-                <div className='grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-x-4 gap-y-3'>
-                    <div className='space-y-2.5'>
-                        <Label htmlFor='name'>Patient name</Label>
-                        <Input type="text" placeholder='Mike Anderson' id="name" required
+        <form onSubmit={handleSubmit} className="w-full space-y-4">
+
+            {/* Demographics */}
+            <div className="bg-white border border-gray-100 rounded-2xl p-6">
+                <SectionHeader
+                    icon={User}
+                    step={1}
+                    label="Patient Demographics"
+                    description="Core identifying information. Name, age, and primary diagnosis are required."
+                />
+                <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-4 mb-4">
+                    <FieldWrapper label="Full Name" htmlFor="name">
+                        <Input id="name" type="text" placeholder="e.g. Mike Anderson" required
                             value={patientData.name || ''}
-                            onChange={(e) => setPatientData({ ...patientData, name: e.target.value })}
+                            onChange={e => update('name', e.target.value)}
                         />
-                    </div>
-                    <div className='space-y-2.5'>
-                        <Label htmlFor='age'>Patient age</Label>
-                        <Input type="number" placeholder='55' id="age" required
+                    </FieldWrapper>
+                    <FieldWrapper label="Age" htmlFor="age">
+                        <Input id="age" type="number" placeholder="e.g. 55" required
                             value={patientData.age || ''}
-                            onChange={(e) => setPatientData({ ...patientData, age: Number(e.target.value) })}
+                            onChange={e => update('age', Number(e.target.value))}
                         />
-                    </div>
-                    <div className='space-y-2.5 w-full'>
-                        <Label htmlFor='gender'>Gender</Label>
-                        <Select
-                            value={patientData.gender ?? ""}
-                            onValueChange={(value) => setPatientData({ ...patientData, gender: value as "male" | "female" })}>
-                            <SelectTrigger className='w-full'>
-                                <SelectValue placeholder="Gender" />
+                    </FieldWrapper>
+                    <FieldWrapper label="Biological Sex">
+                        <Select value={patientData.gender ?? ""} onValueChange={v => update('gender', v)}>
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select…" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="male">Male</SelectItem>
                                 <SelectItem value="female">Female</SelectItem>
                             </SelectContent>
                         </Select>
-                    </div>
-                    <div className='space-y-2.5 w-full'>
-                        <Label htmlFor='specialty'>Specialty</Label>
-                        <Select
-                            value={patientData.specialty ?? ""}
-                            onValueChange={(value) => setPatientData({ ...patientData, specialty: value as "medical surgical" | "pediatrics" | "OB/GYN" | "phsychiatric" | "critical care" | "community health" })}
-                        >
-                            <SelectTrigger className='w-full'>
-                                <SelectValue placeholder="Specialty" />
+                    </FieldWrapper>
+                    <FieldWrapper label="Nursing Specialty">
+                        <Select value={patientData.specialty ?? ""} onValueChange={v => update('specialty', v)}>
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select…" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="medical surgical">Medical-Surgical</SelectItem>
                                 <SelectItem value="pediatrics">Pediatrics</SelectItem>
                                 <SelectItem value="OB/GYN">OB/GYN</SelectItem>
-                                <SelectItem value="phsychiatric">Phsychiatric</SelectItem>
+                                <SelectItem value="phsychiatric">Psychiatric</SelectItem>
                                 <SelectItem value="critical care">Critical Care</SelectItem>
                                 <SelectItem value="community health">Community Health</SelectItem>
                             </SelectContent>
                         </Select>
-                    </div>
-                    <div className='space-y-2.5'>
-                        <Label htmlFor='mrn'>MRN</Label>
-                        <Input type="text" placeholder='e.g., 2858146' id="mrn"
+                    </FieldWrapper>
+                    <FieldWrapper label="MRN" htmlFor="mrn" optional>
+                        <Input id="mrn" type="text" placeholder="e.g. 2858146"
                             value={patientData.mrn || ''}
-                            onChange={(e) => setPatientData({ ...patientData, mrn: e.target.value })}
+                            onChange={e => update('mrn', e.target.value)}
                         />
-                    </div>
+                    </FieldWrapper>
                 </div>
-                <div className='space-y-2.5'>
-                    <Label htmlFor='primary-diagnoses'>Primary Diagnoses</Label>
-                    <Input type="text" placeholder='e.g., Congestive Heart Failure, COPD Exacerbation' id="primary-diagnoses" required
-                        value={patientData.primaryDiagnoses || ''}
-                        onChange={(e) => setPatientData({ ...patientData, primaryDiagnoses: e.target.value })}
-                    />
-                </div>
-                <div className='space-y-2.5'>
-                    <Label htmlFor='secondary-diagnoses'>Secondary Diagnoses</Label>
-                    <Input type="text" placeholder='List secondary diagnoses separated by commas' id="secondary-diagnoses"
-                        value={patientData.secondaryDiagnoses || ''}
-                        onChange={(e) => setPatientData({ ...patientData, secondaryDiagnoses: e.target.value })}
-                    />
+
+                <div className="h-px bg-gray-50 my-4" />
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                    <FieldWrapper label="Primary Diagnoses" htmlFor="primary-diagnoses">
+                        <Input id="primary-diagnoses" type="text"
+                            placeholder="e.g. Congestive Heart Failure, COPD"
+                            required
+                            value={patientData.primaryDiagnoses || ''}
+                            onChange={e => update('primaryDiagnoses', e.target.value)}
+                        />
+                    </FieldWrapper>
+                    <FieldWrapper label="Secondary Diagnoses" htmlFor="secondary-diagnoses" optional>
+                        <Input id="secondary-diagnoses" type="text"
+                            placeholder="Comma-separated"
+                            value={patientData.secondaryDiagnoses || ''}
+                            onChange={e => update('secondaryDiagnoses', e.target.value)}
+                        />
+                    </FieldWrapper>
                 </div>
             </div>
-            <hr className='mt-8' />
-            <div className='space-y-3 mt-5'>
-                <div className='mb-5'>
-                    <h3 className='font-semibold text-xl text-gray-800'>Vital Signs & Assesment</h3>
-                    <p className='text-sm text-gray-600'>Enter patient&apos;s vital signs & available assesment</p>
-                </div>
-                <div className='space-y-2'>
-                    <Label>Current Vital Signs</Label>
-                    <div className='grid grid-cols-3 max-md:grid-cols-2 gap-3'>
-                        <Input type="number" placeholder='Temp (F)'
-                            value={patientData.vitals.temperature || ''}
-                            onChange={(e) => setPatientData({ ...patientData, vitals: { ...patientData.vitals, temperature: Number(e.target.value) } })}
-                        />
-                        <Input type="text" placeholder='BP (mmHg)'
-                            value={patientData.vitals.bloodPressure || ''}
-                            onChange={(e) => setPatientData({ ...patientData, vitals: { ...patientData.vitals, bloodPressure: e.target.value } })}
-                        />
-                        <Input type="text" placeholder='HR (bpm)'
-                            value={patientData.vitals.heartRate || ''}
-                            onChange={(e) => setPatientData({ ...patientData, vitals: { ...patientData.vitals, heartRate: e.target.value } })} />
-                        <Input type="text" placeholder='RR (/min)'
-                            value={patientData.vitals.respiratoryRate || ''}
-                            onChange={(e) => setPatientData({ ...patientData, vitals: { ...patientData.vitals, respiratoryRate: e.target.value } })}
-                        />
-                        <Input type="text" placeholder='SpO₂ (%)'
-                            value={patientData.vitals.oxygenSaturation || ''}
-                            onChange={(e) => setPatientData({ ...patientData, vitals: { ...patientData.vitals, oxygenSaturation: e.target.value } })}
-                        />
-                        <Input type="number" placeholder='Pain (0-10)' min={0} max={10}
-                            value={patientData.vitals.painLevel || ''}
-                            onChange={(e) => setPatientData({ ...patientData, vitals: { ...patientData.vitals, painLevel: Number(e.target.value) } })}
-                        />
-                    </div>
-                </div>
-                <div className='space-y-2.5'>
-                    <Label htmlFor='labresult'>Laboratory Results</Label>
-                    <Textarea id="labresult" placeholder='Enter relevant lab values (CBC, BMP, ABG, etc.)'
-                        value={patientData.labResults || ''}
-                        onChange={(e) => setPatientData({ ...patientData, labResults: e.target.value })}
-                    />
-                </div>
-                <div className='space-y-2.5'>
-                    <Label htmlFor='physical-findings'>Physical Assesment Findings</Label>
-                    <Textarea id="physical-findings" placeholder='Enter head-to-toe assesment findings, symptom, patient complaints...'
-                        value={patientData.physicalFindings || ''}
-                        onChange={(e) => setPatientData({ ...patientData, physicalFindings: e.target.value })}
-                    />
-                </div>
-                <div className='space-y-2.5'>
-                    <Label htmlFor='current-medications'>Current Medications</Label>
-                    <Input type="text" placeholder='List current medications with doses separated by commas' id="current-medications"
-                        value={patientData.currentMedications || ''}
-                        onChange={(e) => setPatientData({ ...patientData, currentMedications: e.target.value })}
-                    />
-                </div>
-                <div className='space-y-2.5'>
-                    <Label htmlFor='allergies'>Allergies</Label>
-                    <Input type="text" placeholder='List known allergies separated by commas' id="allergies"
-                        value={patientData.allergies || ''}
-                        onChange={(e) => setPatientData({ ...patientData, allergies: e.target.value })}
-                    />
+
+            {/* Vitals */}
+            <div className="bg-white border border-gray-100 rounded-2xl p-6">
+                <SectionHeader
+                    icon={Activity}
+                    step={2}
+                    label="Vital Signs"
+                    description="Current hemodynamic and physiological readings."
+                />
+                <div className="grid grid-cols-3 max-sm:grid-cols-2 gap-3">
+                    {[
+                        { label: "Temperature", unit: "°F", field: "temperature", type: "number" },
+                        { label: "Blood Pressure", unit: "mmHg", field: "bloodPressure" },
+                        { label: "Heart Rate", unit: "bpm", field: "heartRate" },
+                        { label: "Respiratory Rate", unit: "/min", field: "respiratoryRate" },
+                        { label: "Oxygen Sat.", unit: "SpO₂ %", field: "oxygenSaturation" },
+                        { label: "Pain Level", unit: "0 – 10", field: "painLevel", type: "number" },
+                    ].map(v => (
+                        <VitalTile key={v.field} {...v} patientData={patientData} updateVital={updateVital} />
+                    ))}
                 </div>
             </div>
-            <Button disabled={generatingLoading} type="submit" className='w-full h-12 text-base mt-7 rounded-full'>Generate Care Plan</Button>
+
+            {/* Clinical Assessment */}
+            <div className="bg-white border border-gray-100 rounded-2xl p-6">
+                <SectionHeader
+                    icon={Stethoscope}
+                    step={3}
+                    label="Clinical Assessment"
+                    description="Head-to-toe findings, lab values, and diagnostic results."
+                />
+                <div className="space-y-4">
+                    <FieldWrapper label="Laboratory Results" htmlFor="labresult" optional>
+                        <Textarea
+                            id="labresult"
+                            placeholder="CBC, BMP, ABG, coagulation panels, cultures…"
+                            className="resize-none min-h-[80px] text-sm"
+                            value={patientData.labResults || ''}
+                            onChange={e => update('labResults', e.target.value)}
+                        />
+                    </FieldWrapper>
+                    <FieldWrapper label="Physical Assessment Findings" htmlFor="physical-findings" optional>
+                        <Textarea
+                            id="physical-findings"
+                            placeholder="Head-to-toe assessment, symptoms, patient complaints, neurological status…"
+                            className="resize-none min-h-[80px] text-sm"
+                            value={patientData.physicalFindings || ''}
+                            onChange={e => update('physicalFindings', e.target.value)}
+                        />
+                    </FieldWrapper>
+                </div>
+            </div>
+
+            {/* Medications & Allergies */}
+            <div className="bg-white border border-gray-100 rounded-2xl p-6">
+                <SectionHeader
+                    icon={Pill}
+                    step={4}
+                    label="Medications & Allergies"
+                    description="Active medications with dosages and any known allergies or sensitivities."
+                />
+                <div className="grid sm:grid-cols-2 gap-4">
+                    <FieldWrapper label="Current Medications" htmlFor="current-medications" optional>
+                        <Input id="current-medications" type="text"
+                            placeholder="Metoprolol 25mg BID, Lasix 40mg QD…"
+                            value={patientData.currentMedications || ''}
+                            onChange={e => update('currentMedications', e.target.value)}
+                        />
+                    </FieldWrapper>
+                    <FieldWrapper label="Allergies" htmlFor="allergies" optional>
+                        <Input id="allergies" type="text"
+                            placeholder="Penicillin, Sulfa, Latex…"
+                            value={patientData.allergies || ''}
+                            onChange={e => update('allergies', e.target.value)}
+                        />
+                    </FieldWrapper>
+                </div>
+            </div>
+
+            {/* Submit */}
+            <div>
+                <Button
+                    disabled={generatingLoading}
+                    type="submit"
+                    className="h-12 w-full rounded-full gap-2 font-semibold shadow-sm shadow-blue-100"
+                >
+                    <Sparkles size={14} />
+                    {generatingLoading ? "Generating…" : "Generate Care Plan"}
+                </Button>
+            </div>
         </form>
     );
 };

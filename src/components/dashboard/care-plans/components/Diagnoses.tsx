@@ -21,8 +21,8 @@ const Diagnoses = ({ diagnoses }: DiagnosesProps) => {
     return (
         <div className="space-y-8">
             {diagnoses.map((dx, index) => (
-                <div key={index} className="border-2 border-slate-300 rounded-none bg-white">
-                    <div className="bg-slate-100 border-b-2 border-slate-300 p-5">
+                <div key={index} className="border-2 border-slate-300 rounded-2xl bg-white">
+                    <div className="bg-slate-100 border-b-2 border-slate-300 p-5 rounded-t-2xl">
                         <div className="flex items-start justify-between gap-4 mb-3">
                             <div className="flex items-center gap-3">
                                 <div className="bg-teal-600 text-white font-bold text-lg px-3 py-1 rounded">#{index + 1}</div>
