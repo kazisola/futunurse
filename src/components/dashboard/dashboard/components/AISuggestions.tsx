@@ -13,127 +13,143 @@ interface SuggestionsProps {
     ai_suggestions: AISuggestion[]
 }
 
+const getTypeConfig = (type: string) => {
+    switch (type) {
+        case "weakness": return {
+            icon: TrendingDown,
+            iconColor: "text-rose-400",
+            dotColor: "bg-rose-400",
+            label: "Weakness",
+            labelColor: "text-rose-400",
+        };
+        case "strength": return {
+            icon: TrendingUp,
+            iconColor: "text-emerald-500",
+            dotColor: "bg-emerald-500",
+            label: "Strength",
+            labelColor: "text-emerald-500",
+        };
+        case "pattern": return {
+            icon: Brain,
+            iconColor: "text-violet-500",
+            dotColor: "bg-violet-500",
+            label: "Pattern",
+            labelColor: "text-violet-500",
+        };
+        default: return {
+            icon: Target,
+            iconColor: "text-gray-400",
+            dotColor: "bg-gray-400",
+            label: "Insight",
+            labelColor: "text-gray-400",
+        };
+    }
+};
+
+const EmptyState = () => (
+    <div className="flex flex-col items-center justify-center py-12 gap-4">
+        <div className="bg-blue-50 border border-blue-100 rounded-full p-3">
+            <Brain size={24} className="text-blue-400" />
+        </div>
+        <div className="text-center">
+            <p className="text-sm font-semibold text-slate-600">No suggestions yet</p>
+            <p className="text-xs text-gray-400 mt-1 max-w-[200px] leading-relaxed">
+                Complete more practice sessions to unlock personalized insights
+            </p>
+        </div>
+        <div className="flex gap-1.5">
+            {[...Array(5)].map((_, i) => (
+                <div key={i} className="h-1.5 rounded-full bg-blue-100"
+                    style={{ width: `${[24, 16, 32, 20, 28][i]}px` }} />
+            ))}
+        </div>
+    </div>
+);
+
 const AISuggestions = ({ ai_suggestions }: SuggestionsProps) => {
-    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
     const [openIndex, setOpenIndex] = useState<number | null>(0);
-    const toggleSection = (index: number) => {
-        setOpenIndex(prev => (prev === index ? null : index));
-    };
-
-
-    const getTypeStyles = (type: string) => {
-        switch (type) {
-            case "weakness":
-                return {
-                    gradient: "from-red-500/10 via-orange-500/10 to-yellow-500/10",
-                    border: "border-red-200/50",
-                    icon: TrendingDown,
-                    iconColor: "text-red-500",
-                    badge: "bg-red-100 text-red-700",
-                    glow: "shadow-red-500/20"
-                };
-            case "strength":
-                return {
-                    gradient: "from-green-500/10 via-emerald-500/10 to-teal-500/10",
-                    border: "border-green-200/50",
-                    icon: TrendingUp,
-                    iconColor: "text-green-500",
-                    badge: "bg-green-100 text-green-700",
-                    glow: "shadow-green-500/20"
-                };
-            case "pattern":
-                return {
-                    gradient: "from-purple-500/10 via-blue-500/10 to-indigo-500/10",
-                    border: "border-purple-200/50",
-                    icon: Brain,
-                    iconColor: "text-purple-500",
-                    badge: "bg-purple-100 text-purple-700",
-                    glow: "shadow-purple-500/20"
-                };
-            default:
-                return {
-                    gradient: "from-gray-500/10 via-slate-500/10 to-gray-500/10",
-                    border: "border-gray-200/50",
-                    icon: Target,
-                    iconColor: "text-gray-500",
-                    badge: "bg-gray-100 text-gray-700",
-                    glow: "shadow-gray-500/20"
-                };
-        }
-    };
 
     return (
-        <div className="border border-gray-200/30 hover:border-gray-200/50 rounded-lg p-4 bg-white duration-200">
-            <h4 className='mb-1 flex items-center gap-2.5 text-sm font-semibold text-slate-900'><Sparkles size={18} className='text-blue-700' /> Personalized Suggestions</h4>
-            <p className='text-sm text-gray-500 mb-5'>AI-powered suggestions to improve your performance</p>
+        <div className="border border-gray-200/30 hover:border-gray-200/50 rounded-2xl p-5 bg-white duration-200">
+            {/* Header */}
+            <div className="flex items-start justify-between mb-5">
+                <div>
+                    <h4 className="flex items-center gap-2 font-bold text-slate-800">
+                        <Sparkles size={18} className="text-blue-600" />
+                        Personalized Suggestions
+                    </h4>
+                    <p className="text-sm text-gray-400 mt-0.5">AI-powered insights to improve your performance</p>
+                </div>
+            </div>
 
-            <div className="space-y-4">
-                {
-                    ai_suggestions.map((item, index) => {
-                        const styles = getTypeStyles(item.type);
-                        const Icon = styles.icon;
-                        // const isOpen = openSections[index];
+            {ai_suggestions.length === 0 ? (
+                <EmptyState />
+            ) : (
+                <div className="space-y-2">
+                    {ai_suggestions.map((item, index) => {
+                        const config = getTypeConfig(item.type);
+                        const Icon = config.icon;
                         const isOpen = openIndex === index;
-                        const isHovered = hoveredIndex === index;
+                        const title = item.title.includes(":") ? item.title.split(":")[1].trim() : item.title;
 
                         return (
                             <div
                                 key={index}
-                                className={`relative rounded-xl border-2 ${styles.border} bg-linear-to-br ${styles.gradient} backdrop-blur-sm transition-all duration-200 ${isHovered ? `shadow-lg ${styles.glow} scale-[1.02]` : 'shadow-md'}`}
-                                onMouseEnter={() => setHoveredIndex(index)}
-                                onMouseLeave={() => setHoveredIndex(null)}
+                                className={`rounded-xl border transition-all duration-200 overflow-hidden ${
+                                    isOpen ? 'border-gray-200' : 'border-gray-100 hover:border-gray-200'
+                                }`}
                             >
                                 <button
-                                    onClick={() => toggleSection(index)}
-                                    className="cursor-pointer w-full p-3 flex items-center justify-between group"
+                                    onClick={() => setOpenIndex(prev => prev === index ? null : index)}
+                                    className="w-full px-4 py-3 flex items-center justify-between gap-3 text-left cursor-pointer"
                                 >
-                                    <div className="flex items-center gap-4 flex-1">
-                                        <div className={`p-2 rounded-xl bg-white/80 ${isHovered ? 'scale-110' : ''} transition-transform duration-300`}>
-                                            <Icon className={`w-3.5 h-3.5 ${styles.iconColor}`} />
+                                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                                        <div className={`shrink-0 p-1.5 rounded-lg bg-gray-50`}>
+                                            <Icon size={15} className={config.iconColor} />
                                         </div>
-
-                                        <div className="flex-1 text-left">
-                                            <div className="flex items-center gap-3 mb-1">
-                                                <h3 className="text-sm font-medium text-gray-800 capitalize">
-                                                    {
-                                                        item.title.split(":").length > 1 ? item.title.split(":")[1] : item.title
-                                                    }
-                                                </h3>
-                                            </div>
-
-                                        </div>
+                                        <span className="text-sm font-medium text-slate-700 truncate capitalize">
+                                            {title}
+                                        </span>
+                                        {/* <span className={`shrink-0 text-xs font-semibold ${config.labelColor} flex items-center gap-1`}>
+                                            <span className={`w-1.5 h-1.5 rounded-full inline-block ${config.dotColor}`} />
+                                            {config.label}
+                                        </span> */}
                                     </div>
-
                                     <ChevronDown
-                                        className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''} ${isHovered ? 'translate-x-1' : ''}`}
+                                        size={16}
+                                        className={`shrink-0 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                                     />
                                 </button>
 
-                                <div
-                                    className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
-                                >
-                                    <div className="px-4 pb-4">
-                                        <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-white/60">
-                                            <p className="text-gray-700 leading-relaxed">{item.description}</p>
+                                <div className={`transition-all duration-300 ${isOpen ? 'max-h-96' : 'max-h-0'} overflow-hidden`}>
+                                    <div className="px-4 pb-4 pt-0">
+                                        <div className="border-t border-gray-100 pt-3">
+                                            <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         );
-                    })
-                }
-            </div >
+                    })}
+                </div>
+            )}
 
-            {
-                ai_suggestions.length === 0 && (
-                    <div className="text-center py-12 text-gray-500">
-                        <Brain className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                        <p>No suggestions available yet</p>
-                    </div>
-                )
-            }
-        </div >
+            {/* Legend */}
+            {ai_suggestions.length > 0 && (
+                <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-100">
+                    {[
+                        { dot: "bg-emerald-500", label: "Strength" },
+                        { dot: "bg-rose-400", label: "Weakness" },
+                        { dot: "bg-violet-500", label: "Pattern" },
+                    ].map(({ dot, label }) => (
+                        <span key={label} className="flex items-center gap-1.5 text-xs text-gray-400">
+                            <span className={`w-2 h-2 rounded-full inline-block ${dot}`} />
+                            {label}
+                        </span>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 };
 
