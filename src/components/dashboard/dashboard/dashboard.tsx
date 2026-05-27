@@ -7,7 +7,6 @@ import NclexPerformance from './components/NclexPerformance';
 import WeekInsight from './components/WeekInsight';
 import AISuggestions from './components/AISuggestions';
 import StrengthsRadar from './components/StrengthsRadar';
-import AvgTimeChart from './components/AvgTimeChart';
 import DashboardSkeleton from './components/DashboardSkeleton';
 import { useGetDashboardQuery } from '@/redux/services/userApi';
 
@@ -36,8 +35,7 @@ export const Dashboard = ({ user }: DashboardProps) => {
                 <div className='col-span-2 space-y-5'>
                     <Features />
                     <NclexPerformance nclexTrend={data?.dashboard.nclexTrend} />
-                    <div className='grid md:grid-cols-2 gap-5'>
-                        <AvgTimeChart />
+                    <div>
                         <StrengthsRadar strength={data?.dashboard.performanceByCategory} />
                     </div>
                 </div>
