@@ -20,9 +20,9 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
         try {
             await bookmarkCarePlan({ id }).unwrap();
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const [deleteCarePlan, { isLoading: deleteLoading }] = useDeleteCarePlanMutation();
     const handleDeletePlan = async (_id: string) => {
@@ -34,46 +34,78 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
             toast.error("Failed to delete care plan!", { autoClose: 1000 });
         }
     };
+
+    const formatDate = (date: Date) =>
+        new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+
     return (
-        <div className='w-full bg-white border border-gray-200/30 hover:border-gray-200/50 duration-200 p-5 rounded-md'>
-            <div className='sm:flex items-center justify-between gap-3'>
-                <h2 className='text-xl font-bold text-gray-800'>
-                    {patient.name}
-                </h2>
-                <div className='space-x-2 max-sm:mt-3'>
-                    <span className='font-medium px-2 py-0.5 border rounded-full text-xs'>
+        <div className="w-full bg-white border border-gray-100 hover:border-gray-200 duration-200 p-5 rounded-2xl">
+
+            <div className="flex items-start justify-between gap-3 mb-3">
+                <div className="">
+                    {/* <div className="bg-blue-50 rounded-xl p-2 shrink-0">
+                        <Stethoscope size={16} className="text-blue-600" />
+                    </div> */}
+                    <h2 className="text-base font-bold text-slate-800 truncate">{patient.name}</h2>
+                </div>
+
+                <div className="flex items-center gap-1.5 shrink-0">
+                    <span className="text-xs font-medium px-2 py-0.5 rounded-full border border-gray-200 text-gray-500">
                         {patient.specialty}
                     </span>
-                    <span className='font-medium px-2 py-0.5 border border-blue-200 bg-blue-500/10 text-blue-600 rounded-full text-xs'>
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-500 border border-blue-100">
                         {carePlan.diagnoses?.length} Diagnoses
                     </span>
                 </div>
             </div>
-            <p className='text-gray-800 my-2'>{patient.primaryDiagnoses}</p>
-            <div className='flex sm:items-center gap-8 max-sm:flex-col max-sm:gap-2'>
-                <p className='text-sm text-gray-500 flex items-center gap-2'><Calendar size={16} /> Created {new Date(createdAt).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
-                <p className='text-sm text-gray-500 flex items-center gap-2'><Clock size={16} /> Updated {new Date(updatedAt).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+
+            <p className="text-sm text-gray-500 leading-relaxed mb-4">{patient.primaryDiagnoses}</p>
+
+            <div className="flex items-center gap-5 mb-5">
+                <span className="text-xs text-gray-400 flex items-center gap-1.5">
+                    <Calendar size={13} className="shrink-0" />
+                    Created {formatDate(createdAt)}
+                </span>
+                <span className="text-xs text-gray-400 flex items-center gap-1.5">
+                    <Clock size={13} className="shrink-0" />
+                    Updated {formatDate(updatedAt)}
+                </span>
             </div>
-            <div className='flex gap-2 max-sm:gap-4 mt-6'>
+
+            <div className="border-t border-gray-100 pt-4 flex items-center justify-between gap-2">
                 <Link href={{
                     pathname: `${pathname}/${_id}`,
                     query: {
                         patient: patient.name?.toLowerCase(),
                         specialty: patient.specialty?.toLowerCase()
                     }
-                }} className='max-sm:flex-1'>
-                    <Button className='w-40'><Stethoscope size={18} /> View Details</Button>
+                }}>
+                    <Button className="h-8 px-4 text-sm font-medium rounded-xl gap-1.5">
+                        <Stethoscope size={14} /> View Details
+                    </Button>
                 </Link>
-                <Button onClick={() => typeof _id === 'string' && handleBookmarkCarePlan(_id)}
-                disabled={bookmarkLoading}
-                className='bg-transparent max-md:border border-teal-500/30 text-gray-700 hover:text-teal-500 hover:bg-teal-500/20'>
-                    {bookmarked ?
-                        <BookmarkCheck size={18} className='text-teal-500' />
-                        :
-                        <Bookmark size={18} className='text-teal-500/80' />
-                    }
-                </Button>
-                <Button onClick={() => handleDeletePlan(_id as string)} disabled={deleteLoading} className='rounded-md bg-transparent max-md:border border-red-500/30 text-red-500/80 hover:text-red-500 hover:bg-red-500/20'><Trash size={18} /></Button>
+
+                <div className="flex items-center gap-1.5">
+                    <Button
+                        onClick={() => typeof _id === 'string' && handleBookmarkCarePlan(_id)}
+                        disabled={bookmarkLoading}
+                        className="h-8 w-8 p-0 rounded-xl bg-transparent border border-teal-100 hover:bg-teal-50 hover:border-teal-200 text-teal-500 transition-colors duration-200"
+                        title={bookmarked ? "Remove bookmark" : "Bookmark"}
+                    >
+                        {bookmarked
+                            ? <BookmarkCheck size={15} className="text-teal-500" />
+                            : <Bookmark size={15} className="text-teal-400" />
+                        }
+                    </Button>
+                    <Button
+                        onClick={() => handleDeletePlan(_id as string)}
+                        disabled={deleteLoading}
+                        className="h-8 w-8 p-0 rounded-xl bg-transparent border border-rose-100 hover:bg-rose-50 hover:border-rose-200 text-rose-400 hover:text-rose-500 transition-colors duration-200"
+                        title="Delete care plan"
+                    >
+                        <Trash size={15} />
+                    </Button>
+                </div>
             </div>
         </div>
     );
