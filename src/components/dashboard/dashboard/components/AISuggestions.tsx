@@ -74,9 +74,9 @@ const AISuggestions = ({ ai_suggestions }: SuggestionsProps) => {
             {/* Header */}
             <div className="flex items-start justify-between mb-5">
                 <div>
-                    <h4 className="flex items-center gap-2 font-bold text-slate-800">
+                    <h4 className="flex items-center gap-2 font-semibold text-slate-800">
                         <Sparkles size={18} className="text-blue-600" />
-                        Personalized Suggestions
+                        Personalized suggestions
                     </h4>
                     <p className="text-sm text-gray-400 mt-0.5">AI-powered insights to improve your performance</p>
                 </div>

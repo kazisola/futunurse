@@ -6,6 +6,15 @@ import {
     ResponsiveContainer, ReferenceLine, Area, AreaChart
 } from 'recharts';
 
+import type {
+  TooltipContentProps,
+} from "recharts";
+
+import type {
+    NameType,
+    ValueType,
+} from 'recharts/types/component/DefaultTooltipContent';
+
 interface NclexTrendPoint {
     date: string;
     totalQuestions?: number;
@@ -53,13 +62,13 @@ const EmptyState = () => (
     </div>
 );
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: TooltipContentProps<ValueType, NameType>) => {
     if (!active || !payload?.length) return null;
     const score = payload[0]?.value;
     const isPassing = score >= 70;
     return (
         <div className="bg-white border border-gray-100 rounded-xl shadow-lg px-4 py-3 text-sm min-w-[130px]">
-            <p className="text-gray-400 text-xs mb-1.5 font-medium">{formatDate(label)}</p>
+            <p className="text-gray-400 text-xs mb-1.5 font-medium">{formatDate(String(label ?? ''))}</p>
             <p className="font-bold text-slate-800 text-2xl leading-none tracking-tight">{score}%</p>
             <span className={`text-xs font-semibold mt-2 inline-flex items-center gap-1 ${isPassing ? 'text-emerald-500' : 'text-rose-400'}`}>
                 <span className={`w-1.5 h-1.5 rounded-full inline-block ${isPassing ? 'bg-emerald-500' : 'bg-rose-400'}`} />
@@ -69,10 +78,17 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     );
 };
 
-const CustomDot = (props: any) => {
-    const { cx, cy, payload } = props;
+interface CustomDotProps {
+    cx?: number;
+    cy?: number;
+    payload?: NclexTrendPoint;
+}
+const CustomDot = ({ cx, cy, payload }: CustomDotProps) => {
+    if (cx == null || cy == null || !payload) return null;
+
     const isPassing = payload.score >= 70;
     const color = isPassing ? '#3b82f6' : '#f87171';
+
     return (
         <g>
             <circle cx={cx} cy={cy} r={14} fill={color} fillOpacity={0.1} />
@@ -81,9 +97,16 @@ const CustomDot = (props: any) => {
     );
 };
 
-const CustomXAxisTick = ({ x, y, payload }: any) => (
+interface XAxisTickProps {
+    x?: number;
+    y?: number;
+    payload?: {
+        value: string;
+    };
+}
+const CustomXAxisTick = ({ x = 0, y = 0, payload }: XAxisTickProps) => (
     <text x={x} y={y + 14} textAnchor="middle" fontSize={11} fill="#94a3b8" fontFamily="inherit">
-        {formatDate(payload.value)}
+        {payload?.value ? formatDate(payload.value) : ''}
     </text>
 );
 
@@ -104,9 +127,9 @@ const NclexPerformance = ({ nclexTrend }: NclexPerformanceProps) => {
         <div className="border border-gray-200/30 hover:border-gray-200/50 rounded-2xl p-5 bg-white duration-200">
             <div className="flex items-start justify-between mb-5">
                 <div>
-                    <h4 className="flex items-center gap-2 font-bold text-slate-800">
+                    <h4 className="flex items-center gap-2 font-semibold text-slate-800">
                         <ChartAreaIcon size={18} className="text-blue-600" />
-                        Performance Trend
+                        Performance trend
                     </h4>
                     <p className="text-sm text-gray-400 mt-0.5">Your NCLEX score progression over time</p>
                 </div>
@@ -178,7 +201,7 @@ const NclexPerformance = ({ nclexTrend }: NclexPerformanceProps) => {
                             ticks={[0, 25, 50, 70, 100]}
                         />
 
-                        <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#e2e8f0', strokeWidth: 1.5, strokeDasharray: '4 3' }} />
+                        <Tooltip content={CustomTooltip} cursor={{ stroke: '#e2e8f0', strokeWidth: 1.5, strokeDasharray: '4 3' }} />
 
                         <Area
                             type="monotone"

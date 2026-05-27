@@ -5,6 +5,15 @@ import {
     PolarAngleAxis, PolarGrid, PolarRadiusAxis,
     Radar, RadarChart, ResponsiveContainer, Tooltip
 } from 'recharts';
+import type {
+  TooltipContentProps,
+} from "recharts";
+
+
+import type {
+  NameType,
+  ValueType,
+} from 'recharts/types/component/DefaultTooltipContent';
 
 interface StrengthPoint {
     category: string;
@@ -18,7 +27,7 @@ interface StrengthProps {
 const formatCategory = (value: string) =>
     value.split(" ").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload }: TooltipContentProps<ValueType, NameType>) => {
     if (!active || !payload?.length) return null;
     const { category, averageScore } = payload[0]?.payload ?? {};
     const isPassing = averageScore >= 70;
@@ -34,8 +43,17 @@ const CustomTooltip = ({ active, payload }: any) => {
     );
 };
 
-const CustomAngleTick = ({ payload, x, y, cx, cy, ...rest }: any) => {
-    const label = formatCategory(payload.value);
+interface CustomAngleTickProps {
+  payload?: {
+    value: string;
+  };
+  x?: number;
+  y?: number;
+  cx?: number;
+  cy?: number;
+}
+const CustomAngleTick = ({ payload, x = 0, y = 0, cx = 0, cy = 0, ...rest }: CustomAngleTickProps) => {
+    const label = formatCategory(payload?.value ?? '');
     const words = label.split(" ");
     const isRight = x > cx + 5;
     const isLeft = x < cx - 5;
@@ -94,9 +112,9 @@ const StrengthsRadar = ({ strength }: StrengthProps) => {
             {/* Header */}
             <div className="flex items-start justify-between mb-5">
                 <div>
-                    <h4 className="flex items-center gap-2 font-bold text-slate-800">
+                    <h4 className="flex items-center gap-2 font-semibold text-slate-800">
                         <Stethoscope size={18} className="text-violet-600" />
-                        Strengths & Weaknesses
+                        Strengths & weaknesses
                     </h4>
                     <p className="text-sm text-gray-400 mt-0.5">Performance by nursing domain</p>
                 </div>
@@ -154,7 +172,7 @@ const StrengthsRadar = ({ strength }: StrengthProps) => {
                                 tickLine={false}
                                 tickFormatter={(v) => `${v}`}
                             />
-                            <Tooltip content={<CustomTooltip />} />
+                            <Tooltip content={CustomTooltip} />
                             <Radar
                                 name="averageScore"
                                 dataKey="averageScore"
