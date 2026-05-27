@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Computer, PencilLine, User } from 'lucide-react';
+import { Check, PencilLine, Sparkles, User } from 'lucide-react';
 
 interface StageProps {
   currentStage: number;
@@ -7,61 +7,65 @@ interface StageProps {
 
 const NewPlanStage = ({ currentStage }: StageProps) => {
   const stages = [
-    { id: 1, label: 'Patient Intake', icon: <User size={18} /> },
-    { id: 2, label: 'AI Generation', icon: <Computer size={18} /> },
-    { id: 3, label: 'Review & Edit', icon: <PencilLine size={18} /> },
+    { id: 1, label: 'Patient Intake', sublabel: 'Demographics & vitals', icon: User },
+    { id: 2, label: 'AI Generation', sublabel: 'Building care plan', icon: Sparkles },
+    { id: 3, label: 'Review & Edit', sublabel: 'Finalize & save', icon: PencilLine },
   ];
 
   return (
-    <div className="lg:w-3xl max-md:hidden mx-auto flex flex-col md:flex-row items-start md:items-center mb-10">
+    <div className="lg:w-3xl max-md:hidden mx-auto flex items-center mb-10">
       {stages.map((stage, index) => {
+        const Icon = stage.icon;
         const isCurrent = stage.id === currentStage;
         const isCompleted = stage.id < currentStage;
         const isLast = index === stages.length - 1;
 
         return (
-          <div
-            key={stage.id}
-            className={`flex items-center ${
-              !isLast ? 'flex-1' : ''
-            } relative mb-4 md:mb-0`}
-          >
-            <p
-              className={`w-8 h-8 rounded-full ${
-                isCurrent || isCompleted
-                  ? 'bg-teal-600 text-white'
-                  : 'bg-gray-300/50 text-gray-500'
-              } font-medium flex items-center justify-center mr-2`}
-            >
-              {isCompleted ? <Check size={18} /> : stage.id}
-            </p>
-            <span
-              className={`font-medium ${
-                isCurrent || isCompleted ? 'text-teal-600' : 'text-gray-500'
-              }`}
-            >
-              {stage.label}
-            </span>
+          <React.Fragment key={stage.id}>
+            {/* Step */}
+            <div className="flex items-center gap-3 shrink-0">
+              {/* Icon bubble */}
+              <div className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                isCompleted
+                  ? 'bg-blue-600 shadow-sm shadow-blue-200'
+                  : isCurrent
+                    ? 'bg-blue-600 shadow-sm shadow-blue-200'
+                    : 'bg-gray-100'
+              }`}>
+                {isCompleted
+                  ? <Check size={16} className="text-white" strokeWidth={2.5} />
+                  : <Icon size={16} className={isCurrent ? 'text-white' : 'text-gray-400'} />
+                }
+                {/* Pulse ring on current */}
+                {isCurrent && (
+                  <span className="absolute inset-0 rounded-xl ring-2 ring-blue-400 ring-offset-2 animate-pulse" />
+                )}
+              </div>
 
-            {/* Connector line */}
+              {/* Labels */}
+              <div>
+                <p className={`text-sm font-semibold leading-tight transition-colors duration-200 ${
+                  isCurrent || isCompleted ? 'text-slate-800' : 'text-gray-400'
+                }`}>
+                  {stage.label}
+                </p>
+                <p className={`text-xs mt-0.5 transition-colors duration-200 ${
+                  isCurrent ? 'text-blue-500' : isCompleted ? 'text-gray-400' : 'text-gray-300'
+                }`}>
+                  {stage.sublabel}
+                </p>
+              </div>
+            </div>
+
+            {/* Connector */}
             {!isLast && (
-              <>
-                {/* Desktop horizontal connector */}
-                <div
-                  className={`hidden md:block flex-1 h-1 mx-3 ${
-                    isCompleted ? 'bg-teal-600' : 'bg-gray-300/50'
-                  }`}
-                ></div>
-
-                {/* Mobile vertical connector */}
-                <div
-                  className={`md:hidden absolute left-4 top-8 w-1 h-6 ${
-                    isCompleted ? 'bg-teal-600' : 'bg-gray-300/50'
-                  }`}
-                ></div>
-              </>
+              <div className="flex-1 mx-4 h-px relative overflow-hidden rounded-full bg-gray-100">
+                <div className={`absolute inset-y-0 left-0 rounded-full bg-blue-500 transition-all duration-500 ${
+                  isCompleted ? 'w-full' : 'w-0'
+                }`} />
+              </div>
             )}
-          </div>
+          </React.Fragment>
         );
       })}
     </div>
