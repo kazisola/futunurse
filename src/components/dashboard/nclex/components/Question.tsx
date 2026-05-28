@@ -35,7 +35,7 @@ const Question = ({ currentQuestion, onNextQuestion, currentQuestionIndex, sessi
     }
     if (!currentQuestion) return <div>Thinking...</div>
     return (
-        <div className="border border-gray-200 bg-white shadow-sm rounded-xl p-6 sm:p-7">
+        <div className="border border-gray-200 bg-white shadow-sm rounded-2xl p-5">
 
             <h6 className="text-lg sm:text-xl font-semibold text-gray-900 leading-relaxed">
                 {currentQuestion.question}
