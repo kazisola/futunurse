@@ -96,7 +96,7 @@ const UserForm = ({ user }: UserDetailsProps) => {
     };
 
     return (
-        <div className='bg-white border border-gray-200/30 rounded-xl'>
+        <div className='bg-white border border-gray-200/30 rounded-2xl'>
             <div className='border-b pb-6 flex justify-between items-center p-6'>
                 <div>
                     <h4 className='font-medium'>Personal information</h4>

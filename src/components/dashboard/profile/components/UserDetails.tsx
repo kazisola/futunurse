@@ -15,7 +15,7 @@ const UserDetails = ({ user }: UserDetailsProps) => {
     const userAttr = user?.fullName.split(" ").map(n => n[0]).join("");
     return (
         <div className='space-y-6'>
-            <section className='flex items-center gap-4 max-sm:flex-col max-sm:text-center bg-white border border-gray-200/30 rounded-xl p-6'>
+            <section className='flex items-center gap-4 max-sm:flex-col max-sm:text-center bg-white border border-gray-200/30 rounded-2xl p-5'>
                 <Avatar className='w-20 h-20'>
                     <AvatarImage />
                     <AvatarFallback className='bg-teal-600 text-white font-semibold text-2xl'>{userAttr}</AvatarFallback>
@@ -23,7 +23,7 @@ const UserDetails = ({ user }: UserDetailsProps) => {
                 <div>
                     <h3 className='font-bold text-2xl mb-1'>{user?.fullName}</h3>
                     <p className='text-gray-600'>{user?.email}</p>
-                    <ul className='flex items-center gap-2 max-sm:flex-col mt-3'>
+                    <ul className='flex items-center gap-2 max-sm:flex-col mt-2'>
                         {tags.map(tag => (
                             tag.value && <li key={tag.type} className={`px-3 py-0.5 rounded-full border font-medium text-sm 
                                 ${tag.type == 'program_type' ? 'bg-teal-200/20 text-teal-500 border-teal-200/70' :
