@@ -18,8 +18,8 @@ interface FeaturePanelProps {
 
 const FeaturePanel = ({ query, setQuery, type, setType, setCard, responseLoading, setResponseLoading }: FeaturePanelProps) => {
     return (
-        <aside className='col-span-3 bg-white rounded-md p-4 space-y-4'>
-            <header className="max-md:hidden">
+        <aside className='col-span-3 bg-white border border-gray-100 rounded-2xl p-5 space-y-4'>
+            <header>
                 <h4 className='text-lg font-semibold text-slate-950'>Drug & Lab Companion</h4>
                 <p className='text-sm text-gray-600'>Instant nursing references</p>
             </header>

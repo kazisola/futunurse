@@ -3,7 +3,7 @@ import React from 'react';
 
 const EmptyState = () => {
     return (
-        <div className="flex flex-col items-center justify-center h-[calc(100vh-5rem)] max-lg:h-full max-lg:py-16 text-center">
+        <div className="flex flex-col items-center justify-center h-[calc(100vh-5.6rem)] max-lg:h-full max-lg:py-16 text-center">
             <div className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center mb-5">
                 <Search className="w-6 h-6 text-slate-400" />
             </div>

@@ -11,15 +11,17 @@ import BulletList from "./BulletList";
 const DiagnosticCard = ({ card, isSaved }: { card: DiagnosticCard, isSaved: boolean }) => {
     return (
         <>
-            <header className="flex items-center justify-between border-b pb-3 mb-4">
+            <header className="flex items-center max-sm:items-start justify-between border-b pb-3 mb-4">
                 <div className="flex items-center gap-3">
-                    <div className="bg-violet-100 w-12 h-12 rounded-md flex items-center justify-center">
+                    <div className="max-sm:hidden bg-violet-100 w-12 h-12 rounded-md flex items-center justify-center">
                         <Stethoscope className="w-6 text-violet-700" />
                     </div>
                     <div>
-                        <h3 className="font-semibold text-gray-950 text-lg capitalize">{card.name}</h3>
+                        <h3 className="font-semibold text-gray-950 text-lg capitalize max-sm:flex max-sm:gap-2 max-sm:items-center">{card.name}
+                            <span className="sm:hidden rounded-full px-3 bg-violet-100 text-violet-700 capitalize font-medium text-sm">{card.type}</span>
+                        </h3>
                         <div className="flex items-center gap-2">
-                            <span className="rounded-full px-3 bg-violet-100 text-violet-700 capitalize font-medium text-sm">{card.type}</span>
+                            <span className="max-sm:hidden rounded-full px-3 bg-violet-100 text-violet-700 capitalize font-medium text-sm">{card.type}</span>
                             <p className="text-gray-600">{card.category}</p>
                         </div>
                     </div>
@@ -29,7 +31,7 @@ const DiagnosticCard = ({ card, isSaved }: { card: DiagnosticCard, isSaved: bool
                 }
             </header>
 
-            <main className="space-y-4 max-h-[calc(100vh-10.1rem)] overflow-y-auto">
+            <main className="space-y-4 max-h-[calc(100vh-10.7rem)] overflow-y-auto">
                 {/* <div className="grid grid-cols-2 gap-3">
                     <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
                         <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-1">Category</p>

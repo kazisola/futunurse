@@ -83,7 +83,7 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, 
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     required
-                    className="h-12 border-muted pl-10 text-sm shadow-xs focus-visible:ring-2"
+                    className="h-12 pl-10 text-sm shadow-xs focus-visible:ring-2"
                 />
             </div>
             <ul className="flex justify-between gap-2 bg-gray-50 p-2 rounded-md">
@@ -92,7 +92,7 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, 
                         <Button
                             type='button'
                             size={'sm'}
-                            className={`w-full rounded-md text-[13px] font-medium bg-transparent hover:bg-gray-200 text-gray-950 border ${type === item.type ? 'bg-gray-900 hover:bg-gray-900 border-none text-white' : ''}`}
+                            className={`w-full rounded-md text-[13px] font-medium bg-gray-100 hover:bg-gray-200 text-black border ${type === item.type ? 'bg-gray-900 hover:bg-gray-900 border-none text-white' : ''}`}
                             onClick={() => setType(item.type)}>
                             {item.label}
                         </Button>

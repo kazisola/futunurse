@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FeaturePanel from './components/FeaturePanel';
 import { CompanionCard, CompanionType } from '@/types/companion';
 import DrugCard from './components/DrugCard';
@@ -12,10 +12,21 @@ import CompanionSkeleton from './components/CompanionSkeleton';
 import { ToastContainer } from 'react-toastify';
 
 export const Companion = () => {
+    
+
     const [query, setQuery] = useState<string>("");
     const [type, setType] = useState<CompanionType | null>(null);
 
     const [card, setCard] = useState<CompanionCard | null>(null);
+
+    useEffect(() => {
+        if (card) {
+            document.getElementById("card")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
+    }, [card]);
 
     const [responseLoading, setResponseLoading] = useState<boolean>(false);
 
@@ -34,11 +45,13 @@ export const Companion = () => {
         diagnostic: DiagnosticCard as React.ComponentType<{ card: CompanionCard, isSaved: boolean }>
     };
     const ActiveCard = card?.type ? componentsMap[card.type] : null;
+
+    
     return (
         <>
-            <div className='lg:grid grid-cols-10 gap-3 max-lg:space-y-6'>
+            <div className='lg:grid grid-cols-10 gap-3 items-start max-lg:space-y-6'>
                 <FeaturePanel query={query} setQuery={setQuery} type={type} setType={setType} setCard={setCard} responseLoading={responseLoading} setResponseLoading={setResponseLoading} />
-                <section className='col-span-7 bg-white rounded-md p-4'>
+                <section className='col-span-7 bg-white border border-gray-100 rounded-2xl p-5' id='card'>
                     {
                         responseLoading ? (
                             <AiLoadingAnimation isVisible={true} title={`Generating ${query || "companion"} card`} />
