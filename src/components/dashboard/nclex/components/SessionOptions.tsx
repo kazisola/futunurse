@@ -1,62 +1,103 @@
 import { Button } from '@/components/ui/button';
-import { BookOpen, Brain, LucideIcon, Play } from 'lucide-react';
+import { BookOpen, Brain, Play } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 
-type Options = {
-    icon: LucideIcon,
-    title: string;
-    label: string;
-    description: string;
-}
+const options = [
+    {
+        icon: Brain,
+        title: "Adaptive Practice",
+        label: "Personalized to your weak areas",
+        description: "AI-powered questions that adapt to your performance in real time, focusing on the areas that need the most improvement.",
+        cta: "Start Adaptive Session",
+        ctaIcon: Play,
+        accent: {
+            icon: "text-violet-600",
+            iconBg: "bg-violet-50",
+            badge: "bg-violet-50 text-violet-500 border-violet-100",
+            button: "",
+            glow: "bg-violet-50",
+            tag: "AI-Powered",
+        },
+    },
+    {
+        icon: BookOpen,
+        title: "Category Focus",
+        label: "Target a specific content area",
+        description: "Choose a specific NCLEX domain to drill deep on particular content areas and systematically raise your pass probability.",
+        cta: "Choose Category",
+        ctaIcon: BookOpen,
+        accent: {
+            icon: "text-blue-600",
+            iconBg: "bg-blue-50",
+            badge: "bg-blue-50 text-blue-500 border-blue-100",
+            button: "bg-blue-600 hover:bg-blue-700",
+            glow: "bg-blue-50",
+            tag: "Targeted",
+        },
+    },
+];
 
 const SessionOptions = () => {
     const router = useRouter();
     const pathname = usePathname();
-    const options: Options[] = [
-        {
-            icon: Brain,
-            title: "Adaptive Practice",
-            label: "AI-powered questions based on your weak areas",
-            description: "Get personalized questions that adapt to your performance and focus on areas needing improvement"
-        },
-        {
-            icon: BookOpen,
-            title: "Category Focus",
-            label: "Practice specific NCLEX content areas",
-            description: "Choose a specific category to focus your practice session on particular content areas and improve pass chance numeriously"
-        }
-    ]
+
+    const handleClick = (index: number) => {
+        if (index === 1) router.push(`${pathname}/categories`);
+    };
+
     return (
-        <div className='grid md:grid-cols-2 gap-6'>
-            {
-                options.map((option, index) => {
-                    const Icon = option.icon;
-                    return (
-                        <div key={index} className='bg-white border border-gray-200/30 p-5 rounded-md '>
-                            <h4 className='flex items-center gap-3 font-semibold text-gray-800'><Icon className={`w-5 h-5 ${index === 0 ? 'text-teal-600' : index === 1 ? 'text-blue-600' : null}`} /> {option.title}</h4>
-                            <p className='text-gray-500 mb-5 mt-1 text-sm'>{option.label}</p>
-                            <p className='text-gray-600 mb-5 text-sm'>{option.description}</p>
-                            {index === 0 ?
-                                <Link href={{
-                                    pathname: `${pathname}/new-session`,
-                                    query: {
-                                        category: `mixed personalized`
-                                    }
-                                }} className='w-full'>
-                                    <Button size={'lg'} className='w-full'><Play /> Start adaptive session</Button>
-                                </Link>
-                                :
-                                index === 1 ?
-                                    <Button size={'lg'} onClick={() => router.push(`${pathname}/categories`)} className='w-full bg-blue-600/90 hover:bg-blue-600 duration-200'><BookOpen /> Choose category</Button>
-                                    :
-                                    null
-                            }
+        <div className="grid md:grid-cols-2 gap-4">
+            {options.map((option, index) => {
+                const Icon = option.icon;
+                const CtaIcon = option.ctaIcon;
+                const a = option.accent;
+
+                const inner = (
+                    <div className="bg-white border border-gray-100 hover:border-gray-200 rounded-2xl p-5 flex flex-col gap-4 h-full transition-colors duration-200 group">
+
+                        <div className="flex items-start justify-between">
+                            <div className={`${a.iconBg} rounded-xl p-2.5 inline-flex`}>
+                                <Icon size={18} className={a.icon} />
+                            </div>
+                            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${a.badge}`}>
+                                {a.tag}
+                            </span>
                         </div>
-                    )
-                })
-            }
+
+
+                        <div className="flex-1">
+                            <h4 className="font-semibold text-slate-800 mb-0.5">{option.title}</h4>
+                            <p className="text-xs font-medium text-gray-400 mb-2">{option.label}</p>
+                            <p className="text-sm text-gray-500 leading-relaxed">{option.description}</p>
+                        </div>
+
+
+                        <Button
+                            size="lg"
+                            className={`w-full rounded-xl gap-2 text-sm font-semibold ${a.button}`}
+                        >
+                            <CtaIcon size={15} />
+                            {option.cta}
+                        </Button>
+                    </div>
+                );
+
+                return index === 0 ? (
+                    <Link
+                        key={index}
+                        href={{ pathname: `${pathname}/new-session`, query: { category: 'mixed personalized' } }}
+                        className="h-full"
+                    >
+                        {inner}
+                    </Link>
+                ) : (
+                    <div key={index} className="h-full" onClick={() => handleClick(index)}>
+                        {inner}
+                    </div>
+                );
+            })}
         </div>
     );
 };
