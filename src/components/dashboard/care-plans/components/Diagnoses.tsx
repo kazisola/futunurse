@@ -111,7 +111,7 @@ const Diagnoses = ({ diagnoses }: DiagnosesProps) => {
                             </div>
                         </div>
 
-                        <div>
+                        <div className=''>
                             <div className="flex items-center gap-2 mb-3 pb-2 border-b border-slate-300">
                                 <Stethoscope className="w-5 h-5 text-teal-600" />
                                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide">
@@ -119,7 +119,7 @@ const Diagnoses = ({ diagnoses }: DiagnosesProps) => {
                                 </h3>
                             </div>
                             <div className="border border-slate-300">
-                                <table className="w-full">
+                                <table className="w-full max-sm:table-fixed">
                                     <thead>
                                         <tr className="bg-slate-50 border-b border-slate-300">
                                             <th className="text-left p-3 text-xs font-bold text-slate-700 uppercase w-12">#</th>
@@ -133,8 +133,8 @@ const Diagnoses = ({ diagnoses }: DiagnosesProps) => {
                                     </thead>
                                     <tbody>
                                         {dx.interventions?.map((item, i) => (
-                                            <tr key={i} className={i !== dx.interventions.length - 1 ? "border-b border-slate-200" : ""}>
-                                                <td className="p-3 align-top">
+                                            <tr key={i} className={`${i !== dx.interventions.length - 1 ? "border-b border-slate-200" : ""} align-top`}>
+                                                <td className="p-3">
                                                     <div className="bg-teal-600 text-white font-bold text-sm w-7 h-7 rounded-full flex items-center justify-center">
                                                         {i + 1}
                                                     </div>
