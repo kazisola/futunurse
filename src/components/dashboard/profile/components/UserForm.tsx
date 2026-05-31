@@ -97,7 +97,7 @@ const UserForm = ({ user }: UserDetailsProps) => {
 
     return (
         <div className='bg-white border border-gray-200/30 rounded-2xl'>
-            <div className='border-b pb-6 flex justify-between items-center p-6'>
+            <div className='border-b pb-6 flex sm:justify-between sm:items-center p-6 max-sm:flex-col max-sm:gap-3'>
                 <div>
                     <h4 className='font-medium'>Personal information</h4>
                     <p className='text-sm text-gray-500'>
@@ -105,9 +105,9 @@ const UserForm = ({ user }: UserDetailsProps) => {
                     </p>
                 </div>
                 {isEditMode ? (
-                    <div className='flex items-center gap-2'>
-                        <Button type='reset' onClick={() => setIsEditMode(false)} variant={'outline'}>Cancel</Button>
-                        <Button type='submit' onClick={handleUpdateUser}>{userUpdateLoading ? 'Saving...' : 'Save profile'}</Button>
+                    <div className='flex items-center gap-2 max-sm:w-full'>
+                        <Button type='reset' size={'sm'} className='h-9 max-sm:flex-1' onClick={() => setIsEditMode(false)} variant={'outline'}>Cancel</Button>
+                        <Button type='submit' className='max-sm:flex-1' onClick={handleUpdateUser}>{userUpdateLoading ? 'Saving...' : 'Save profile'}</Button>
                     </div>
                 )
                     :
