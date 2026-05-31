@@ -189,9 +189,8 @@ const StrengthsRadar = ({ strength }: StrengthProps) => {
                 <EmptyState />
             )}
 
-            {/* Legend */}
             {hasData && (
-                <div className="flex items-center gap-4 mt-3 pt-3 border-t border-gray-100">
+                <div className="flex items-center flex-wrap gap-4 mt-3 pt-3 border-t border-gray-100">
                     <span className="flex items-center gap-1.5 text-xs text-gray-400">
                         <span className="w-2 h-2 rounded-full bg-violet-600 inline-block" />
                         Domain score

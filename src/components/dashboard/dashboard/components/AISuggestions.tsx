@@ -104,7 +104,7 @@ const AISuggestions = ({ ai_suggestions }: SuggestionsProps) => {
                                     className="w-full px-4 py-3 flex items-center justify-between gap-3 text-left cursor-pointer"
                                 >
                                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                                        <div className={`shrink-0 p-1.5 rounded-lg bg-gray-50`}>
+                                        <div className={`shrink-0 p-1.5 rounded-lg bg-gray-50 max-sm:hidden`}>
                                             <Icon size={15} className={config.iconColor} />
                                         </div>
                                         <span className="text-sm font-medium text-slate-700 truncate capitalize">
@@ -134,9 +134,8 @@ const AISuggestions = ({ ai_suggestions }: SuggestionsProps) => {
                 </div>
             )}
 
-            {/* Legend */}
             {ai_suggestions.length > 0 && (
-                <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-100">
+                <div className="max-sm:hidden flex items-center gap-4 mt-4 pt-3 border-t border-gray-100">
                     {[
                         { dot: "bg-emerald-500", label: "Strength" },
                         { dot: "bg-rose-400", label: "Weakness" },
