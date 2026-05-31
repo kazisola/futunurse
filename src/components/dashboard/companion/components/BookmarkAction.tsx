@@ -18,7 +18,7 @@ const BookmarkAction = ({ card }: { card: CompanionCard }) => {
     return (
         <Button
             onClick={handleBookmark}
-            size="lg"
+            size="sm"
             disabled={isLoading}
         >
             {isLoading ? (

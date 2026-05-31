@@ -60,7 +60,6 @@ export const Categories = () => {
                     return (
                         <div key={idx} className='bg-white border border-gray-200/30 hover:border-gray-200/50 duration-200 rounded-lg p-5'>
 
-                            {/* Header — your exact layout */}
                             <div className='flex items-center gap-4 mb-5'>
                                 <div className='max-sm:hidden bg-blue-50 text-blue-600 w-11 h-11 rounded-xl flex items-center justify-center'>
                                     <Stethoscope size={21} />
@@ -71,7 +70,6 @@ export const Categories = () => {
                                 </div>
                             </div>
 
-                            {/* Performance — your exact layout, visuals swapped */}
                             {perf && cfg && (
                                 <div className='mb-2'>
                                     <div className='flex items-center justify-between mb-1.5'>
@@ -90,7 +88,6 @@ export const Categories = () => {
                                 </div>
                             )}
 
-                            {/* Key topics — your exact layout */}
                             <div className='mt-5'>
                                 <h3 className='uppercase text-xs font-bold text-slate-400 tracking-widest mb-2'>Key topics</h3>
                                 <ul className='flex items-center gap-2 flex-wrap'>
@@ -102,7 +99,6 @@ export const Categories = () => {
                                 </ul>
                             </div>
 
-                            {/* Actions — your exact layout */}
                             <div className='mt-5 flex gap-4'>
                                 <Link href={{
                                     pathname: `/dashboard/nclex/new-session`,

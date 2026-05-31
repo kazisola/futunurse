@@ -92,14 +92,14 @@ const SubmitForm = ({ query, setQuery, type, setType, setCard, responseLoading, 
                         <Button
                             type='button'
                             size={'sm'}
-                            className={`w-full rounded-md text-[13px] font-medium bg-gray-100 hover:bg-gray-200 text-black border ${type === item.type ? 'bg-gray-900 hover:bg-gray-900 border-none text-white' : ''}`}
+                            className={`w-full rounded-lg text-[13px] bg-gray-100 hover:bg-gray-200 text-black border ${type === item.type ? 'bg-gray-900 hover:bg-gray-900 border-none text-white' : ''}`}
                             onClick={() => setType(item.type)}>
                             {item.label}
                         </Button>
                     </li>
                 ))}
             </ul>
-            <Button type="submit" size={'lg'} className='w-full rounded-md' disabled={responseLoading || !type}>
+            <Button type="submit" size={'lg'} className='w-full rounded-lg' disabled={responseLoading || !type}>
                 {responseLoading ?
                     ('Thinking...')
                     :

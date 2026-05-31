@@ -76,7 +76,7 @@ const SessionOptions = () => {
 
                         <Button
                             size="lg"
-                            className={`w-full rounded-xl gap-2 text-sm font-semibold ${a.button}`}
+                            className={`w-full  gap-2 font-semibold ${a.button}`}
                         >
                             <CtaIcon size={15} />
                             {option.cta}

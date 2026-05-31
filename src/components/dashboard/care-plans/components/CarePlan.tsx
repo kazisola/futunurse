@@ -80,7 +80,7 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
                         specialty: patient.specialty?.toLowerCase()
                     }
                 }}>
-                    <Button className="h-8 px-4 text-sm font-medium rounded-xl gap-1.5">
+                    <Button>
                         <Stethoscope size={14} /> View Details
                     </Button>
                 </Link>
@@ -89,7 +89,7 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
                     <Button
                         onClick={() => typeof _id === 'string' && handleBookmarkCarePlan(_id)}
                         disabled={bookmarkLoading}
-                        className="h-8 w-8 p-0 rounded-xl bg-transparent border border-teal-100 hover:bg-teal-50 hover:border-teal-200 text-teal-500 transition-colors duration-200"
+                        className="h-8 w-8 p-0 bg-transparent border border-teal-100 hover:bg-teal-50 hover:border-teal-200 text-teal-500 transition-colors duration-200"
                         title={bookmarked ? "Remove bookmark" : "Bookmark"}
                     >
                         {bookmarked
@@ -100,7 +100,7 @@ const CarePlan = ({ carePlan }: CarePlanProps) => {
                     <Button
                         onClick={() => handleDeletePlan(_id as string)}
                         disabled={deleteLoading}
-                        className="h-8 w-8 p-0 rounded-xl bg-transparent border border-rose-100 hover:bg-rose-50 hover:border-rose-200 text-rose-400 hover:text-rose-500 transition-colors duration-200"
+                        className="h-8 w-8 p-0 bg-transparent border border-rose-100 hover:bg-rose-50 hover:border-rose-200 text-rose-400 hover:text-rose-500 transition-colors duration-200"
                         title="Delete care plan"
                     >
                         <Trash size={15} />

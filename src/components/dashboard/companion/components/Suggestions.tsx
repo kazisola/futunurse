@@ -78,24 +78,25 @@ const Suggestions = ({ setQuery, setCard, responseLoading, setResponseLoading }:
             <ul className='flex gap-1 flex-wrap'>
                 {suggestions.map((suggestion, index) => <li key={index}>
                     <Button
+                        size={'sm'}
                         onClick={() => handleClickSuggestion(suggestion.query, suggestion.type)}
                         className={`
-                            text-xs rounded-full h-6 border-none shadow-none hover:bg-transparent
+                            h-6 w-max text-xs border-none shadow-none hover:bg-transparent
                             ${suggestion.type === "drug"
                                 ? "bg-blue-100 text-blue-700"
                                 : suggestion.type === "lab"
                                     ? "bg-rose-100 text-rose-700"
                                     : "bg-violet-100 text-violet-700"
                             }
-                            `} size={'sm'}>
+                            `}>
                         {suggestion.type === 'drug' ?
-                            <Pill />
+                            <Pill className='!w-3.5' />
                             :
                             suggestion.type === 'lab' ?
-                                <FlaskConical />
+                                <FlaskConical className='!w-3.5' />
                                 :
                                 suggestion.type === 'diagnostic' ?
-                                    <Stethoscope />
+                                    <Stethoscope className='!w-3.5' />
                                     :
                                     null
                         }

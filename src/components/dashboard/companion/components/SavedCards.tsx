@@ -23,8 +23,8 @@ const SavedCards = ({ setCard }: { setCard: Dispatch<SetStateAction<CompanionCar
         <section>
             <h5 className='uppercase text-xs font-semibold mb-2 text-slate-800'>Saved cards</h5>
             {saved_cards.length > 0 ?
-                <ul className="flex flex-col gap-1 max-h-58.5 overflow-y-auto">
-                    {saved_cards.map((card, index) => <li key={index} onClick={() => handleGetSavedCard(card._id)} className="flex justify-between items-center hover:bg-gray-100 py-1.5 px-2 rounded-md cursor-pointer">
+                <ul className="flex flex-col gap-1 max-h-full overflow-y-auto">
+                    {saved_cards.map((card, index) => <li key={index} onClick={() => handleGetSavedCard(card._id)} className="flex justify-between items-center hover:bg-gray-100 py-1.5 px-2 rounded-lg cursor-pointer">
                         <div className="flex items-center gap-2">
                             {/* <h5 className={`w-1.5 h-1.5 rounded-full ${card.type === 'drug' ? 'bg-blue-700' : card.type === 'lab' ? 'bg-rose-700' : 'bg-violet-700'}`}></h5> */}
                             <div>
@@ -43,7 +43,7 @@ const SavedCards = ({ setCard }: { setCard: Dispatch<SetStateAction<CompanionCar
                             <p className="text-sm capitalize">{card.query.length > 25 ? `${card.query.slice(0, 25)}...` : card.query}</p>
                         </div>
                         <div>
-                            <Button size={'sm'} className="bg-transparent hover:bg-gray-200/60 text-gray-800"><MoreVertical /></Button>
+                            <Button size={'sm'} className="bg-transparent hover:bg-gray-200/60 text-gray-800 w-7 h-7 rounded-md"><MoreVertical /></Button>
                             {/* <Button size={'sm'} className="bg-transparent hover:bg-gray-200/60 text-red-400/80 hover:text-red-400"><Trash className="w-3.5 h-3.5" /></Button> */}
                         </div>
                     </li>)}
