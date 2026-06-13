@@ -41,18 +41,16 @@ const Navigation = ({ responsiveMenu, setResponsiveMenu }: NavigationProps) => {
         <nav className={`lg:col-span-1 p-4 max-h-screen sticky top-0 left-0 bg-teal-600 flex flex-col justify-between items-start
     max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:w-full max-lg:h-full max-lg:z-20
     ${responsiveMenu ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'} 
-    transition-transform duration-300 md:rounded-r-3xl`}>
+    transition-transform duration-300`}>
             <div className='w-full'>
                 <div className='flex items-center justify-between pb-5 mb-5 border-b border-teal-500/50'>
                     <>
                         <Link href="/dashboard" className='flex items-center gap-2 text-white'>
-                            <div className='bg-teal-700/50 w-10 h-10 rounded-sm flex items-center justify-center'>
-                                <Stethoscope size={24} className=' text-white' />
-                            </div>
-                            <h2 className='font-bold text-2xl'>Futunurse</h2>
+                            <Stethoscope size={25}/>
+                            <h2 className='font-semibold text-2xl uppercase'>Futunurse</h2>
                         </Link>
                     </>
-                    <button onClick={() => setResponsiveMenu(false)} className='lg:hidden text-white relative top-1'><X size={35} /></button>
+                    <button onClick={() => setResponsiveMenu(false)} className='lg:hidden text-white relative top-1'><X size={27} /></button>
                 </div>
                 <ul className='flex flex-col gap-3 text-white font-medium'>
                     {navs.map((nav, index) => {

@@ -23,7 +23,7 @@ const SavedCards = ({ setCard }: { setCard: Dispatch<SetStateAction<CompanionCar
         <section>
             <h5 className='uppercase text-xs font-semibold mb-2 text-slate-800'>Saved cards</h5>
             {saved_cards.length > 0 ?
-                <ul className="flex flex-col gap-1 max-h-full overflow-y-auto">
+                <ul className="flex flex-col gap-1 h-57.5 overflow-y-auto">
                     {saved_cards.map((card, index) => <li key={index} onClick={() => handleGetSavedCard(card._id)} className="flex justify-between items-center hover:bg-gray-100 py-1.5 px-2 rounded-lg cursor-pointer">
                         <div className="flex items-center gap-2">
                             {/* <h5 className={`w-1.5 h-1.5 rounded-full ${card.type === 'drug' ? 'bg-blue-700' : card.type === 'lab' ? 'bg-rose-700' : 'bg-violet-700'}`}></h5> */}

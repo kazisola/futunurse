@@ -16,10 +16,8 @@ const Header = ({ setResponsiveMenu }: HeaderProps) => {
     return (
         <header className='md:hidden z-10 backdrop-blur-sm bg-white/20 border-b p-4 w-full h-fit sticky top-0 left-0 max-lg:flex items-center justify-between'>
             <Link href="/dashboard" className='flex items-center gap-2 text-teal-600'>
-                <div className='bg-teal-600 w-8 h-8 rounded-sm flex items-center justify-center'>
-                    <Stethoscope size={20} className=' text-white' />
-                </div>
-                <h2 className='font-bold text-2xl'>Futunurse</h2>
+                <Stethoscope size={25} />
+                <h2 className='font-semibold text-2xl uppercase'>Futunurse</h2>
             </Link>
             <button onClick={() => setResponsiveMenu(true)} className='lg:hidden bg-transparent text-teal-600'><Menu size={26} /></button>
             {/* <div className='flex justify-end items-center gap-3'>
