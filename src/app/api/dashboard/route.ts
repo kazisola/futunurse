@@ -1,3 +1,4 @@
+import mongoose from "mongoose"
 import { handleApiError } from "@/lib/apiError";
 import { connectDB } from "@/lib/mongoose";
 import { getServerSession } from "next-auth";
@@ -87,6 +88,11 @@ export async function GET(req: NextRequest) {
         // Strenth & Weakness
         const performanceByCategory = await RecentSession.aggregate([
             {
+                $match: {
+                    user: new mongoose.Types.ObjectId(userId)
+                }
+            },
+            {
                 $group: {
                     _id: "$category",
                     totalCorrect: { $sum: "$correctAnswers" },
@@ -97,9 +103,14 @@ export async function GET(req: NextRequest) {
                 $project: {
                     category: "$_id",
                     averageScore: {
-                        $multiply: [
-                            { $divide: ["$totalCorrect", "$totalQuestions"] },
-                            100
+                        $round: [
+                            {
+                                $multiply: [
+                                    { $divide: ["$totalCorrect", "$totalQuestions"] },
+                                    100
+                                ]
+                            },
+                            2
                         ]
                     },
                     _id: 0,
