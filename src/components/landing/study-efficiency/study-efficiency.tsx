@@ -69,18 +69,6 @@ const StudyEfficiency = () => {
                                 </motion.li>
                             ))}
                         </motion.ul>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.6 }}
-                        >
-                            <Button size="lg" className="rounded-2xl h-16 px-10 mt-12 bg-blue-600 hover:bg-slate-900 text-white font-bold text-lg transition-all group shadow-xl shadow-blue-200">
-                                Start Smarter Studying
-                                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                            </Button>
-                        </motion.div>
                     </div>
 
                     <div className="order-1 lg:order-2 relative">

@@ -6,29 +6,29 @@ import { Check, CheckCircle, Stethoscope, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
 const AboutUsSection = () => {
-    const features = [
-        {
-            icon: <Check size={18} />,
-            title: 'AI Care Plans',
-            description: 'Generate accurate NANDA care plans instantly with AI',
-            color: 'bg-emerald-500',
-            shadow: 'shadow-emerald-500/20'
-        },
-        {
-            icon: <CheckCircle size={18} />,
-            title: 'NCLEX Coach',
-            description: 'Smart, personalized NCLEX prep with adaptive quizzes',
-            color: 'bg-blue-600',
-            shadow: 'shadow-blue-600/20'
-        },
-        {
-            icon: <Stethoscope size={18} />,
-            title: 'Clinical Scenarios',
-            description: 'Practice real patient cases to build clinical confidence',
-            color: 'bg-purple-600',
-            shadow: 'shadow-purple-600/20'
-        },
-    ];
+    // const features = [
+    //     {
+    //         icon: <Check size={18} />,
+    //         title: 'AI Care Plans',
+    //         description: 'Generate accurate NANDA care plans instantly with AI',
+    //         color: 'bg-emerald-500',
+    //         shadow: 'shadow-emerald-500/20'
+    //     },
+    //     {
+    //         icon: <CheckCircle size={18} />,
+    //         title: 'NCLEX Coach',
+    //         description: 'Smart, personalized NCLEX prep with adaptive quizzes',
+    //         color: 'bg-blue-600',
+    //         shadow: 'shadow-blue-600/20'
+    //     },
+    //     {
+    //         icon: <Stethoscope size={18} />,
+    //         title: 'Clinical Scenarios',
+    //         description: 'Practice real patient cases to build clinical confidence',
+    //         color: 'bg-purple-600',
+    //         shadow: 'shadow-purple-600/20'
+    //     },
+    // ];
 
     // Container animation for staggering children
     const containerVariants = {
@@ -111,7 +111,7 @@ const AboutUsSection = () => {
                             </p>
                         </motion.div>
 
-                        <motion.ul 
+                        {/* <motion.ul 
                             variants={containerVariants}
                             initial="hidden"
                             whileInView="visible"
@@ -133,7 +133,7 @@ const AboutUsSection = () => {
                                     </div>
                                 </motion.li>
                             ))}
-                        </motion.ul>
+                        </motion.ul> */}
 
                         <motion.div
                             initial={{ opacity: 0 }}
@@ -141,7 +141,7 @@ const AboutUsSection = () => {
                             viewport={{ once: true }}
                             transition={{ delay: 0.8 }}
                         >
-                            <Button size="lg" className="rounded-full px-8 h-14 text-base group bg-slate-900 hover:bg-teal-600 transition-colors">
+                            <Button size="lg" className="w-60 h-14 text-base group bg-slate-900 hover:bg-teal-600 transition-colors">
                                 Try Futunurse Now
                                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </Button>

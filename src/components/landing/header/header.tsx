@@ -55,12 +55,8 @@ const Header = () => {
                 `}
             >
                 <Link href="/" className="flex items-center gap-2 text-teal-600 group">
-                    <div className="bg-teal-600 w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center shadow-lg shadow-teal-600/20 group-hover:scale-110 transition-transform">
-                        <Stethoscope size={20} className="text-white" />
-                    </div>
-                    <h2 className="font-bold text-xl md:text-2xl tracking-tighter">
-                        Futunurse
-                    </h2>
+                    <Stethoscope size={25} />
+                    <h2 className='font-semibold text-2xl max-sm:text-xl uppercase'>Futunurse</h2>
                 </Link>
 
                 {/* Desktop nav */}

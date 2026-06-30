@@ -102,7 +102,7 @@ const Hero = () => {
                     transition={{ delay: 0.5 }}
                     className='flex flex-wrap justify-center gap-5'
                 >
-                    <Button size={'lg'} className='rounded-full px-12 h-16 text-xl bg-blue-600 hover:bg-blue-500 hover:scale-105 transition-transform shadow-[0_0_40px_rgba(37,99,235,0.4)]'>
+                    <Button size={'lg'} className='w-52 h-15 text-xl bg-blue-600 hover:bg-blue-500 hover:scale-105 transition-transform shadow-[0_0_40px_rgba(37,99,235,0.4)]'>
                         Start Free Trial
                     </Button>
                     <Button
@@ -110,7 +110,7 @@ const Hero = () => {
                         const el = document.getElementById("features");
                         el?.scrollIntoView({ behavior: "smooth" })
                     }}
-                    variant="outline" size={'lg'} className='rounded-full px-12 h-16 text-xl border-slate-700 hover:text-white hover:bg-white/5 backdrop-blur-md'>
+                    variant="outline" size={'lg'} className='w-52 h-15 text-xl border-slate-700 hover:text-white hover:bg-white/5 backdrop-blur-md'>
                         View Features
                     </Button>
                 </motion.div>
