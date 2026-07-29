@@ -24,8 +24,8 @@ const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
     const [formData, setFormData] = useState<FormData>({
-        email: '',
-        password: ''
+        email: 'demo@example.com',
+        password: 'Demo123'
     });
     const [showPasswor, setShowPassword] = useState<boolean>(false);
     const handleSubmit = async (e: React.FormEvent) => {
