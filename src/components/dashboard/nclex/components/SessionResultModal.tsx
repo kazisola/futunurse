@@ -66,8 +66,8 @@ const SessionResultModal = ({ result, onResetSession }: SessionResultModalProps)
                         </div>
                     </div>
                     <div className='w-full grid grid-cols-2 gap-3 my-7'>
-                        <Button size={'lg'} onClick={onResetSession}>Practice Again</Button>
-                        <Button size={'lg'} variant={'outline'}><Download /> Export Result</Button>
+                        <Button size={'lg'} onClick={onResetSession} className='w-full'>Practice Again</Button>
+                        <Button size={'lg'} variant={'outline'} className='w-full'><Download /> Export Result</Button>
                     </div>
                     <Button onClick={() => redirect("/dashboard/nclex")} className='w-full' size={'lg'} variant={'outline'}>Back to NCLEX</Button>
                 </div>
