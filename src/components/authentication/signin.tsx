@@ -91,7 +91,7 @@ const SignIn = ({ signUpInstead, onClose }: SignInProps) => {
                 }
                 <Button type='submit' size={'lg'} className='w-full mt-4 rounded-full'>{loading ? 'Loading...' : 'Sign In'}</Button>
             </form>
-            <p className='text-gray-700 text-center text-sm mt-3'>Don&apos; have an account? <Button variant={'link'} onClick={signUpInstead}>Sign Up</Button></p>
+            <p className='text-gray-700 text-center text-sm mt-3'>Don&apos;t have an account? <Button variant={'link'} onClick={signUpInstead} className='w-auto text-sm pl-2'>Sign Up</Button></p>
             <ToastContainer />
         </div>
     );

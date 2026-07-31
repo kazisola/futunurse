@@ -98,7 +98,7 @@ const SignUp = ({ signInInstead, onClose }: SignUpProps) => {
                 </div>
                 <Button size={'lg'} className='w-full mt-4 rounded-full' disabled={signUpLoading}>{signUpLoading ? 'Loading...' : 'Sign Up'}</Button>
             </form>
-            <p className='text-gray-700 text-center text-sm mt-3'>Already have an account? <Button variant={'link'} onClick={signInInstead}>Sign In</Button></p>
+            <p className='text-gray-700 text-center text-sm mt-3'>Already have an account? <Button variant={'link'} onClick={signInInstead} className='w-auto text-sm pl-2'>Sign In</Button></p>
         </div>
     );
 };
