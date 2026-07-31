@@ -3,8 +3,12 @@ import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { BookOpen, CheckCircle, BrainCircuit } from 'lucide-react';
+import { useAuthPopup } from '@/hooks/useAuthPopup';
+import AuthPopup from '@/components/authentication/authPopup';
 
 const Hero = () => {
+    const { showAuthPopup, setShowAuthPopup, handleGetStarted } = useAuthPopup();
+
     const containerRef = useRef<HTMLDivElement>(null);
 
     // 1. Setup Motion Values for Mouse Position
@@ -102,7 +106,7 @@ const Hero = () => {
                     transition={{ delay: 0.5 }}
                     className='flex flex-wrap justify-center gap-5'
                 >
-                    <Button size={'lg'} className='w-52 h-15 text-xl bg-blue-600 hover:bg-blue-500 hover:scale-105 transition-transform shadow-[0_0_40px_rgba(37,99,235,0.4)]'>
+                    <Button onClick={handleGetStarted} size={'lg'} className='w-52 h-15 text-xl bg-blue-600 hover:bg-blue-500 hover:scale-105 transition-transform shadow-[0_0_40px_rgba(37,99,235,0.4)]'>
                         Start Free Trial
                     </Button>
                     <Button
@@ -142,6 +146,8 @@ const Hero = () => {
 
             {/* Subtle bottom glow */}
             <div className='absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-blue-500/10 blur-[100px] pointer-events-none' />
+
+            <AuthPopup open={showAuthPopup} onClose={() => setShowAuthPopup(false)}  />
         </section>
     );
 };

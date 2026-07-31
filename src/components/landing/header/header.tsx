@@ -5,14 +5,10 @@ import Link from "next/link";
 import Navbar from "./navbar";
 import { Menu, Stethoscope, X } from "lucide-react";
 import AuthPopup from "@/components/authentication/authPopup";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuthPopup } from "@/hooks/useAuthPopup";
 
 const Header = () => {
-    const router = useRouter();
-    const { data: session } = useSession();
-    const [showAuthPopup, setShowAuthPopup] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
@@ -23,11 +19,7 @@ const Header = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const handleGetStarted = () => {
-        setMobileMenuOpen(false);
-        if (session) router.push("/dashboard");
-        else setShowAuthPopup(true);
-    };
+    const { showAuthPopup, setShowAuthPopup, handleGetStarted } = useAuthPopup();
 
     useEffect(() => {
         if (mobileMenuOpen) {

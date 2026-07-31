@@ -3,8 +3,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, Award, Activity, HeartPulse, BrainCircuit, Target } from 'lucide-react';
+import { useAuthPopup } from '@/hooks/useAuthPopup';
+import AuthPopup from '@/components/authentication/authPopup';
 
 const ProgressTracking = () => {
+    const { showAuthPopup, setShowAuthPopup, handleGetStarted } = useAuthPopup();
+
     const stats = [
         { label: "Clinical Hours", value: "120/500", progress: 65, icon: <Activity className="text-teal-500" /> },
         { label: "NCLEX Prep", value: "88% Score", progress: 88, icon: <Target className="text-blue-500" /> },
@@ -117,7 +121,7 @@ const ProgressTracking = () => {
                                 </div>
                             </div>
 
-                            <Button className="w-60 h-16 px-10 rounded-2xl bg-slate-900 hover:bg-teal-600 transition-all font-black group">
+                            <Button onClick={handleGetStarted} className="w-60 h-16 px-10 rounded-2xl bg-slate-900 hover:bg-teal-600 transition-all font-black group">
                                 View Your Dashboard
                                 <TrendingUp className="ml-3 w-5 h-5 group-hover:translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
                             </Button>
@@ -125,6 +129,8 @@ const ProgressTracking = () => {
                     </div>
                 </div>
             </div>
+
+            <AuthPopup open={showAuthPopup} onClose={() => setShowAuthPopup(false)}  />
         </section>
     );
 };
