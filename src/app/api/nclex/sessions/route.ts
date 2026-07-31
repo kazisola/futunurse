@@ -13,7 +13,8 @@ export async function GET(req: NextRequest) {
         if (!session) {
             return NextResponse.json({ success: false, message: "Unauthenticated!" }, { status: 401 });
         }
-        const recentSessions = await RecentSession.find({ user: (session.user as { id: string }).id });
+        const recentSessions = await RecentSession.find({ user: (session.user as { id: string }).id })
+            .sort({ date: -1 })
         return NextResponse.json({ success: true, recentSessions }, { status: 200 });
     } catch (error) {
         console.log(error);
