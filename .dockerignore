@@ -9,7 +9,3 @@ README.md
 git
 .gitignore
 npm-debug.log*
-Dockerfile
-Dockerfile.dev
-docker-compose.yml
-docker-compose.dev.yml

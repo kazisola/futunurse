@@ -23,7 +23,7 @@ services:
       - /app/node_modules
       - /app/.next
     
-    depends:
+    depends_on:
       - mongodb
 
   mongodb:
