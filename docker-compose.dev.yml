@@ -1,0 +1,37 @@
+services:
+  futunurse:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      NODE_ENV: development
+      MONGODB_URI: mongodb://mongodb:27017/futunurse
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      NEXT_PUBLIC_API_BASE: http://localhost:3000
+    
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:8
+    ports:
+      - "27018:27017"
+    volumes:
+      - futunurse_mongodb_data:/data/db
+
+volumes:
+  futunurse_mongodb_data:
