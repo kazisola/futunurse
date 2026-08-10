@@ -1,17 +1,24 @@
 <div align="center">
-<h1>Futunurse 🩺💻</h1>
+<h1>Futunurse — AI-Powered Nursing Education</h1>
 
 ![Futunurse Banner](./public/screenshots/banner.png)
 
-**Fullstack web-application for nursing students built with Next.js and TypeScript**
+**Full-Stack AI-Powered Nursing Education Platform built with Next.js, TypeScript, MongoDB, and Docker**
 
 [View Live Demo](https://futunurse.vercel.app) · [Report Bug](https://github.com/kazisola/futunurse/issues) · [Request Feature](https://github.com/kazisola/futunurse/issues)
 
-![Next.js](https://img.shields.io/badge/Next.js-15.5-black?style=flat-square&logo=nextdotjs&logoColor=white)
-![React](https://img.shields.io/badge/React-19.1-61DAFB?style=flat-square&logo=react&logoColor=black)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-06B6D4?style=flat-square&logo=tailwind-css&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-15.5-black?style=flat-square\&logo=nextdotjs\&logoColor=white)
+![React](https://img.shields.io/badge/React-19.1-61DAFB?style=flat-square\&logo=react\&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square\&logo=typescript\&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-22-339933?style=flat-square\&logo=nodedotjs\&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?style=flat-square\&logo=tailwindcss\&logoColor=white)
+![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-2.0-764ABC?style=flat-square\&logo=redux\&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-8-47A248?style=flat-square\&logo=mongodb\&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=flat-square\&logo=docker\&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-Authentication-000000?style=flat-square\&logo=jsonwebtokens\&logoColor=white)
+![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-Components-black?style=flat-square\&logo=shadcnui\&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
+
 
 </div>
 
@@ -19,38 +26,73 @@
 
 ## 📋 Overview
 
-Futunurse is an AI-powered study companion I built for nursing students. It tackles two of the biggest challenges in nursing school – creating care plans and prepping for the NCLEX – with smart, intuitive tools that actually make studying easier.
-This project showcases modern web development practices with a focus on responsive design, performance optimization, and AI integration. Built to work seamlessly across all devices because real students need tools that fit their busy schedules.
+Futunurse is a **full-stack AI-powered web application** designed to help nursing students create care plans, study medications and diagnostics, and prepare for the NCLEX.
+
+The project demonstrates modern **full-stack software engineering** practices including **TypeScript development, REST API design, database modeling, authentication, AI/LLM integration, state management, responsive UI development, Docker containerization, and production deployment**.
+
+Built with a focus on **scalable architecture, reusable components, performance, and real-world user experience**.
 
 ---
 
 ## ✨ Features
 
 ### 🩺 AI-Powered Care Plan Generator
-- **Smart Generation** - Create comprehensive patient care plans with AI assistance
-- **Full Customization** - Critique, modify, and refine AI-generated plans to match your learning style
-- **Bookmark System** - Save and organize your most important care plans for quick reference
-- **Engaging Experience** - Makes care plan creation actually enjoyable (seriously!)
+
+* **AI Integration** - Generate comprehensive patient care plans using Google Gemini
+* **Structured Data** - Generate organized diagnoses, interventions, goals, and outcomes
+* **Interactive Editing** - Critique, modify, and refine AI-generated content
+* **Persistent Storage** - Save and manage care plans using MongoDB
+* **Bookmark System** - Organize frequently referenced care plans
+
+### 💊 Drug & Medication Companion
+
+* **AI-Powered Search** - Enter a drug or medication name and receive a detailed overview
+* **Clinical Information** - Drug class, uses, mechanism, side effects, precautions, and more
+* **Nursing Considerations** - Focused information about monitoring, administration, and patient education
+* **AI-Powered Summarization** - Converts complex medication information into study-friendly content
+
+### 🧪 Lab & Diagnostic Companion
+
+* **AI-Powered Search** - Search laboratory tests and diagnostic procedures
+* **Clinical Overview** - Understand the purpose and significance of each test
+* **Result Interpretation** - Learn about important abnormal findings
+* **Nursing Considerations** - Patient preparation, monitoring, and clinical responsibilities
 
 ### 📝 NCLEX Simulator
-- **Realistic Practice Tests** - Take demo NCLEX exams and track your performance
-- **Adaptive Learning** - Automatically identifies weak areas and suggests targeted questions
-- **Custom Categories** - Select specific nursing topics to focus your study sessions
-- **Detailed Analytics** - Monitor time spent on correct vs incorrect answers
-- **Visual Progress Tracking** - Beautiful charts showing performance trends and radar diagrams for strengths/weaknesses
-- **AI-Powered Insights** - Get personalized recommendations based on your category performance
+
+* **Practice Testing** - NCLEX-style nursing questions and exams
+* **Category-Based Testing** - Practice specific nursing subjects
+* **Performance Tracking** - Store and analyze test results
+* **Analytics Dashboard** - Visualize performance using interactive charts
+* **Weak Area Detection** - Identify categories requiring additional practice
+* **AI Recommendations** - Generate personalized study recommendations
 
 ### 🎨 Modern UI/UX
-- **Responsive Design** - Mobile-first layout that works flawlessly on any device
-- **Smooth Animations** - Professional micro-interactions that enhance without overwhelming
-- **Clean Interface** - Hassle-free navigation keeping focus on your studies
-- **Seamless Transitions** - Fluid page changes for a polished experience
 
-### ⚡ Performance
-- **Server-Side Rendering (SSR)** - Instant page loads for better user experience
-- **Optimized Images** - Next.js Image component for fast, efficient loading
-- **Lazy Loading** - Improved initial load times
-- **Minimal Bundle Size** - Lightweight JavaScript for faster performance
+* **Responsive Design** - Mobile-first interface optimized for all screen sizes
+* **Reusable Components** - Modular React component architecture
+* **State Management** - Redux Toolkit for predictable client-side state
+* **Animations** - Framer Motion micro-interactions and transitions
+* **Data Visualization** - Interactive analytics with Recharts
+* **Accessible UI** - Radix UI and shadcn/ui components
+
+### ⚡ Performance & Optimization
+
+* **Next.js App Router** - Modern React architecture
+* **Server-Side Rendering (SSR)** - Improved performance and user experience
+* **Code Splitting & Lazy Loading** - Optimized application loading
+* **Next.js Image Optimization** - Efficient image delivery
+* **Production Builds** - Optimized Next.js standalone deployment
+
+### 🐳 Docker & DevOps
+
+* **Dockerized Application** - Containerized production environment
+* **Docker Compose** - Multi-container application orchestration
+* **Multi-Stage Docker Builds** - Separate dependency, build, and runtime stages
+* **Node.js 22 Alpine** - Lightweight production runtime
+* **MongoDB 8** - Containerized database
+* **Persistent Volumes** - Persistent MongoDB data storage
+* **Environment Configuration** - Secure environment-based secrets and configuration
 
 ---
 
@@ -75,6 +117,24 @@ This project showcases modern web development practices with a focus on responsi
 ![NCLEX Test](./public/screenshots/nclex.png)
 *Nursing test simulator*
 
+### Home Page
+*Modern responsive landing page with clear CTAs and product overview*
+
+### Dashboard Page
+*Interactive student dashboard with personalized data and analytics*
+
+### AI Care Plan Generator
+*AI-powered patient care plan generation and customization*
+
+### Drug & Medication Companion
+*AI-powered medication information and nursing considerations*
+
+### Lab & Diagnostic Companion
+*AI-powered laboratory and diagnostic learning tool*
+
+### NCLEX Simulator
+*Interactive nursing test simulator with performance analytics*
+
 </details>
 
 ---
@@ -82,30 +142,94 @@ This project showcases modern web development practices with a focus on responsi
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework**: Next.js 15.5 (App Router with Turbopack)
-- **UI Library**: React 19.1
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **UI Components**: Radix UI, shadcn/ui
-- **Icons**: Lucide React, React Icons
-- **Charts**: Recharts 3.5
-- **State Management**: Redux Toolkit
 
-### Backend & Database
-- **Runtime**: Node.js
-- **Database**: MongoDB
-- **ODM**: Mongoose
-- **Authentication**: NextAuth.js
-- **API**: Next.js API Routes
+* **Next.js 15.5** — App Router, Server Components, SSR
+* **React 19.1**
+* **TypeScript**
+* **Tailwind CSS**
+* **Framer Motion**
+* **shadcn/ui**
+* **Radix UI**
+* **Redux Toolkit**
+* **Recharts**
+* **Lucide React**
 
-### Development Tools
-- **Language**: TypeScript
-- **Linting**: ESLint 9 with Next.js config
-- **Package Manager**: npm/yarn/pnpm
+### Backend
+
+* **Node.js**
+* **Next.js API Routes**
+* **REST APIs**
+* **TypeScript**
+* **Mongoose**
+* **MongoDB**
+* **JWT Authentication**
+* **NextAuth.js**
+* **Google OAuth**
+
+### AI / LLM
+
+* **Google Gemini API**
+* **Generative AI Integration**
+* **Structured AI Responses**
+* **AI-Powered Content Generation**
+* **AI-Powered Recommendations**
+
+### DevOps
+
+* **Docker**
+* **Docker Compose**
+* **Multi-Stage Builds**
+* **Node.js 22 Alpine**
+* **MongoDB Docker Volume**
+* **Environment-Based Configuration**
+
+### Development
+
+* **Git / GitHub**
+* **ESLint**
+* **npm**
+* **Turbopack**
+* **TypeScript**
 
 ### Deployment
-- **Platform**: Vercel
-- **CI/CD**: Automatic deployments via Git integration
+
+* **Vercel**
+* **Production CI/CD via Git Integration**
+* **Dockerized Production Environment**
+
+---
+
+## 🏗️ Architecture
+
+```text
+                         Futunurse
+                             │
+             ┌───────────────┴───────────────┐
+             │                               │
+        Next.js Frontend                API Layer
+        React + TypeScript          Next.js API Routes
+             │                               │
+             └───────────────┬───────────────┘
+                             │
+              ┌──────────────┴──────────────┐
+              │                             │
+          MongoDB                       Gemini AI
+         + Mongoose                    AI Services
+              │
+       Persistent Storage
+```
+
+Docker Compose runs the application and database as separate services:
+
+```text
+Docker Compose
+│
+├── Futunurse
+│   └── Next.js + Node.js 22
+│
+└── MongoDB 8
+    └── Persistent Docker Volume
+```
 
 ---
 
@@ -113,109 +237,83 @@ This project showcases modern web development practices with a focus on responsi
 
 ### Prerequisites
 
-Ensure you have the following installed:
-- Node.js 18.0 or higher
-- npm, yarn, or pnpm
+* Node.js 18+
+* npm, yarn, or pnpm
+* MongoDB
+
+For Docker:
+
+* Docker
+* Docker Compose
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/kazisola/futunurse.git
-   cd futunurse
-   ```
+```bash
+git clone https://github.com/kazisola/futunurse.git
+cd futunurse
+npm install
+```
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
+Create a `.env.local` file:
 
-3. **Set up environment variables**
-   
-   Create a `.env.local` file in the root directory:
-   ```env
-   # Database
-   MONGODB_URI=your_mongodb_connection_string
-   
-   # NextAuth
-   NEXTAUTH_URL=http://localhost:3000
-   NEXTAUTH_SECRET=your_nextauth_secret
-   
-   # Add other environment variables as needed
-   ```
+```env
+MONGODB_URI=your_mongodb_connection_string
 
-4. **Run the development server**
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   ```
-   
-   The app will use Turbopack for faster builds during development.
+NEXTAUTH_SECRET=your_nextauth_secret
 
-5. **Open in browser**
-   
-   Navigate to [http://localhost:3000](http://localhost:3000) to see the result.
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=7d
 
-### Build for Production
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+Run the development server:
 
 ```bash
-npm run build
-npm start
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+### 🐳 Docker
+
+Run the complete application stack:
+
+```bash
+docker compose up --build
+```
+
+Stop the containers:
+
+```bash
+docker compose down
 ```
 
 ---
 
-## 👨‍💻 About Me
+## 💡 Engineering Highlights
 
-Hi, I'm **Kazi Solayman** – a Full-Stack Web Developer specializing in creating high-performance, user-centric web applications. With expertise in modern JavaScript frameworks and a passion for clean code, I build solutions that bridge the gap between design and functionality.
-
-### 🎯 Expertise
-- Full-Stack Web Development (MERN Stack)
-- Next.js & React.js Application Development
-- Responsive UI/UX Design
-- RESTful API Design & Integration
-- Database Management (MongoDB, PostgreSQL)
-
-### 📍 Location
-Louisiana, USA
-
-### 🌟 What I Bring
-- Strong problem-solving skills with attention to detail
-- Experience building scalable, maintainable applications
-- Commitment to writing clean, documented code
-- Passion for continuous learning and staying current with tech trends
+* Full-stack **TypeScript** development
+* **React / Next.js** application architecture
+* RESTful API development
+* **MongoDB / Mongoose** database modeling
+* JWT and OAuth authentication
+* **Google Gemini AI integration**
+* Redux Toolkit state management
+* Responsive and accessible UI development
+* Interactive data visualization
+* Docker containerization
+* Multi-stage production builds
+* Docker Compose orchestration
+* Environment-based configuration
+* Production deployment and CI/CD
+* Performance optimization and code splitting
 
 ---
 
-## 🤝 Connect With Me
+**Built with ❤️ and ☕ by Kazi Solayman — Full Stack Developer**
 
-I'm always open to discussing new opportunities, collaborations, or just chatting about web-application development!
-
-- 📧 **Email**: [kazisolayman123@gmail.com](mailto:kazisolayman123@gmail.com)
-- 💼 **LinkedIn**: [linkedin.com/in/kazisola](https://linkedin.com/in/kazisola)
-- 🐙 **GitHub**: [github.com/kazisola](https://github.com/kazisola)
-
----
-
-## 🙏 Acknowledgments
-
-- Design inspiration from modern portfolio trends
-- Icons provided by [Lucide Icons](https://lucide.dev)
-- Deployed seamlessly on [Vercel](https://vercel.com)
-
----
-
-<div align="center">
-
-**Built with ❤️ and ☕ by Kazi Solayman**
-
-⭐ Star this repo if you find it to be cool!
-
-</div>
+⭐ Star this repo if you find it useful!
