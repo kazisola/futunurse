@@ -7,7 +7,7 @@ export const useAuthPopup = () => {
     const { data: session } = useSession();
     const [showAuthPopup, setShowAuthPopup] = useState<boolean>(false);
     const handleGetStarted = () => {
-        if(session) router.push('/dashboard');
+        if(session) return router.push('/dashboard');
         setShowAuthPopup(true);
     }
     return { showAuthPopup, setShowAuthPopup, handleGetStarted }
