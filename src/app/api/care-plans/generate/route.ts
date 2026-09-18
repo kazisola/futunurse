@@ -33,7 +33,7 @@ interface IPatientData {
 }
 
 const model = genAI.getGenerativeModel({
-    model: "gemini-flash-latest",
+    model: (process.env.AI_MODEL as string),
     generationConfig: {
         temperature: 0.4,
         responseMimeType: "application/json"
