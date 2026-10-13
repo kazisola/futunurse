@@ -1,7 +1,7 @@
 <div align="center">
 <h1>Futunurse — AI-Powered Nursing Education</h1>
 
-![Futunurse Banner](./public/screenshots/banner.png)
+![Futunurse Banner](./public/screenshots/futunurse-project-banner.png)
 
 **Full-Stack AI-Powered Nursing Education Platform built with Next.js, TypeScript, MongoDB, and Docker**
 
