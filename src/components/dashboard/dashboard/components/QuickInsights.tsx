@@ -1,6 +1,6 @@
 import React from "react";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, LucideIcon, Brain, CalendarClock, Stethoscope } from "lucide-react";
+import { CheckCircle, LucideIcon, Brain, Stethoscope } from "lucide-react";
 
 type Insight = {
     title: string;
@@ -47,13 +47,13 @@ const QuickInsights = ({ carePlans, nclexInsights }: QuickInsightsProps) => {
             color: "pink",
             icon: Brain,
         },
-        {
-            title: "Avg. Response Time",
-            value: "3.5s",
-            timeline: "Last 30 days",
-            color: "green",
-            icon: CalendarClock,
-        }
+        // {
+        //     title: "Avg. Response Time",
+        //     value: "3.5s",
+        //     timeline: "Last 30 days",
+        //     color: "green",
+        //     icon: CalendarClock,
+        // }
     ];
 
     const colorMap: Record<
@@ -87,7 +87,7 @@ const QuickInsights = ({ carePlans, nclexInsights }: QuickInsightsProps) => {
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
             {insights.map((insight, index) => {
                 const Icon = insight.icon;
                 const colors = colorMap[insight.color];
