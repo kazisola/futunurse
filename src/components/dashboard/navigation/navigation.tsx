@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { redirect, usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const navs = [
     { name: 'Dashboard', href: '/dashboard', icon: <Home size={20} /> },
@@ -55,18 +55,66 @@ export const Navigation = () => {
 
 export const MobileNavigation = () => {
     const pathname = usePathname();
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        let timeout: ReturnType<typeof setTimeout>;
+
+        const showTemporarily = () => {
+            setVisible(true);
+
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                setVisible(false);
+            }, 2500);
+        };
+
+        const handleScroll = () => showTemporarily();
+        const handleTouch = () => showTemporarily();
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        window.addEventListener("touchstart", handleTouch, { passive: true });
+
+        return () => {
+            clearTimeout(timeout);
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("touchstart", handleTouch);
+        };
+    }, []);
+
     return (
-        <nav className={`bg-teal-600 fixed bottom-4 left-3 w-[calc(100%-1.5rem)] z-50 py-2.5 px-4 rounded-full`}>
-            <ul className='flex justify-between items-center text-white'>
-                {navs.map((nav, index) => {
+        <nav
+            className={`
+                fixed bottom-4 left-3 z-50
+                w-[calc(100%-1.5rem)]
+                rounded-full bg-teal-600 px-4 py-2.5
+                shadow-lg
+                transition-all duration-500 ease-in-out
+                ${
+                    visible
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-24 opacity-0 pointer-events-none"
+                }
+            `}
+        >
+            <ul className="flex items-center justify-between text-white">
+                {navs.map((nav) => {
                     const isActive = nav.href === pathname;
+
                     return (
-                        <li key={index} className={`${isActive ? '' : ''} `}>
-                            <Link href={nav.href} className='flex flex-col items-center text-center text-sm'>{nav.icon} {nav.name}</Link>
+                        <li key={nav.href}>
+                            <Link
+                                href={nav.href}
+                                aria-current={isActive ? "page" : undefined}
+                                className={`flex flex-col items-center gap-1 rounded-xl px-2 py-1 text-center text-xs transition-colors`}
+                            >
+                                {nav.icon}
+                                <span>{nav.name}</span>
+                            </Link>
                         </li>
-                    )
+                    );
                 })}
             </ul>
         </nav>
-    )
-}
+    );
+};
