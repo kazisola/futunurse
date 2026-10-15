@@ -1,25 +1,18 @@
-"use client";
-import Header from '@/components/dashboard/header/header';
-import Navigation from '@/components/dashboard/navigation/navigation';
-import React, { ReactNode, useState } from 'react';
+import React, { type ReactNode } from 'react';
+import type { Metadata } from 'next';
+import DashboardShell from '@/components/dashboard/dashboard/dashboard-shell';
 
 interface LayoutProps {
     children: ReactNode;
 }
 
+export const metadata: Metadata = {
+    title: "Dashboard | Futunurse",
+    description: "Your AI-powered bridge from the classroom to the clinic. Smart Care Plans, NCLEX prep, and clinical confidence."
+}
+
 const DashboardLayout = ({ children }: LayoutProps) => {
-    const [responsiveMenu, setResponsiveMenu] = useState<boolean>(false);
-    return (
-        <main className='grid lg:grid-cols-5 min-h-screen max-lg:relative bg-gradient-to-br from-teal-200 via-white to-blue-200'>
-            <Navigation responsiveMenu={responsiveMenu} setResponsiveMenu={setResponsiveMenu} />
-            <div className='lg:col-span-4'>
-                <Header setResponsiveMenu={setResponsiveMenu} />
-                <div className='p-5 md:p-6'>
-                    {children}
-                </div>
-            </div>
-        </main>
-    );
+    return <DashboardShell>{children}</DashboardShell>
 };
 
 export default DashboardLayout;
