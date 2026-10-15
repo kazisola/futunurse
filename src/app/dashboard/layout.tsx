@@ -1,6 +1,7 @@
 import React, { type ReactNode } from 'react';
 import type { Metadata } from 'next';
-import DashboardShell from '@/components/dashboard/dashboard/dashboard-shell';
+import { MobileNavigation, Navigation } from '@/components/dashboard/navigation/navigation';
+import Header from '@/components/dashboard/header/header';
 
 interface LayoutProps {
     children: ReactNode;
@@ -12,7 +13,22 @@ export const metadata: Metadata = {
 }
 
 const DashboardLayout = ({ children }: LayoutProps) => {
-    return <DashboardShell>{children}</DashboardShell>
+    return (
+        <main className='grid lg:grid-cols-5 min-h-screen max-lg:relative bg-gradient-to-br from-teal-200 via-white to-blue-200'>
+            <div className='lg:block hidden'>
+                <Navigation />
+            </div>
+            <div className='block lg:hidden'>
+                <MobileNavigation />
+            </div>
+            <div className='lg:col-span-4'>
+                <Header />
+                <div className='p-5 md:p-6'>
+                    {children}
+                </div>
+            </div>
+        </main>
+    )
 };
 
 export default DashboardLayout;

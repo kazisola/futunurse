@@ -1,62 +1,39 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Book, Home, LogOut, Stars, Stethoscope, User, X } from 'lucide-react';
-import { signOut, useSession } from 'next-auth/react';
+import { Book, Home, Stars, Stethoscope } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname, redirect } from 'next/navigation';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import { redirect, usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import React from 'react';
 
-interface NavigationProps {
-    responsiveMenu: boolean;
-    setResponsiveMenu: Dispatch<SetStateAction<boolean>>
-}
+const navs = [
+    { name: 'Dashboard', href: '/dashboard', icon: <Home size={20} /> },
+    { name: 'Care Plans', href: '/dashboard/care-plans', icon: <Stethoscope size={20} /> },
+    { name: 'NCLEX', href: '/dashboard/nclex', icon: <Book size={20} /> },
+    { name: 'Companion', href: '/dashboard/companion', icon: <Stars size={20} /> },
+]
 
-const Navigation = ({ responsiveMenu, setResponsiveMenu }: NavigationProps) => {
-    const navs = [
-        { name: 'Dashboard', href: '/dashboard', icon: <Home size={20} /> },
-        { name: 'Care Plans', href: '/dashboard/care-plans', icon: <Stethoscope size={20} /> },
-        { name: 'NCLEX Coach', href: '/dashboard/nclex', icon: <Book size={20} /> },
-        { name: 'Companion AI', href: '/dashboard/companion', icon: <Stars size={20} /> },
-    ]
-    useEffect(() => {
-        if (responsiveMenu) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-        return () => {
-            document.body.style.overflow = 'auto';
-        }
-    }, [responsiveMenu])
+export const Navigation = () => {
     const pathname = usePathname();
     const { data } = useSession();
     const user = data?.user;
     const userNameAbbr = user?.name ? user.name.split(' ').map(n => n[0]).join('') : "G";
-    const handleClickProfile = () => {
-        setResponsiveMenu(false)
-        redirect("/dashboard/profile")
-    }
     return (
-        <nav className={`lg:col-span-1 p-4 max-h-screen sticky top-0 left-0 bg-teal-600 flex flex-col justify-between items-start
-    max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:w-full max-lg:h-full max-lg:z-20
-    ${responsiveMenu ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'} 
-    transition-transform duration-300`}>
+        <nav className={`lg:col-span-1 p-4 sticky top-0 left-0 bg-teal-600 flex flex-col justify-between items-start min-h-screen`}>
             <div className='w-full'>
                 <div className='flex items-center justify-between pb-5 mb-5 border-b border-teal-500/50'>
                     <>
                         <Link href="/dashboard" className='flex items-center gap-2 text-white'>
-                            <Stethoscope size={25}/>
+                            <Stethoscope size={25} />
                             <h2 className='font-semibold text-2xl uppercase'>Futunurse</h2>
                         </Link>
                     </>
-                    <button onClick={() => setResponsiveMenu(false)} className='lg:hidden text-white relative top-1'><X size={27} /></button>
                 </div>
                 <ul className='flex flex-col gap-3 text-white font-medium'>
                     {navs.map((nav, index) => {
                         const isActive = nav.href === pathname;
                         return (
-                            <li key={index} onClick={() => setResponsiveMenu(false)} className={`${isActive ? 'bg-teal-500/90' : 'hover:bg-teal-500/30'} w-full rounded-lg px-3 `}>
+                            <li key={index} className={`${isActive ? 'bg-teal-500/90' : 'hover:bg-teal-500/30'} w-full rounded-lg px-3 `}>
                                 <Link href={nav.href} className='flex items-center gap-2 py-3'>{nav.icon} {nav.name}</Link>
                             </li>
                         )
@@ -64,7 +41,7 @@ const Navigation = ({ responsiveMenu, setResponsiveMenu }: NavigationProps) => {
                 </ul>
             </div>
 
-            <button onClick={handleClickProfile} className='flex items-center gap-3 cursor-pointer w-full bg-teal-700/30 hover:bg-teal-700/50 duration-200 py-2 max-sm:py-3 px-3 rounded-lg'>
+            <button onClick={() => redirect("/dashboard/profile")} className='flex items-center gap-3 cursor-pointer w-full bg-teal-700/30 hover:bg-teal-700/50 duration-200 py-2 max-sm:py-3 px-3 rounded-lg'>
                 <Avatar className='w-8 h-8'>
                     <AvatarImage src={user?.image as string} />
                     <AvatarFallback>{userNameAbbr}</AvatarFallback>
@@ -72,7 +49,24 @@ const Navigation = ({ responsiveMenu, setResponsiveMenu }: NavigationProps) => {
                 <h3 className='font-medium text-sm text-white'>{user?.name || "Guest"}</h3>
             </button>
         </nav>
+
     );
 };
 
-export default Navigation;
+export const MobileNavigation = () => {
+    const pathname = usePathname();
+    return (
+        <nav className={`bg-teal-600 fixed bottom-4 left-3 w-[calc(100%-1.5rem)] z-50 py-2.5 px-4 rounded-full`}>
+            <ul className='flex justify-between items-center text-white'>
+                {navs.map((nav, index) => {
+                    const isActive = nav.href === pathname;
+                    return (
+                        <li key={index} className={`${isActive ? '' : ''} `}>
+                            <Link href={nav.href} className='flex flex-col items-center text-center text-sm'>{nav.icon} {nav.name}</Link>
+                        </li>
+                    )
+                })}
+            </ul>
+        </nav>
+    )
+}

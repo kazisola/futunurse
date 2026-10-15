@@ -1,15 +1,12 @@
 "use client";
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Menu, Stethoscope } from 'lucide-react';
+import { Stethoscope } from 'lucide-react';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
-interface HeaderProps {
-    setResponsiveMenu: Dispatch<SetStateAction<boolean>>
-}
-
-const Header = ({ setResponsiveMenu }: HeaderProps) => {
+const Header = () => {
     const { data } = useSession();
     const user = data?.user;
     const userNameAbbr = user?.name ? user.name.split(' ').map(n => n[0]).join('') : "G";
@@ -19,14 +16,13 @@ const Header = ({ setResponsiveMenu }: HeaderProps) => {
                 <Stethoscope size={25} />
                 <h2 className='font-semibold text-2xl uppercase'>Futunurse</h2>
             </Link>
-            <button onClick={() => setResponsiveMenu(true)} className='lg:hidden bg-transparent text-teal-600'><Menu size={26} /></button>
-            {/* <div className='flex justify-end items-center gap-3'>
+            <div className='flex justify-end items-center gap-3'>
                 <Avatar onClick={() => redirect("/dashboard/profile")} className='w-9 h-9 cursor-pointer'>
                     <AvatarImage src={user?.image as string} />
                     <AvatarFallback>{userNameAbbr}</AvatarFallback>
                 </Avatar>
-                <h3 className=' text-sm'>{user?.name || "Guest"}</h3>
-            </div> */}
+                {/* <h3 className=' text-sm'>{user?.name || "Guest"}</h3> */}
+            </div>
         </header>
     );
 };
