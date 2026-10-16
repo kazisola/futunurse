@@ -14,20 +14,22 @@ export const metadata: Metadata = {
 
 const DashboardLayout = ({ children }: LayoutProps) => {
     return (
-        <main className='grid lg:grid-cols-5 min-h-screen max-lg:relative bg-gradient-to-br from-teal-200 via-white to-blue-200'>
-            <div className='lg:block hidden'>
-                <Navigation />
-            </div>
-            <div className='block lg:hidden'>
+        <>
+            <main className='grid lg:grid-cols-5 min-h-screen max-lg:relative bg-gradient-to-br from-teal-200 via-white to-blue-200'>
+                <div className='hidden lg:block'>
+                    <Navigation />
+                </div>
+                <div className='lg:col-span-4'>
+                    <Header />
+                    <div className='p-5 md:p-6'>
+                        {children}
+                    </div>
+                </div>
+            </main>
+            <div className='lg:hidden'>
                 <MobileNavigation />
             </div>
-            <div className='lg:col-span-4'>
-                <Header />
-                <div className='p-5 md:p-6'>
-                    {children}
-                </div>
-            </div>
-        </main>
+        </>
     )
 };
 
