@@ -87,13 +87,12 @@ export const MobileNavigation = () => {
             className={`
                 fixed bottom-4 left-3 z-50
                 w-[calc(100%-1.5rem)]
-                rounded-full bg-teal-600 px-4 py-2.5
+                rounded-full bg-teal-600 px-4 py-1.5
                 shadow-lg
                 transition-all duration-500 ease-in-out
-                ${
-                    visible
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-24 opacity-0 pointer-events-none"
+                ${visible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-24 opacity-0 pointer-events-none"
                 }
             `}
         >
@@ -106,10 +105,30 @@ export const MobileNavigation = () => {
                             <Link
                                 href={nav.href}
                                 aria-current={isActive ? "page" : undefined}
-                                className={`flex flex-col items-center gap-1 rounded-xl px-2 py-1 text-center text-xs transition-colors`}
+                                className={`
+            relative flex flex-col items-center justify-center gap-1
+            min-w-[64px] rounded-2xl px-3 py-2
+            text-xs font-medium
+            transition-all duration-300 ease-out
+            active:scale-95
+            ${isActive
+                                        ? "bg-teal-500/20 text-white shadow-sm"
+                                        : "text-white/70 hover:bg-white/10 hover:text-white"
+                                    }
+        `}
                             >
-                                {nav.icon}
-                                <span>{nav.name}</span>
+                                <span
+                                    className={`
+                transition-transform duration-300 ease-out
+                ${isActive ? "scale-110" : "scale-100"}
+            `}
+                                >
+                                    {nav.icon}
+                                </span>
+
+                                <span className="transition-colors duration-300 ease-out">
+                                    {nav.name}
+                                </span>
                             </Link>
                         </li>
                     );
